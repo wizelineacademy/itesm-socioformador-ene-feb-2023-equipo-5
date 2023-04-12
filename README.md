@@ -1,5 +1,10 @@
 # itesm-socioformador-ene-feb-2023-equipo-5
 
+### Abrir Cypress
+    npm run cypress:open
+
+---
+
 ### Instalar Tailwind
     npm install -D tailwindcss
 
