@@ -1,5 +1,5 @@
 import type { V2_MetaFunction} from "@remix-run/react";
-import Table from "~/Components/ResultsTable";
+import Table from "~/components/ResultsTable";
  
 
 
