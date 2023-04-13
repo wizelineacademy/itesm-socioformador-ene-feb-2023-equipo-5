@@ -8,8 +8,8 @@ import {
 
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
-
 import PageHeader from "~/components/PageHeader"
+import Footer from '~/components/Footer'
 
 export function links() {
   return [{ rel: 'stylesheet', href: stylesheet }]
@@ -25,14 +25,17 @@ export default function App() {
         <Links />
       </head>
       <header>
-        <PageHeader/>
+        <PageHeader />
       </header>
       <body>
         <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
       </body>
+      <footer>
+        <Footer />
+      </footer>
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
     </html>
   );
 }

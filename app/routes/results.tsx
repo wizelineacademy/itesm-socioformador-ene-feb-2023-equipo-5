@@ -9,11 +9,10 @@ export const meta: V2_MetaFunction = () => {
 
 export default function Result() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+    <div>
       <h1 className="text-grayfigma">Welcome to Result</h1>
       <Table />
       <SquareR />
     </div>
-
   );
 }
