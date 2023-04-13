@@ -1,5 +1,12 @@
-import type { V2_MetaFunction} from "@remix-run/react";
+
+import type { V2_MetaFunction } from "@remix-run/react";
+import NavBar from 'app/components/NavBar.js';
+import Question from 'app/components/Question.js'
+import Video from 'app/components/Video.js'
+import Footer from 'app/components/Footer.js'
+import Progress from 'app/components/Progress.js'
 import {Link} from "@remix-run/react";
+
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "New Remix App" }];
@@ -7,7 +14,21 @@ export const meta: V2_MetaFunction = () => {
 
 export default function Index() {
   return (
+    
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+
+      <div className="mx-auto">
+        <NavBar></NavBar>
+        
+        <Question texto="¿Cuál ha sido una situación en la que tuviste un desacuerdo en un ambiente de trabajo? ¿Cómo lo resolviste?"></Question>
+
+        <Video></Video>
+
+        <Footer></Footer>
+
+      </div>
+      
+
       <h1 className="text-white">Welcome to Remix</h1>
       <ul>
         <li>
@@ -47,6 +68,7 @@ export default function Index() {
        Ir a la pagina de tests
      </Link>
    </div>
+
     </div>
     
   );
