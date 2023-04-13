@@ -27,7 +27,7 @@ export default function App() {
       <header>
         <PageHeader />
       </header>
-      <body>
+      <body className="min-h-[35vw]">
         <Outlet />
       </body>
       <footer>
