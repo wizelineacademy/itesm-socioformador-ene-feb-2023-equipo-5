@@ -1,12 +1,17 @@
 import ResultsTable from "~/components/ResultsTable"
+import type { V2_MetaFunction } from "@remix-run/react";
+
+export const meta: V2_MetaFunction = () => {
+    return [{ title: "Tests" }];
+};
 
 export default function TestsPages() {
-    return(
+    return (
         <>
             <div className="flex flex-row mt-14 mx-10">
                 <div className="basis-1/2 mx-2 relative">
                     <p className="text-lg font-bold mb-4">Evaluaciones</p>
-                    <ResultsTable/>
+                    <ResultsTable />
                     <div className="pb-5 absolute inset-x-0 bottom-0">
                         <div className="flex space-x-8 place-content-center">
                             <button className="py-2 w-40 rounded-md bg-blue-200">Repetir prueba</button>

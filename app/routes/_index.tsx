@@ -1,15 +1,15 @@
 
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction  } from "@remix-run/react";
 import NavBar from 'app/components/NavBar.js';
 import Question from 'app/components/Question.js'
 import Video from 'app/components/Video.js'
 import Footer from 'app/components/Footer.js'
 import Progress from 'app/components/Progress.js'
-import {Link} from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "New Remix App" }];
+  return [{ title: "Home" }];
 };
 
 export default function Index() {
@@ -70,6 +70,5 @@ export default function Index() {
    </div>
 
     </div>
-    
   );
 }
