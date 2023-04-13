@@ -1,6 +1,9 @@
+import PageHeader from "~/components/PageHeader"
+
 export default function TestsPages() {
     return(
         <>
+            <PageHeader/>
             <div className="flex flex-row">
                 <div className="basis-1/2">
                     <p>Evaluaciones</p>
