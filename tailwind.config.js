@@ -2,7 +2,16 @@
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'grayfigma': {
+          DEFAULT: '#9B9B9B'
+        },
+        'greenfigma': {
+          DEFAULT: '#22D03E'
+        }
+      }
+    },
   },
   plugins: [],
 }
