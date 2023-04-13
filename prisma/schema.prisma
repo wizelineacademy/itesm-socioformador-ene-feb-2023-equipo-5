@@ -7,32 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Grades {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  instructor   Teacher @relation(fields: [instructorId], references: [id])
-  instructorId String
-  alumn        User    @relation(fields: [alumnId], references: [id])
-  alumnId      String
-
-  @@id([alumnId, instructorId])
-}
-
 model User {
-  id           String   @id @default(uuid())
+  id           String       @id @default(uuid())
   name         String
-  email        String   @unique
+  email        String       @unique
   password     String
   englishlevel Englishlevel @default(A1)
   summary      String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   //Relation with Test
-  tests      Test[]
-  //Relation many to many with Teacher
-  professors Grades[]
+  tests Test[]
 }
 
 model Teacher {
@@ -43,10 +29,8 @@ model Teacher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  //Relation many to many with User
-  students Grades[]
   //Relation many to many with Test
-  examns   Comments[]
+  examns Comments[]
 }
 
 model Comments {
@@ -64,14 +48,14 @@ model Comments {
 }
 
 model Test {
-  id           String   @id @default(uuid())
+  id           String       @id @default(uuid())
   videoURL     String
   result       String
   feedaback    String
   englishlevel Englishlevel @default(A1)
   resources    String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   //Relation with User
   author          User       @relation(fields: [authorId], references: [id])
@@ -84,11 +68,11 @@ model Test {
 }
 
 model Question {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   situation String
   level     Englishlevel @default(A1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 
   //Relation with Test
   tests Test[]
