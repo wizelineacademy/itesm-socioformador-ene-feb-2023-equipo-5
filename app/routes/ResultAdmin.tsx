@@ -1,4 +1,3 @@
-import PageHeader from "~/components/PageHeader"
 import ResultsTable from "~/components/ResultsTable"
 import SquareR from "~/components/SquareResult";
 
@@ -7,7 +6,6 @@ import SquareR from "~/components/SquareResult";
 export default function Result() {
   return (
     <>
-            <PageHeader/>
             <div className="flex flex-row mt-14 mx-10">
             <div className="pb-5 absolute inset-x-0 bottom-0">
                         <div className="flex  place-content-between mx-8">
