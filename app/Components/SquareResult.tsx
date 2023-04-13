@@ -1,6 +1,6 @@
-
-function SquareR(){
+function SquareR() {
     return (
+
      
 <div className="grid mb-8 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 md:mb-12 md:grid-cols-2">
     <figure className="flex flex-col items-center justify-center p-8 text-center border-8 border-white rounded-t-lg bg-bluefigma1 md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 ">
@@ -64,9 +64,6 @@ function SquareR(){
         </figcaption>    
     </figure>
 </div>
-
-  
-  
     )
-  } 
-  export default SquareR;
+}
+export default SquareR;
