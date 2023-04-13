@@ -7,6 +7,10 @@ module.exports = {
         'grayfigma': {
           DEFAULT: '#9B9B9B'
         },
+        'graybgfigma': {
+          DEFAULT: '#F4F4F4'
+        },
+
         'greenfigma': {
           DEFAULT: '#22D03E'
         },
