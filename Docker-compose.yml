@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:12
+    enviroment:
+      - POSTGRES_USER = postgres
+      - POSTGRES_PASSWORD = postgres
+    ports:
+      - "3309:3309"
+    volumes:
+      - data:/var/lib/postgresql/data
+
+
+volumes:
+  data: 
