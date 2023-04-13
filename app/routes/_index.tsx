@@ -42,6 +42,10 @@ export default function Index() {
      <Link to='/Result'>
        Ir a la pagina de resultados
      </Link>
+     <br></br>
+     <Link to='/tests'>
+       Ir a la pagina de tests
+     </Link>
    </div>
     </div>
     

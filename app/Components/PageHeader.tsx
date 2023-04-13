@@ -5,11 +5,10 @@ function PageHeader() {
     return(
         <div className="flex flex-row bg-black h-20">
             <div className='basis-4/5'>
-                <img src={brainWaveLogo} className='h-20'/>
+                <img src={brainWaveLogo} className='h-20 ml-4'/>
             </div>
-                <img src={profilePicture} className='h-16 my-2 rounded-full'/>
-                <span className='text-white text-xl mx-5 my-6'>Francisco Mestizo</span>
-            
+            <img src={profilePicture} className='h-12 my-4 rounded-full'/>
+            <span className='text-white text-base mx-5 my-7'>Francisco Mestizo</span>
         </div>
     )
 }
