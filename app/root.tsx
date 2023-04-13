@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 
@@ -30,3 +31,4 @@ export default function App() {
     </html>
   );
 }
+
