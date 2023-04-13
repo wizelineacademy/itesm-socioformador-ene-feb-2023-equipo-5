@@ -1,10 +1,8 @@
-import PageHeader from "~/components/PageHeader"
 import ResultsTable from "~/components/ResultsTable"
 
 export default function TestsPages() {
     return(
         <>
-            <PageHeader/>
             <div className="flex flex-row mt-14 mx-10">
                 <div className="basis-1/2 mx-2 relative">
                     <p className="text-lg font-bold mb-4">Evaluaciones</p>
