@@ -33,9 +33,9 @@ function SquareR(){
             </div>
         </figcaption>    
     </figure>
-    <figure className="flex flex-col items-center justify-center p-8 text-center bg-bluefigma5 border-8 border-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700">
+    <figure className="flex flex-col items-center justify-center p-8 text-center bg-bluefigma5 border-8 border-white rounded-tr-lg dark:bg-gray-800 dark:border-gray-700">
         <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
-        <h3 className="text-4xl font-bold text-white dark:text-white">34%</h3>
+        <h3 className="text-4xl font-bold text-white dark:text-white">78%</h3>
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
             <div className=" font-medium dark:text-white ">
