@@ -4,7 +4,7 @@ export default function Result() {
     <>
         <div className="content-center	 flex-row mt-14 mx-40 ">
             <div className=" mx-40 bg-graybgfigma">
-                <div  className=" py-14 ">
+                <div  className=" py-10 ">
                     <p className="text-center flex-row mt-4 mx-20 font-bold">INSTRUCCIONES</p>
                     <p className="text-center  flex-row mt-4 mx-20 ">La prueba consiste en una conversación en tiempo real, por lo que deberás hacer click en el botón azul al iniciar y terminar de grabar para que tus respuestas sean procesadas. Para los resultados se tienen en consideración los siguientes puntos:</p>
                     <div className=" mx-20 mt-10">
