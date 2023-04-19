@@ -1,8 +1,6 @@
-import video from "../../../public/img/video.png";
 import IA from "./IA";
 import Progress from "./Progress";
 import Section from "./Section";
-import Camera from "./Camera";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
 
@@ -42,9 +40,6 @@ function Video(props: any) {
   const handleStopCaptureClick = useCallback(() => {
     mediaRecorderRef.current?.stop();
     setCapturing(false);
-  }, [mediaRecorderRef, setCapturing]);
-
-  const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
@@ -59,7 +54,7 @@ function Video(props: any) {
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
     }
-  }, [recordedChunks]);
+  }, [mediaRecorderRef, setCapturing, recordedChunks]);
 
   const videoConstraints: WebcamProps["videoConstraints"] = {
     width: 420,
@@ -78,15 +73,25 @@ function Video(props: any) {
             mirrored={true}
             ref={webcamRef}
             videoConstraints={videoConstraints}
+            className="rounded-lg"
           />
-          {capturing ? (
-            <button onClick={handleStopCaptureClick}>Stop Capture</button>
-          ) : (
-            <button onClick={handleStartCaptureClick}>Start Capture</button>
-          )}
-          {recordedChunks.length > 0 && (
-            <button onClick={handleDownload}>Download</button>
-          )}
+          <div className="my-4">
+            {capturing ? (
+              <button
+                className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
+                onClick={handleStopCaptureClick}
+              >
+                Stop Capture
+              </button>
+            ) : (
+              <button
+                className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
+                onClick={handleStartCaptureClick}
+              >
+                Start Capture
+              </button>
+            )}
+          </div>
         </div>
         <IA />
       </div>
