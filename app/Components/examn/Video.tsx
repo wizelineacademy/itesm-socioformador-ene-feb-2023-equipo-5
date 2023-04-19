@@ -1,8 +1,8 @@
-import IA from "./IA";
 import Progress from "./Progress";
 import Section from "./Section";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
+import IA from "../../../public/img/IA.png";
 
 interface RecordedChunk {
   size: number;
@@ -57,7 +57,7 @@ function Video(props: any) {
   }, [mediaRecorderRef, setCapturing, recordedChunks]);
 
   const videoConstraints: WebcamProps["videoConstraints"] = {
-    width: 420,
+    width: 620,
     height: 420,
     facingMode: "user",
   };
@@ -67,8 +67,8 @@ function Video(props: any) {
       <div className="bg-white rounded-lg p-4 my-10 flex items-center">
         <div className="webcam-contaainer">
           <Webcam
-            height={400}
-            width={400}
+            height={500}
+            width={600}
             audio={false}
             mirrored={true}
             ref={webcamRef}
@@ -93,9 +93,11 @@ function Video(props: any) {
             )}
           </div>
         </div>
-        <IA />
+        <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
+          <img src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto" />
+        </div>{" "}
       </div>
-      <div className="bg-white rounded-lg p-4 my-10 flex items-center">
+      <div className="bg-white rounded-lg p-4 my0 flex items-center">
         <Progress checked={true} />
         <Section texto="Grammar section"></Section>
       </div>
