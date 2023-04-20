@@ -20,9 +20,21 @@ function Video(props: any) {
     ({ data }: { data: Blob }) => {
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
+        console.log(data.size)
+
+        
+        const url = URL.createObjectURL(data);
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = url;
+        a.download = "react-webcam-stream-capture.webm";
+        a.click();
+        window.URL.revokeObjectURL(url);
+        setRecordedChunks([]);
       }
     },
-    [setRecordedChunks]
+    [setRecordedChunks, recordedChunks]
   );
 
   const handleStartCaptureClick = useCallback(() => {
@@ -37,9 +49,25 @@ function Video(props: any) {
     mediaRecorderRef.current.start();
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
-  const handleStopCaptureClick = useCallback(() => {
-    mediaRecorderRef.current?.stop();
+  const handleStopSpecialCaptureClick = useCallback(() => {
+    handleStopCaptureClick()
+    handleDownload()
+  }, [mediaRecorderRef, setCapturing]);
+
+  const handleStopSpecial2CaptureClick = () => {
+    mediaRecorderRef.current.stop();
     setCapturing(false);
+  };
+
+  const handleStopCaptureClick = useCallback(() => {
+    handleStopSpecial2CaptureClick(mediaRecorderRef)
+    setCapturing(false);
+    
+  }, [mediaRecorderRef, setCapturing]);
+
+  const handleSpecialDownload = (recordedChunks) => {
+    console.log(recordedChunks.length)
+
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
@@ -47,14 +75,31 @@ function Video(props: any) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       document.body.appendChild(a);
-      a.style.display = "none";
+      a.style = "display: none";
       a.href = url;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
     }
-  }, [mediaRecorderRef, setCapturing, recordedChunks]);
+  };
+
+  const handleDownload = useCallback(() => {
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = url;
+      a.download = "react-webcam-stream-capture.webm";
+      a.click();
+      window.URL.revokeObjectURL(url);
+      setRecordedChunks([]);
+    }
+  }, [recordedChunks]);
 
   const videoConstraints: WebcamProps["videoConstraints"] = {
     width: 620,
@@ -79,7 +124,7 @@ function Video(props: any) {
             {capturing ? (
               <button
                 className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                onClick={handleStopCaptureClick}
+                onClick={handleStopSpecialCaptureClick}
               >
                 Stop Capture
               </button>
@@ -90,6 +135,9 @@ function Video(props: any) {
               >
                 Start Capture
               </button>
+            )}
+            {recordedChunks.length > 0 && (
+              <button onClick={handleDownload}>Download</button>
             )}
           </div>
         </div>
