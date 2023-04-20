@@ -107,6 +107,12 @@ function Video(props: any) {
     facingMode: "user",
   };
 
+  const audioConstraints: WebcamProps["audioConstraints"]= {
+    //suppressLocalAudioPlayback: true,
+    noiseSuppression: true,
+    echoCancellation: true,
+  };
+
   return (
     <div className="mx-auto w-4/6">
       <div className="bg-white rounded-lg p-4 my-10 flex items-center">
@@ -114,10 +120,12 @@ function Video(props: any) {
           <Webcam
             height={500}
             width={600}
-            audio={false}
+            audio={true}
+            muted={true}
             mirrored={true}
             ref={webcamRef}
             videoConstraints={videoConstraints}
+            audioConstraints={audioConstraints}
             className="rounded-lg"
           />
           <div className="my-4">
