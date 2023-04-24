@@ -5,8 +5,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
+import PageHeader from "~/components/PageHeader"
+import Footer from '~/components/Footer'
 
 export function links() {
   return [{ rel: 'stylesheet', href: stylesheet }]
@@ -21,12 +24,19 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <header>
+        <PageHeader />
+      </header>
+      <body className="min-h-[35vw]">
         <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
       </body>
+      <footer>
+        <Footer />
+      </footer>
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
     </html>
   );
 }
+
