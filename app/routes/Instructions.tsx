@@ -23,7 +23,7 @@ export default function Result() {
                      <svg className=" float-left  h-8 w-8 text-blue-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                      </svg>
-                     <p className="flex-row mx-10 ">comprehension</p>
+                     <p className="flex-row mx-10 ">Comprehension</p>
                      </div>
                      <div className=" mx-20 mt-10">
                      <svg className=" float-left  h-8 w-8 text-blue-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
