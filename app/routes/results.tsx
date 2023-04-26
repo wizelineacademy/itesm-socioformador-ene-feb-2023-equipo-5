@@ -10,11 +10,11 @@ export const meta: V2_MetaFunction = () => {
 export default function Result() {
   return (
     <div>
-       <canvas className="max-w-100" id="TrafficChart"></canvas>
+      <canvas className="max-w-100" id="TrafficChart"></canvas>
       <h1 className="text-grayfigma">Welcome to Result</h1>
-      <Chart/>
+      <Chart />
       <Table />
-      
+
       <SquareR />
     </div>
   );

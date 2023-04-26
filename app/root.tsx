@@ -1,18 +1,17 @@
+import { Links } from "@remix-run/react";
 import {
-  Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
-import PageHeader from "~/components/PageHeader"
-import Footer from '~/components/Footer'
+//import HeaderPage from "~/Components/HeaderPage";
+import Footer from "~/Components/Footer";
 
 export function links() {
-  return [{ rel: 'stylesheet', href: stylesheet }]
+  return [{ rel: "stylesheet", href: stylesheet }];
 }
 
 export default function App() {
@@ -24,19 +23,13 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <header>
-        <PageHeader />
-      </header>
+
       <body className="min-h-[35vw]">
         <Outlet />
       </body>
-      <footer>
-        <Footer />
-      </footer>
       <ScrollRestoration />
       <Scripts />
       <LiveReload />
     </html>
   );
 }
-
