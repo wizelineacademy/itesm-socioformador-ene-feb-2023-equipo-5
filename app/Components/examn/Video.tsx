@@ -3,6 +3,7 @@ import Section from "./Section";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
 import IA from "../../../public/img/IA.png";
+import { Link } from "react-router-dom";
 
 interface RecordedChunk {
   size: number;
@@ -20,9 +21,8 @@ function Video(props: any) {
     ({ data }: { data: Blob }) => {
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
-        console.log(data.size)
+        console.log(data.size);
 
-        
         const url = URL.createObjectURL(data);
         const a = document.createElement("a");
         document.body.appendChild(a);
@@ -50,8 +50,8 @@ function Video(props: any) {
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const handleStopSpecialCaptureClick = useCallback(() => {
-    handleStopCaptureClick()
-    handleDownload()
+    handleStopCaptureClick();
+    handleDownload();
   }, [mediaRecorderRef, setCapturing]);
 
   const handleStopSpecial2CaptureClick = () => {
@@ -60,13 +60,12 @@ function Video(props: any) {
   };
 
   const handleStopCaptureClick = useCallback(() => {
-    handleStopSpecial2CaptureClick(mediaRecorderRef)
+    handleStopSpecial2CaptureClick(mediaRecorderRef);
     setCapturing(false);
-    
   }, [mediaRecorderRef, setCapturing]);
 
   const handleSpecialDownload = (recordedChunks) => {
-    console.log(recordedChunks.length)
+    console.log(recordedChunks.length);
 
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -107,7 +106,7 @@ function Video(props: any) {
     facingMode: "user",
   };
 
-  const audioConstraints: WebcamProps["audioConstraints"]= {
+  const audioConstraints: WebcamProps["audioConstraints"] = {
     //suppressLocalAudioPlayback: true,
     noiseSuppression: true,
     echoCancellation: true,
@@ -156,6 +155,11 @@ function Video(props: any) {
       <div className="bg-white rounded-lg p-4 my0 flex items-center">
         <Progress checked={true} />
         <Section texto="Grammar section"></Section>
+        <Link to="/results">
+          <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            Resultados
+          </button>
+        </Link>
       </div>
     </div>
   );
