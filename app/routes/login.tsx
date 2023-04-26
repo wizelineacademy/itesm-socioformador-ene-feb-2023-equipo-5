@@ -1,5 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/react";
-import googleIcon from '../../public/img/google.svg'
+import googleIcon from '../../public/img/google.svg';
+import { Form } from '@remix-run/react'
 
 
 export const meta: V2_MetaFunction = () => {
@@ -16,10 +17,12 @@ export default function LoginPage() {
                         ayudarte en tu camino hacia la mejora de tus habilidades 
                         en el idioma inglés. ¡Comencemos!
                     </p>
-                    <button className="mt-10 px-8 py-4 border-2 border-stone-200 rounded-lg shadow">
-                    <object data={googleIcon} className="h-8 inline-flex"/>
-                    <span className="ml-4">Continua con Google</span>
-                    </button>
+                    <Form action="/auth/auth0" method="post">
+                        <button className="mt-10 px-8 py-4 border-2 border-stone-200 rounded-lg shadow">
+                            <object data={googleIcon} className="h-8 inline-flex"/>
+                            <span className="ml-4">Continua con Google</span>
+                        </button>
+                    </Form>
                 </div>
             </div>
         </>
