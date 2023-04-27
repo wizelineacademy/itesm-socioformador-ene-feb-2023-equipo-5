@@ -3,9 +3,11 @@ import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ request }: LoaderArgs) => {
-    await authenticator.isAuthenticated(request, {
+    const auth = await authenticator.isAuthenticated(request, {
         failureRedirect: "/",
     });
+
+    return auth;
 };
 
 export const meta: V2_MetaFunction = () => {
