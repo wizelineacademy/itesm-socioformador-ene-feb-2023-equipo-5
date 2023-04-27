@@ -19,7 +19,7 @@ const videoLinks = [
 
 const Grid = () => {
   return (
-    <div className="container mx-auto px-5 pt-20 pl-20 pr-20 ml-20 mr-20 mt-15">
+    <div className="container mx-auto px-5  pl-20 pr-20 ml-20 mr-20 mt-5">
       <div className=" font-monserrat items-center pt-72 text-start text-cyan-600">
         <h1 className="text-3xl ">
           {/* <h1 className="text-center text-sky-600 text-2xl place-items-center h-50 pr-10 mt-10  mb-60 font-monserrat"> */}
