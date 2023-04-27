@@ -3,13 +3,13 @@ import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ request }: LoaderArgs) => {
-    return authenticator.isAuthenticated(request, {
+    await authenticator.isAuthenticated(request, {
         failureRedirect: "/",
     });
 };
 
 export const meta: V2_MetaFunction = () => {
-    return [{ title: "Login" }];
+    return [{ title: "Grabado de voz" }];
 };
 
 var text:String = "";
