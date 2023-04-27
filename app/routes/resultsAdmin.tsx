@@ -9,8 +9,8 @@ export default function Result() {
   return (
     <>
       <div className="flex flex-row mt-14 mx-10">
-        <div className="pb-5 absolute inset-x-0 bottom-0">
-          <div className="flex  place-content-between mx-8">
+        <div className="pb-5 absolute inset-x-0 bottom-[13%]">
+          <div className="flex  place-content-between mx-10">
             <button className="py-2 w-40 rounded-md bg-blue-200">
               Cambiar resultados
             </button>
@@ -31,7 +31,9 @@ export default function Result() {
               type="button"
               onClick={() => setShowModal(true)}
             >
-              <SquareR />
+              <div className="absolute inset-y-[14%] right-[15%] ">
+                <SquareR />
+              </div>
             </button>
             {showModal ? (
               <>
