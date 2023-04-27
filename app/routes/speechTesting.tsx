@@ -1,7 +1,15 @@
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { V2_MetaFunction, Form } from "@remix-run/react";
+import { authenticator } from "~/services/auth.server";
+import type { LoaderArgs } from "@remix-run/node";
+
+export const loader = async ({ request }: LoaderArgs) => {
+    await authenticator.isAuthenticated(request, {
+        failureRedirect: "/",
+    });
+};
 
 export const meta: V2_MetaFunction = () => {
-    return [{ title: "Login" }];
+    return [{ title: "Grabado de voz" }];
 };
 
 var text:String = "";
@@ -32,6 +40,7 @@ function stopVoice() {
 function handleStartStop() {
     if(recognizing){
         stopVoice()
+        //Aqui se manda al servidor lo que se detecto
     } else {
         detectVoice()
     }
@@ -42,11 +51,16 @@ export default function speechTesting() {
     return(
         <>  
             <p>{text}</p>
-            <form action="https://www.example.com/search">
+            <Form action="https://www.example.com/search">
                 <input type="search" id="q" name="q" />
                 <input type="button" value="Click to Speak" onClick = {detectVoice} />
-            </form>
+            </Form>
             <button onClick={handleStartStop}>Start/stop</button>
+            <br/><br/>
+
+            <Form method="post" action="/auth/logout">
+                <button>Log Out</button>
+            </Form>
         </>
     )
 }
