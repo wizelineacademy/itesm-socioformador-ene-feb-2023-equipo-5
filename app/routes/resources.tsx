@@ -1,6 +1,8 @@
 import { V2_MetaFunction, Form } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
+import Header from "~/Components/Header";
+import Footer from "~/Components/Footer";
 
 const videoLinks = [
   "https://www.youtube.com/watch?v=gOMypAhVaXE",
@@ -19,8 +21,8 @@ const videoLinks = [
 
 const Grid = () => {
   return (
-    <div className="container mx-auto px-5  pl-20 pr-20 ml-20 mr-20 mt-5">
-      <div className=" font-monserrat items-center pt-72 text-start text-cyan-600">
+    <div className="container mx-auto px-5  pl-20 pr-20 ml-20 mr-20  ">
+      <div className=" font-monserrat items-center pt-10 text-start text-cyan-600">
         <h1 className="text-3xl ">
           {/* <h1 className="text-center text-sky-600 text-2xl place-items-center h-50 pr-10 mt-10  mb-60 font-monserrat"> */}
           Recursos adicionales para cada nivel
@@ -56,6 +58,7 @@ const Grid = () => {
           Log Out
         </button>
       </Form>
+      <Footer />
     </div>
   );
 };

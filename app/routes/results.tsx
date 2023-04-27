@@ -3,6 +3,7 @@ import Table from "~/Components/ResultsTable";
 import SquareR from "~/Components/SquareResult";
 import Chart from "~/Components/Chartresult";
 import { Link } from "react-router-dom";
+import Header from "~/Components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
