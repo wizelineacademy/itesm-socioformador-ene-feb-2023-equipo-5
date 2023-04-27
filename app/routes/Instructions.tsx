@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import Header from "~/Components/Header";
 export default function Result() {
   return (
     <>
+      <Header></Header>
       <div className="content-center	 flex-row mt-14 mx-40 ">
         <div className=" mx-40 bg-graybgfigma">
           <div className=" py-10 ">

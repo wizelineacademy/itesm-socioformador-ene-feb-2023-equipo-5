@@ -2,7 +2,7 @@ import { Link, NavLink } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import profilePicture from "../../public/img/profilePicture.jpg";
 
-function PageHeader() {
+function Header() {
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-4/5">
@@ -16,4 +16,4 @@ function PageHeader() {
   );
 }
 
-export default PageHeader;
+export default Header;
