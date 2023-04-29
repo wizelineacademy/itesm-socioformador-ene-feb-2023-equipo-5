@@ -1,8 +1,8 @@
 import { V2_MetaFunction, Form } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
-import Header from "~/Components/Header";
-import Footer from "~/Components/Footer";
+import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 
 const videoLinks = [
   "https://www.youtube.com/watch?v=gOMypAhVaXE",

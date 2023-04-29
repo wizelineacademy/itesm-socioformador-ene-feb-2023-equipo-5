@@ -1,4 +1,4 @@
-import ResultsTable from "~/Components/ResultsTable";
+import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {

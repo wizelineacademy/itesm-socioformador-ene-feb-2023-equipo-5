@@ -1,5 +1,5 @@
-import ResultsTable from "~/Components/ResultsTable";
-import SquareR from "~/Components/SquareResult";
+import ResultsTable from "~/components/ResultsTable";
+import SquareR from "~/components/SquareResult";
 import { Link } from "react-router-dom";
 
 export default function Result() {

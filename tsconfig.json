@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/Components/examn/Camera.js"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/components/examn/Camera.js"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,

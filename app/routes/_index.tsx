@@ -4,13 +4,13 @@ import { Link } from "@remix-run/react";
 
 //import Header from "~/Components/Header";
 
-import Main from "~/Components/Main";
-import AboutSection from "~/Components/AboutSection";
-import ValuesSection from "~/Components/ValuesSection";
-import SubscribeSection from "~/Components/SubscribeSection";
-import Footer from "~/Components/Footer";
-import FirstSection from "~/Components/FirstSection";
-import HeaderPage from "~/Components/HeaderPage";
+import Main from "~/components/Main";
+import AboutSection from "~/components/AboutSection";
+import ValuesSection from "~/components/ValuesSection";
+import SubscribeSection from "~/components/SubscribeSection";
+import Footer from "~/components/Footer";
+import FirstSection from "~/components/FirstSection";
+import HeaderPage from "~/components/HeaderPage";
 
 export default function Index(): JSX.Element {
   return (

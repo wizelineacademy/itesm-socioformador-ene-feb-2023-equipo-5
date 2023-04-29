@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 //import HeaderPage from "~/Components/HeaderPage";
-import Footer from "~/Components/Footer";
+import Footer from "~/components/Footer";
 
 export function links() {
   return [{ rel: "stylesheet", href: stylesheet }];
