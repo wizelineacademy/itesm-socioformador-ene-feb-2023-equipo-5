@@ -18,11 +18,14 @@
     "@remix-run/serve": "^1.15.0",
     "@types/dom-speech-recognition": "^0.0.1",
     "init": "^0.1.2",
+    "chart.js": "^4.2.1",
     "isbot": "^3.6.5",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-webcam": "^7.0.1"
+    "react-webcam": "^7.0.1",
+    "remix-auth": "^3.4.0",
+    "remix-auth-auth0": "^1.7.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.15.0",

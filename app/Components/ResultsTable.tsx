@@ -7,10 +7,15 @@ function Table() {
             <table className="min-w-full text-left text-sm font-light">
               <thead className="font-medium">
                 <tr>
-                  <th className="text-grayfigma font-extralight text-sm " >Categorías</th>
-                  <th className="text-grayfigma font-extralight text-sm">Nivel</th>
-                  <th className="text-grayfigma font-extralight text-sm">Porcentaje</th>
-
+                  <th className="text-grayfigma font-extralight text-sm ">
+                    Categorías
+                  </th>
+                  <th className="text-grayfigma font-extralight text-sm">
+                    Nivel
+                  </th>
+                  <th className="text-grayfigma font-extralight text-sm">
+                    Porcentaje
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -35,6 +40,6 @@ function Table() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 export default Table;
