@@ -9,6 +9,7 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@prisma/client": "^4.13.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/serve": "^1.15.0",
