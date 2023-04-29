@@ -10,6 +10,7 @@
     "prismadev": "nodemon prismatests.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.321.1",
     "@material-tailwind/react": "^1.4.2",
     "@prisma/client": "^4.12.0",
     "@react-types/shared": "^3.18.0",
