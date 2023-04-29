@@ -12,10 +12,12 @@
   "dependencies": {
     "@material-tailwind/react": "^1.4.2",
     "@prisma/client": "^4.12.0",
+    "@react-types/shared": "^3.18.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/serve": "^1.15.0",
     "@types/dom-speech-recognition": "^0.0.1",
+    "init": "^0.1.2",
     "chart.js": "^4.2.1",
     "isbot": "^3.6.5",
     "nodemon": "^2.0.22",

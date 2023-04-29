@@ -7,7 +7,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className=" font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Lectura</div>
+            <div className="text-white font-light text-xs">Lectura</div>
           </div>
         </figcaption>
       </figure>
@@ -17,7 +17,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className=" font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Gramática</div>
+            <div className="text-white font-light text-xs">Gramática</div>
           </div>
         </figcaption>
       </figure>
@@ -27,7 +27,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className=" font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Escritura</div>
+            <div className="text-white font-light text-xs">Escritura</div>
           </div>
         </figcaption>
       </figure>
@@ -37,7 +37,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className=" font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Dicción</div>
+            <div className="text-white font-light text-xs">Dicción</div>
           </div>
         </figcaption>
       </figure>
@@ -47,7 +47,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className="font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Escucha</div>
+            <div className="text-white font-light text-xs">Escucha</div>
           </div>
         </figcaption>
       </figure>
@@ -57,7 +57,7 @@ function SquareR() {
         </blockquote>
         <figcaption className="flex items-center justify-center space-x-3">
           <div className="font-medium dark:text-white ">
-            <div className="text-white font-light text-sm">Vocabulario</div>
+            <div className="text-white font-light text-xs">Vocabulario</div>
           </div>
         </figcaption>
       </figure>
