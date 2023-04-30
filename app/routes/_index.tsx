@@ -1,8 +1,6 @@
-import { Link } from "@remix-run/react";
-
-// import homeStyles from '~/styles/home.css';
-
-//import Header from "~/Components/Header";
+//import homeStyles from '~/styles/home.css';
+//import Header from "~/components/Header";
+//import { Link } from "@remix-run/react";
 
 import Main from "~/components/Main";
 import AboutSection from "~/components/AboutSection";

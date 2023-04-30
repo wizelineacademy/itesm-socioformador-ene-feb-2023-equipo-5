@@ -1,8 +1,9 @@
+//import { Link } from "react-router-dom";
+//import Chart from "~/components/Chartresult";
+
 import ResultsTable from "~/components/ResultsTable";
 import SquareR from "~/components/SquareResult";
-import Chart from "~/components/Chartresult";
 import Dashboard from "~/components/DashboardAdmin";
-import { Link } from "react-router-dom";
 import React from "react";
 
 export default function Result() {

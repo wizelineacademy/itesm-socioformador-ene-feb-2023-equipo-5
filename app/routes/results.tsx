@@ -1,10 +1,11 @@
+//import Table from "~/components/ResultsTable";
+//import SquareR from "~/components/SquareResult";
+//import Chart from "~/components/Chartresult";
+//import { Link } from "react-router-dom";
+//import Header from "~/components/Header";
+
 import type { V2_MetaFunction } from "@remix-run/react";
 import Dashboard from "~/components/DashboardAdmin";
-import Table from "~/components/ResultsTable";
-import SquareR from "~/components/SquareResult";
-import Chart from "~/components/Chartresult";
-import { Link } from "react-router-dom";
-import Header from "~/components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];

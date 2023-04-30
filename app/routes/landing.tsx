@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 
 import Main from "~/components/Main";
 import AboutSection from "~/components/AboutSection";
