@@ -2,6 +2,7 @@ import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { isRouteErrorResponse } from "@remix-run/react";
 import { useRouteError } from "@remix-run/react";
+import Header from "~/Components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Tests" }];
@@ -10,6 +11,7 @@ export const meta: V2_MetaFunction = () => {
 export default function TestsPages() {
   return (
     <>
+        <Header />
       <div className="flex flex-row mt-14 mx-10">
         <div className="basis-1/2 mx-2 relative">
           <p className="text-lg font-bold mb-4">Evaluaciones</p>
