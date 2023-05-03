@@ -3,6 +3,7 @@ import ExamRow from "./ExamRow";
 
 interface Exam {
 
+  id: Number;
   date: String;
   level: String
   grade: String;
@@ -11,10 +12,10 @@ interface Exam {
 
 var fake_exams: Exam[];
 
-const exam1: Exam = {date: "24/03/2023", level: "B2", grade: "97%"}
-const exam2: Exam = {date: "19/03/2023", level: "C2", grade: "85%"}
-const exam3: Exam = {date: "02/03/2023", level: "C1", grade: "77%"}
-const exam4: Exam = {date: "25/02/2023", level: "A2", grade: "91%"}
+const exam1: Exam = {id: 1, date: "24/03/2023", level: "B2", grade: "97%"}
+const exam2: Exam = {id: 2, date: "19/03/2023", level: "C2", grade: "85%"}
+const exam3: Exam = {id: 3, date: "02/03/2023", level: "C1", grade: "77%"}
+const exam4: Exam = {id:4, date: "25/02/2023", level: "A2", grade: "91%"}
 
 fake_exams = [exam1, exam2, exam3, exam4]
 
@@ -37,7 +38,7 @@ function TableAdmin() {
                 {
       fake_exams.map(exam =>  {
         return (        
-          <ExamRow date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen}/>
+          <ExamRow key={exam.id} date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen}/>
         )
         
         })

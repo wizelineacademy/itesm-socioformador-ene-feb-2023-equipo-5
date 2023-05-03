@@ -1,6 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/react";
-import Table from "~/Components/ResultsTable";
-import TableAdmin from "~/Components/TableAdmin";
+import Table from "~/components/ResultsTable";
+import TableAdmin from "~/components/TableAdmin";
 
 export const meta: V2_MetaFunction = () => {
     return [{ title: "VideoAdmin" }];
@@ -21,3 +21,4 @@ export default function VideoAdmin() {
         </>
     );
 }
+
