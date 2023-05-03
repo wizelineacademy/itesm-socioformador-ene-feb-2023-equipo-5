@@ -35,7 +35,9 @@ export default function Result() {
 
           </div>
           <div className="flex flex-col items-center">
-            <button className="mb-10 py-2 w-40 rounded-md bg-blue-200 shadow-md">Comenzar prueba</button>
+            <Link to="/examn">
+              <button className="mb-10 py-2 w-40 rounded-md bg-blue-200 shadow-md">Comenzar prueba</button>
+            </Link>
           </div>
         </div>
       </div>

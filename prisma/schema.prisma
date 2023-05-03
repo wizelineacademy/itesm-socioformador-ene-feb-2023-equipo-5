@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(uuid())
-  name         String
-  email        String       @unique
-  password     String
+  id           String       @id
+  fullName     String?
+  name         String?
+  familyName   String?
   englishlevel Englishlevel @default(A1)
   summary      String?
   createdAt    DateTime     @default(now())
