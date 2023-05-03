@@ -3,7 +3,6 @@ import Section from "./Section";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
 import IA from "../../../public/img/IA.png";
-import { Link } from "react-router-dom";
 
 interface RecordedChunk {
   size: number;
@@ -16,13 +15,15 @@ function Video(props: any) {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState<RecordedChunk[]>([]);
+  const [showModal, setShowModal] = React.useState(false);
 
   const handleDataAvailable = useCallback(
     ({ data }: { data: Blob }) => {
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
-        console.log(data.size);
+        console.log(data.size)
 
+        
         const url = URL.createObjectURL(data);
         const a = document.createElement("a");
         document.body.appendChild(a);
@@ -50,8 +51,9 @@ function Video(props: any) {
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const handleStopSpecialCaptureClick = useCallback(() => {
-    handleStopCaptureClick();
-    handleDownload();
+    handleStopCaptureClick()
+    handleDownload()
+    setShowModal(true)
   }, [mediaRecorderRef, setCapturing]);
 
   const handleStopSpecial2CaptureClick = () => {
@@ -60,12 +62,13 @@ function Video(props: any) {
   };
 
   const handleStopCaptureClick = useCallback(() => {
-    handleStopSpecial2CaptureClick(mediaRecorderRef);
+    handleStopSpecial2CaptureClick(mediaRecorderRef)
     setCapturing(false);
+    
   }, [mediaRecorderRef, setCapturing]);
 
   const handleSpecialDownload = (recordedChunks) => {
-    console.log(recordedChunks.length);
+    console.log(recordedChunks.length)
 
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -97,6 +100,7 @@ function Video(props: any) {
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
+      
     }
   }, [recordedChunks]);
 
@@ -106,13 +110,14 @@ function Video(props: any) {
     facingMode: "user",
   };
 
-  const audioConstraints: WebcamProps["audioConstraints"] = {
+  const audioConstraints: WebcamProps["audioConstraints"]= {
     //suppressLocalAudioPlayback: true,
     noiseSuppression: true,
     echoCancellation: true,
   };
 
   return (
+    
     <div className="mx-auto w-4/6">
       <div className="bg-white rounded-lg p-4 my-10 flex items-center">
         <div className="webcam-contaainer">
@@ -152,16 +157,53 @@ function Video(props: any) {
           <img src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto" />
         </div>{" "}
       </div>
-      <div className="bg-white rounded-lg p-4 my0 flex items-center">
-        <Progress checked={true} />
-        <Section texto="Grammar section"></Section>
-        <Link to="/resultsAdmin">
-          <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Resultados
-          </button>
-        </Link>
-      </div>
+
+
+      <>
+      
+      {showModal ? (
+        <>
+          <div className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-sky-100 outline-none focus:outline-none">                
+                {/*body*/}
+                <div className="relative p-6 flex-auto mx-10">
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                    A continuación aparecerán los resultados de tu prueba,
+                    recuerda que en caso de querer realizarla podrás hacerlo
+                    dando click al botón “repetir prueba”. Si consideras que tus
+                    resultados no son adecuados, podrás pedir una revisión, y se
+                    te contactará en caso de haber cambios.
+                  </p>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Repetir prueba
+                  </button>
+                  <button
+                    className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Resultados
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+    </>
     </div>
+
+    
   );
 }
 
