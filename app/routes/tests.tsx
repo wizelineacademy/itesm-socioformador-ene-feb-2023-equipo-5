@@ -1,5 +1,7 @@
 import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
+import { isRouteErrorResponse } from "@remix-run/react";
+import { useRouteError } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Tests" }];
@@ -50,4 +52,23 @@ export default function TestsPages() {
       </div>
     </>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h3>ERROR</h3>
+        <p>{error.data.message}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p>ERROR PREDETETRMINADO</p>
+    </div>
+  )
 }
