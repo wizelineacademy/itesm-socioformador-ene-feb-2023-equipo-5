@@ -1,12 +1,6 @@
-//import homeStyles from '~/styles/home.css';
-//import Header from "~/components/Header";
-//import { Link } from "@remix-run/react";
-
-import Main from "~/components/Main";
 import AboutSection from "~/components/AboutSection";
 import ValuesSection from "~/components/ValuesSection";
 import SubscribeSection from "~/components/SubscribeSection";
-import Footer from "~/components/Footer";
 import FirstSection from "~/components/FirstSection";
 import HeaderPage from "~/components/HeaderPage";
 
@@ -14,7 +8,6 @@ export default function Index(): JSX.Element {
   return (
     <main id="content">
       <div className="bg-gray-100">
-        <Main />
         <HeaderPage />
         <FirstSection />
         <AboutSection
@@ -35,21 +28,8 @@ export default function Index(): JSX.Element {
         />
         <ValuesSection />
         <SubscribeSection />
-        <Footer />
       </div>
-      {/* <h1>This is us</h1>
-      <p>Wizeline is facing the problem of receiving too many job applications and it needs to efficiently evaluate the applicants’ English level.</p>
-      <h2>Mision</h2>
-      <p>To offer a wide range of innovative software products by implementing AI. To enable businesses to streamline their processes by providing them with AI-based tools.</p>
-      <h2>Vision</h2>
-      <p>To be a leading company in the market of intelligent and customized web solutions. To use cutting-edge tools that allow us to bring artificial intelligence technologies to the market.</p>
-      <p id="cta">
-        <Link to="/notes">Try Now!</Link>
-      </p> */}
     </main>
   );
 }
 
-// export function links(): {rel: string, href: string}[] {
-//   return [{ rel: 'stylesheet', href: homeStyles }];
-// }

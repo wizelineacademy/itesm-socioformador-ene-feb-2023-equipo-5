@@ -2,7 +2,7 @@ import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { isRouteErrorResponse } from "@remix-run/react";
 import { useRouteError } from "@remix-run/react";
-import Header from "~/Components/Header";
+import Header from "~/components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Tests" }];

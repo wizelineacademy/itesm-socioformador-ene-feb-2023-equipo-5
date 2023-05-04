@@ -1,5 +1,3 @@
-//import googleIcon from "../../public/img/google.svg";
-
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Form } from "@remix-run/react";
 

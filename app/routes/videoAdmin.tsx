@@ -1,5 +1,3 @@
-//import Table from "~/components/ResultsTable";
-
 import type { V2_MetaFunction } from "@remix-run/react";
 import TableAdmin from "~/components/TableAdmin";
 

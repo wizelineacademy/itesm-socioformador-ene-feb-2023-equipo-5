@@ -1,9 +1,6 @@
-//import { Link } from "react-router-dom";
-//import Chart from "~/components/Chartresult";
-
 import ResultsTable from "~/components/ResultsTable";
-import SquareR from "~/components/SquareResult";
 import Dashboard from "~/components/DashboardAdmin";
+import SquareR from "~/components/SquareResult";
 import React from "react";
 
 export default function Result() {
@@ -19,24 +16,6 @@ export default function Result() {
             <button className="py-2 w-40 rounded-md bg-graybgfigma">
               Recomendaciones
             </button>
-{/*
-export default function Result() {
-  return (
-    <>
-      <div className="flex flex-row mt-14 mx-10">
-        <div className="pb-5 absolute inset-x-0 bottom-0">
-          <div className="flex  place-content-between mx-8">
-            <Link to="/Instructions">
-              <button className="py-2 w-40 rounded-md bg-blue-200">
-                Repetir prueba
-              </button>
-            </Link>
-            <Link to="/resources">
-              <button className="py-2 w-40 rounded-md bg-graybgfigma">
-                Recursos
-              </button>
-            </Link>
-*/}
           </div>
         </div>
         <div className="basis-1/2 mx-2 relative ">
@@ -92,11 +71,6 @@ export default function Result() {
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
             ) : null}
-
-{/*
-            <SquareR />
-*/}
-
           </div>
         </div>
       </div>
