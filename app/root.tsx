@@ -31,14 +31,14 @@ export default function App() {
       <body className="min-h-[35vw]">
         <Outlet />
       </body>
-      
+
       {/* Ver esta seccion... */}
       {/* -------------------------------------- */}
       <footer className="clear-both">
         <Footer />
       </footer>
       {/* -------------------------------------- */}
-      
+
       <ScrollRestoration />
       <Scripts />
       <LiveReload />
