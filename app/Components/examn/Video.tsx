@@ -1,9 +1,10 @@
-import Progress from "./Progress";
-import Section from "./Section";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
 import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
+import { s3UploaderHandler } from "../../services/uploader-handler.server";
+import { unstable_parseMultipartFormData } from "@remix-run/node";
+import AWS from 'aws-sdk';
 
 interface RecordedChunk {
   size: number;
@@ -21,8 +22,9 @@ function Video(props: any) {
   const handleDataAvailable = useCallback(
     ({ data }: { data: Blob }) => {
       if (data.size > 0) {
+
         setRecordedChunks((prev) => prev.concat(data));
-        console.log(data.size);
+        //console.log(data.size);
 
         const url = URL.createObjectURL(data);
         const a = document.createElement("a");
@@ -33,14 +35,45 @@ function Video(props: any) {
         a.click();
         window.URL.revokeObjectURL(url);
         setRecordedChunks([]);
+        
       }
     },
     [setRecordedChunks, recordedChunks]
   );
 
+  const handleUpload = async () => {
+    console.log("ENTREALUPLOAD")
+    if (recordedChunks.length) {
+      console.log("HAYLENGTH")
+      const blob = new Blob(recordedChunks, {
+        type: 'video/webm',
+      });
+
+      // Generar un nombre único para el archivo de video cargado
+      const fileName = `video_${Date.now()}.webm`;
+
+      // Crear un objeto para configurar la carga del archivo en S3
+      const params = {
+        Bucket: 'smartspeak_data',
+        Key: fileName,
+        Body: blob,
+        ContentType: 'video/webm',
+        ACL: 'public-read',
+      };
+
+      try {
+        // Cargar el archivo en S3
+        await s3.upload(params).promise();
+        console.log('Video uploaded successfully!');
+      } catch (err) {
+        console.log('Error uploading video:', err);
+      }
+    }
+  };
+
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current?.stream, {
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current!.stream!, {
       mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener(
@@ -53,11 +86,12 @@ function Video(props: any) {
   const handleStopSpecialCaptureClick = useCallback(() => {
     handleStopCaptureClick();
     handleDownload();
+    handleUpload()
     setShowModal(true);
   }, [mediaRecorderRef, setCapturing]);
 
   const handleStopSpecial2CaptureClick = () => {
-    mediaRecorderRef.current.stop();
+    mediaRecorderRef.current!.stop();
     setCapturing(false);
   };
 
@@ -66,6 +100,7 @@ function Video(props: any) {
     setCapturing(false);
   }, [mediaRecorderRef, setCapturing]);
 
+  /*
   const handleSpecialDownload = (recordedChunks) => {
     console.log(recordedChunks.length);
 
@@ -84,6 +119,7 @@ function Video(props: any) {
       setRecordedChunks([]);
     }
   };
+  */
 
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
@@ -99,6 +135,7 @@ function Video(props: any) {
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
+      
     }
   }, [recordedChunks]);
 
