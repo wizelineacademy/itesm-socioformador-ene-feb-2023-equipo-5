@@ -39,7 +39,6 @@ function TableAdmin() {
                     return (
                       <ExamRow date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen} />
                     )
-
                   })
                 }
               </tbody>
