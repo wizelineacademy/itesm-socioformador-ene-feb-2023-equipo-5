@@ -27,9 +27,9 @@ const SubscribeSection = () => {
               <input
                 type="text"
                 placeholder="Email adress"
-                className="flex flex-row rounded  mx-10 bg-gray-100  py-2 px-4 grow h-10 w-18 mb-20  ml-2 flex justify-center pr-60 "
+                className="flex flex-row rounded  mx-10 bg-gray-100  py-2 px-4 grow h-10 w-18 mb-20  ml-2 justify-center pr-60 "
               />
-              <button className="flex flex-row  mx-12 bg-blue-500 hover:bg-blue-600 text-white py-2 px-2 rounded items-center hover:bg-sky-700 mb-20  ">
+              <button className="flex flex-row  mx-12 bg-blue-500 hover:bg-blue-600 text-white py-2 px-2 rounded items-center mb-20  ">
                 Subscribe
               </button>
             </div>

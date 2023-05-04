@@ -1,4 +1,4 @@
-import { Link, NavLink } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import profilePicture from "../../public/img/profilePicture.jpg";
 

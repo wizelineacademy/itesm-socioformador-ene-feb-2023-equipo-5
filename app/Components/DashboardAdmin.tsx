@@ -1,5 +1,5 @@
-import Chart from "./Chartresult";
-import SquareR from "./SquareResult";
+import Chart from "~/components/Chartresult";
+import SquareR from "~/components/SquareResult";
 function Dashboard() {
   return (
     <>
