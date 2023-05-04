@@ -45,7 +45,7 @@ let auth0Strategy = new Auth0Strategy(
       } else if (authType![0] === "auth0") {
         const perfil = await db.user.create({
           data: {
-            id: profile.id!
+            id: profile.id
           }
         })
       }
