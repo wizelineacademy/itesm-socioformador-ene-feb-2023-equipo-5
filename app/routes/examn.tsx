@@ -1,7 +1,6 @@
-import Footer from "~/components/Footer";
-import Question from "~/components/examn/Question";
-import Video from "~/components/examn/Video";
-import Header from "~/components/Header";
+import Question from "~/Components/examn/Question";
+import Video from "~/Components/examn/Video";
+import Header from "~/Components/Header";
 
 export default function Examn() {
   return (

@@ -27,8 +27,8 @@ export default function App() {
       <body className="min-h-[35vw]">
         <Outlet />
       </body>
-      
-      <footer className="clear-both">
+
+      <footer className="static inset-x-0 bottom-0 clear-both">
         <Footer />
       </footer>
       

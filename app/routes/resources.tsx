@@ -55,7 +55,6 @@ const Grid = () => {
           Log Out
         </button>
       </Form>
-      <Footer />
     </div>
   );
 };
