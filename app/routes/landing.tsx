@@ -33,7 +33,6 @@ const Landing = () => {
         />
         <ValuesSection />
         <SubscribeSection />
-        <Footer />
       </div>
       {/* <h1>This is us</h1>
           <p>Wizeline is facing the problem of receiving too many job applications and it needs to efficiently evaluate the applicants’ English level.</p>
