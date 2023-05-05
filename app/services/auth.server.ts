@@ -50,7 +50,7 @@ let auth0Strategy = new Auth0Strategy(
           })
         }
       }
-    } catch (e: any){
+    } catch (e: any) {
       console.log(e);
     }
     return profile;
