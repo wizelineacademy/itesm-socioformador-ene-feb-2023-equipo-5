@@ -23,34 +23,36 @@ let auth0Strategy = new Auth0Strategy(
     //
     // Use the returned information to process or write to the DB.
     //
+    try {
+      const userExist = await db.user.findUnique({
+        where: {
+          id: profile.id
+        }
+      })
 
-    const userExist = await db.user.findUnique({
-      where: {
-        id: profile.id
+      if (userExist === null) {
+        let authType = profile.id?.split("|")
+
+        if (authType![0] === "google-oauth2") {
+          const perfil = await db.user.create({
+            data: {
+              id: profile.id!,
+              fullName: profile._json?.name,
+              name: profile._json?.given_name,
+              familyName: profile._json?.family_name,
+            }
+          })
+        } else if (authType![0] === "auth0") {
+          const perfil = await db.user.create({
+            data: {
+              id: profile.id!
+            }
+          })
+        }
       }
-    })
-
-    if (userExist === null) {
-      let authType = profile.id?.split("|")
-
-      if (authType![0] === "google-oauth2") {
-        const perfil = await db.user.create({
-          data: {
-            id: profile.id!,
-            fullName: profile._json?.name,
-            name: profile._json?.given_name,
-            familyName: profile._json?.family_name,
-          }
-        })
-      } else if (authType![0] === "auth0") {
-        const perfil = await db.user.create({
-          data: {
-            id: profile.id!
-          }
-        })
-      }
+    } catch (e: any){
+      console.log(e);
     }
-
     return profile;
   }
 );
