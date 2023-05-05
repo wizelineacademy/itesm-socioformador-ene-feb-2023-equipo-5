@@ -1,10 +1,21 @@
-//import { Link } from "react-router-dom";
-//import Chart from "~/components/Chartresult";
-
 import ResultsTable from "~/components/ResultsTable";
 import SquareR from "~/components/SquareResult";
 import Dashboard from "~/components/DashboardAdmin";
 import React from "react";
+import { authenticator } from "~/services/auth.server";
+import { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Results" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+
+  return profile
+};
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);

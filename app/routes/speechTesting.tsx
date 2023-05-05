@@ -4,7 +4,7 @@ import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const auth = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
+    failureRedirect: "/login",
   });
 
   return auth;

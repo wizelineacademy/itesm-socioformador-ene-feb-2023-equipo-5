@@ -24,12 +24,12 @@ let auth0Strategy = new Auth0Strategy(
     // Use the returned information to process or write to the DB.
     //
     try {
+      //We have this try if the database conection fails
       const userExist = await db.user.findUnique({
         where: {
           id: profile.id
         }
       })
-
       if (userExist === null) {
         let authType = profile.id?.split("|")
 
@@ -51,7 +51,7 @@ let auth0Strategy = new Auth0Strategy(
         }
       }
     } catch (e: any) {
-      console.log(e);
+      //console.log(e);
     }
     return profile;
   }

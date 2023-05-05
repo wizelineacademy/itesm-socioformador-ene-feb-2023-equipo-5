@@ -1,14 +1,18 @@
-//import Table from "~/components/ResultsTable";
-//import SquareR from "~/components/SquareResult";
-//import Chart from "~/components/Chartresult";
-//import { Link } from "react-router-dom";
-//import Header from "~/components/Header";
-
+import { LoaderArgs } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import Dashboard from "~/components/DashboardAdmin";
+import { authenticator } from "~/services/auth.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+
+  return profile
 };
 
 export default function Result() {

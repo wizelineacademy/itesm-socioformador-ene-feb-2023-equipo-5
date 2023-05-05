@@ -1,9 +1,18 @@
+import { LoaderArgs } from "@remix-run/node";
 import { V2_MetaFunction, Form } from "@remix-run/react";
-//import { authenticator } from "~/services/auth.server";
-//import type { LoaderArgs } from "@remix-run/node";
-//import Header from "~/components/Header";
+import { authenticator } from "~/services/auth.server";
 
-import Footer from "~/components/Footer";
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Resources" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+
+  return profile
+};
 
 const videoLinks = [
   "https://www.youtube.com/watch?v=gOMypAhVaXE",
@@ -59,7 +68,6 @@ const Grid = () => {
           Log Out
         </button>
       </Form>
-      <Footer />
     </div>
   );
 };
