@@ -1,8 +1,8 @@
 import { useState } from "react";
 import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
-import React, { useRef, useEffect } from "react";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { useRef, useEffect } from "react";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 function Video(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +11,8 @@ function Video(props: any) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const s3ClientCredentials = props.credentials
+
   useEffect(() => {
     const initCamera = async () => {
       try {
@@ -34,26 +36,22 @@ function Video(props: any) {
   const handleStartRecording = async () => {
     setCapturing(true);
     try {
-      const recorder = new MediaRecorder(videoRef.current!.srcObject!);
-      recorderRef.current = recorder;
+      const constraints = { audio: true, video: true };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
+      const recorder = new MediaRecorder(stream, videoRef.current!.srcObject!);
+      recorderRef.current = recorder;
+      
       recorder.ondataavailable = function (e) {
         chunksRef.current.push(e.data);
       };
 
       recorder.onstop = async function () {
         const videoBlob = new Blob(chunksRef.current, { type: "video/mp4" });
-
-        const s3Client = new S3Client({
-          region: "us-east-2",
-          credentials: {
-            accessKeyId: "AKIAQKRMZFRIMES7CY5J",
-            secretAccessKey: "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",
-          },
-        });
+        const s3Client = new S3Client(s3ClientCredentials);
 
         const params = {
-          Bucket: "gestion-musica",
+          Bucket: "smartspeak",
           Key: "pruebachicoITC.mp4",
           Body: videoBlob,
         };
