@@ -7,13 +7,6 @@ import { useLoaderData } from '@remix-run/react';
 
 export async function loader() {
   const s3ClientVideo = await getCredentials()
-  /*
-  if (s3ClientVideo.region === undefined ||
-      s3ClientVideo.credentials.accessKeyId === undefined ||
-      s3ClientVideo.credentials.secretAccessKey === undefined) {
-      console.log('nmms')
-  }
-  */
   return s3ClientVideo
 }
 
@@ -23,7 +16,7 @@ export default function Examn() {
     <div className="mx-auto">
       <Header />
       <Question texto="¿Cuál ha sido una situación en la que tuviste un desacuerdo en un ambiente de trabajo? ¿Cómo lo resolviste?"></Question>
-      <Video credentials={s3ClientCredentials}/>
+      <Video credentials={s3ClientCredentials} />
     </div>
   );
 }

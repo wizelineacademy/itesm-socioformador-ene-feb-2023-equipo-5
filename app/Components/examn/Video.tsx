@@ -41,7 +41,7 @@ function Video(props: any) {
 
       const recorder = new MediaRecorder(stream, videoRef.current!.srcObject!);
       recorderRef.current = recorder;
-      
+
       recorder.ondataavailable = function (e) {
         chunksRef.current.push(e.data);
       };
