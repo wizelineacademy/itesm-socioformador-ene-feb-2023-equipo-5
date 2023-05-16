@@ -3,9 +3,19 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { isRouteErrorResponse } from "@remix-run/react";
 import { useRouteError } from "@remix-run/react";
 import Header from "~/components/Header";
+import { LoaderArgs } from "@remix-run/node";
+import { authenticator } from "~/services/auth.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Tests" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+
+  return profile
 };
 
 export default function TestsPages() {

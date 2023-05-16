@@ -1,8 +1,18 @@
+import { LoaderArgs } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Form } from "@remix-run/react";
+import { authenticator } from "~/services/auth.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Login" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    successRedirect: "/Instructions",
+  });
+
+  return profile
 };
 
 export default function LoginPage() {

@@ -1,8 +1,18 @@
+import { LoaderArgs } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import TableAdmin from "~/components/TableAdmin";
+import { authenticator } from "~/services/auth.server";
 
 export const meta: V2_MetaFunction = () => {
-    return [{ title: "VideoAdmin" }];
+    return [{ title: "Videos" }];
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+    const profile = await authenticator.isAuthenticated(request, {
+        failureRedirect: "/login",
+    });
+
+    return profile
 };
 
 export default function VideoAdmin() {

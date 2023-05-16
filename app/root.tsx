@@ -31,7 +31,7 @@ export default function App() {
       <footer className="static inset-x-0 bottom-0 clear-both">
         <Footer />
       </footer>
-      
+
       <ScrollRestoration />
       <Scripts />
       <LiveReload />

@@ -1,5 +1,5 @@
 import videoImagen from "../../public/img/video.png";
-import ExamRow from "~/components/ExamRow";
+import ExamRow from "./ExamRow";
 
 interface Exam {
 
@@ -39,7 +39,9 @@ function TableAdmin() {
                     return (
                       <ExamRow date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen} />
                     )
+
                   })
+
                 }
               </tbody>
             </table>
