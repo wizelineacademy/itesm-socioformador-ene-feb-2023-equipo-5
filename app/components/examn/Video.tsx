@@ -1,189 +1,109 @@
-import React, { useCallback, useRef, useState } from "react";
-import Webcam, { WebcamProps } from "react-webcam";
+import { useState } from "react";
 import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
-import { s3UploaderHandler } from "../../services/uploader-handler.server";
-import { unstable_parseMultipartFormData } from "@remix-run/node";
-import AWS from 'aws-sdk';
-
-interface RecordedChunk {
-  size: number;
-  type: string;
-  slice(start?: number, end?: number, contentType?: string): Blob;
-}
+import { useRef, useEffect } from "react";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 function Video(props: any) {
-  const webcamRef = useRef<Webcam>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const [capturing, setCapturing] = useState(false);
-  const [recordedChunks, setRecordedChunks] = useState<RecordedChunk[]>([]);
-  const [showModal, setShowModal] = React.useState(false);
 
-  const handleDataAvailable = useCallback(
-    ({ data }: { data: Blob }) => {
-      if (data.size > 0) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const s3ClientCredentials = props.credentials
 
-        setRecordedChunks((prev) => prev.concat(data));
-        //console.log(data.size);
+  useEffect(() => {
+    const initCamera = async () => {
+      try {
+        const constraints = { video: true };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-        const url = URL.createObjectURL(data);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        a.href = url;
-        a.download = "react-webcam-stream-capture.webm";
-        a.click();
-        window.URL.revokeObjectURL(url);
-        setRecordedChunks([]);
-        
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.onloadedmetadata = function (e) {
+            videoRef.current!.play();
+          };
+        }
+      } catch (error) {
+        console.log(error);
       }
-    },
-    [setRecordedChunks, recordedChunks]
-  );
+    };
 
-  const handleUpload = async () => {
-    console.log("ENTREALUPLOAD")
-    if (recordedChunks.length) {
-      console.log("HAYLENGTH")
-      const blob = new Blob(recordedChunks, {
-        type: 'video/webm',
-      });
+    initCamera();
+  }, []);
 
-      // Generar un nombre único para el archivo de video cargado
-      const fileName = `video_${Date.now()}.webm`;
+  const handleStartRecording = async () => {
+    setCapturing(true);
+    try {
+      const constraints = { audio: true, video: true };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-      // Crear un objeto para configurar la carga del archivo en S3
-      const params = {
-        Bucket: 'smartspeak_data',
-        Key: fileName,
-        Body: blob,
-        ContentType: 'video/webm',
-        ACL: 'public-read',
+      const recorder = new MediaRecorder(stream, videoRef.current!.srcObject!);
+      recorderRef.current = recorder;
+
+      recorder.ondataavailable = function (e) {
+        chunksRef.current.push(e.data);
       };
 
-      try {
-        // Cargar el archivo en S3
-        await s3.upload(params).promise();
-        console.log('Video uploaded successfully!');
-      } catch (err) {
-        console.log('Error uploading video:', err);
-      }
+      recorder.onstop = async function () {
+        const videoBlob = new Blob(chunksRef.current, { type: "video/mp4" });
+        const s3Client = new S3Client(s3ClientCredentials);
+
+        const params = {
+          Bucket: "smartspeak",
+          Key: "pruebachicoITC.mp4",
+          Body: videoBlob,
+        };
+
+        const command = new PutObjectCommand(params);
+
+        try {
+          const data = await s3Client.send(command);
+          console.log("Archivo subido exitosamente a S3.", data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      recorder.start();
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleStartCaptureClick = useCallback(() => {
-    setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current!.stream!, {
-      mimeType: "video/webm",
-    });
-    mediaRecorderRef.current.addEventListener(
-      "dataavailable",
-      handleDataAvailable
-    );
-    mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
-
-  const handleStopSpecialCaptureClick = useCallback(() => {
-    handleStopCaptureClick();
-    handleDownload();
-    handleUpload()
-    setShowModal(true);
-  }, [mediaRecorderRef, setCapturing]);
-
-  const handleStopSpecial2CaptureClick = () => {
-    mediaRecorderRef.current!.stop();
-    setCapturing(false);
-  };
-
-  const handleStopCaptureClick = useCallback(() => {
-    handleStopSpecial2CaptureClick(mediaRecorderRef);
-    setCapturing(false);
-  }, [mediaRecorderRef, setCapturing]);
-
-  /*
-  const handleSpecialDownload = (recordedChunks) => {
-    console.log(recordedChunks.length);
-
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm",
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
+  const stopRecording = () => {
+    if (recorderRef.current && recorderRef.current.state === "recording") {
+      recorderRef.current.stop();
+      recorderRef.current.stream.getTracks().forEach((track) => track.stop());
+      setShowModal(true);
     }
-  };
-  */
-
-  const handleDownload = useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm",
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-      
-    }
-  }, [recordedChunks]);
-
-  const videoConstraints: WebcamProps["videoConstraints"] = {
-    width: 620,
-    height: 420,
-    facingMode: "user",
-  };
-
-  const audioConstraints: WebcamProps["audioConstraints"] = {
-    //suppressLocalAudioPlayback: true,
-    noiseSuppression: true,
-    echoCancellation: true,
   };
 
   return (
     <div className="mx-auto w-4/6">
       <div className="bg-white rounded-lg p-4 my-10 flex items-center">
         <div className="webcam-contaainer">
-          <Webcam
-            height={500}
+          <video
+            ref={videoRef}
             width={600}
-            audio={true}
-            muted={true}
-            mirrored={true}
-            ref={webcamRef}
-            videoConstraints={videoConstraints}
-            audioConstraints={audioConstraints}
+            height={400}
             className="rounded-lg"
           />
           <div className="my-4">
             {capturing ? (
               <button
                 className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                onClick={handleStopSpecialCaptureClick}
+                onClick={stopRecording}
               >
                 Stop Capture
               </button>
             ) : (
               <button
                 className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                onClick={handleStartCaptureClick}
+                onClick={handleStartRecording}
               >
                 Start Capture
               </button>
-            )}
-            {recordedChunks.length > 0 && (
-              <button onClick={handleDownload}>Download</button>
             )}
           </div>
         </div>
