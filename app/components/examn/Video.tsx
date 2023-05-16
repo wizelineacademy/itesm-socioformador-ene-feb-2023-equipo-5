@@ -1,8 +1,10 @@
-import Progress from "./Progress";
-import Section from "./Section";
 import React, { useCallback, useRef, useState } from "react";
 import Webcam, { WebcamProps } from "react-webcam";
 import IA from "../../../public/img/IA.png";
+import { Link } from "react-router-dom";
+import { s3UploaderHandler } from "../../services/uploader-handler.server";
+import { unstable_parseMultipartFormData } from "@remix-run/node";
+import AWS from 'aws-sdk';
 
 interface RecordedChunk {
   size: number;
@@ -20,10 +22,10 @@ function Video(props: any) {
   const handleDataAvailable = useCallback(
     ({ data }: { data: Blob }) => {
       if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-        console.log(data.size)
 
-        
+        setRecordedChunks((prev) => prev.concat(data));
+        //console.log(data.size);
+
         const url = URL.createObjectURL(data);
         const a = document.createElement("a");
         document.body.appendChild(a);
@@ -33,14 +35,45 @@ function Video(props: any) {
         a.click();
         window.URL.revokeObjectURL(url);
         setRecordedChunks([]);
+        
       }
     },
     [setRecordedChunks, recordedChunks]
   );
 
+  const handleUpload = async () => {
+    console.log("ENTREALUPLOAD")
+    if (recordedChunks.length) {
+      console.log("HAYLENGTH")
+      const blob = new Blob(recordedChunks, {
+        type: 'video/webm',
+      });
+
+      // Generar un nombre único para el archivo de video cargado
+      const fileName = `video_${Date.now()}.webm`;
+
+      // Crear un objeto para configurar la carga del archivo en S3
+      const params = {
+        Bucket: 'smartspeak_data',
+        Key: fileName,
+        Body: blob,
+        ContentType: 'video/webm',
+        ACL: 'public-read',
+      };
+
+      try {
+        // Cargar el archivo en S3
+        await s3.upload(params).promise();
+        console.log('Video uploaded successfully!');
+      } catch (err) {
+        console.log('Error uploading video:', err);
+      }
+    }
+  };
+
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current?.stream, {
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current!.stream!, {
       mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener(
@@ -51,24 +84,25 @@ function Video(props: any) {
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const handleStopSpecialCaptureClick = useCallback(() => {
-    handleStopCaptureClick()
-    handleDownload()
-    setShowModal(true)
+    handleStopCaptureClick();
+    handleDownload();
+    handleUpload()
+    setShowModal(true);
   }, [mediaRecorderRef, setCapturing]);
 
   const handleStopSpecial2CaptureClick = () => {
-    mediaRecorderRef.current.stop();
+    mediaRecorderRef.current!.stop();
     setCapturing(false);
   };
 
   const handleStopCaptureClick = useCallback(() => {
-    handleStopSpecial2CaptureClick(mediaRecorderRef)
+    handleStopSpecial2CaptureClick(mediaRecorderRef);
     setCapturing(false);
-    
   }, [mediaRecorderRef, setCapturing]);
 
+  /*
   const handleSpecialDownload = (recordedChunks) => {
-    console.log(recordedChunks.length)
+    console.log(recordedChunks.length);
 
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -85,6 +119,7 @@ function Video(props: any) {
       setRecordedChunks([]);
     }
   };
+  */
 
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
@@ -110,14 +145,13 @@ function Video(props: any) {
     facingMode: "user",
   };
 
-  const audioConstraints: WebcamProps["audioConstraints"]= {
+  const audioConstraints: WebcamProps["audioConstraints"] = {
     //suppressLocalAudioPlayback: true,
     noiseSuppression: true,
     echoCancellation: true,
   };
 
   return (
-    
     <div className="mx-auto w-4/6">
       <div className="bg-white rounded-lg p-4 my-10 flex items-center">
         <div className="webcam-contaainer">
@@ -158,52 +192,51 @@ function Video(props: any) {
         </div>{" "}
       </div>
 
-
       <>
-      
-      {showModal ? (
-        <>
-          <div className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-sky-100 outline-none focus:outline-none">                
-                {/*body*/}
-                <div className="relative p-6 flex-auto mx-10">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    A continuación aparecerán los resultados de tu prueba,
-                    recuerda que en caso de querer realizarla podrás hacerlo
-                    dando click al botón “repetir prueba”. Si consideras que tus
-                    resultados no son adecuados, podrás pedir una revisión, y se
-                    te contactará en caso de haber cambios.
-                  </p>
-                </div>
-                {/*footer*/}
-                <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
-                  <button
-                    className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Repetir prueba
-                  </button>
-                  <button
-                    className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Resultados
-                  </button>
+        {showModal ? (
+          <>
+            <div className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-sky-100 outline-none focus:outline-none">
+                  {/*body*/}
+                  <div className="relative p-6 flex-auto mx-10">
+                    <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                      A continuación aparecerán los resultados de tu prueba,
+                      recuerda que en caso de querer realizarla podrás hacerlo
+                      dando click al botón “repetir prueba”. Si consideras que
+                      tus resultados no son adecuados, podrás pedir una
+                      revisión, y se te contactará en caso de haber cambios.
+                    </p>
+                  </div>
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
+                    <Link to="/Instructions">
+                      <button
+                        className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        Repetir prueba
+                      </button>
+                    </Link>
+
+                    <Link to="/tests">
+                      <button
+                        className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        Resultados
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
-    </>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
+      </>
     </div>
-
-    
   );
 }
 

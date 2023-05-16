@@ -8,7 +8,7 @@ const ValuesSection = () => {
           OUR VALUES
         </h1>
       </div>
-      <div className="grid grid-cols-4 gap-20 place-items-center h-200 pr-20 mr-2  flex flex-row pl-60 pr-60">
+      <div className="grid grid-cols-4 gap-20 place-items-center h-200 pr-20 mr-2 flex-row pl-60">
         <ValueCard
           value="RESPONSBILITY"
           description="For the use of AI-based technologies"

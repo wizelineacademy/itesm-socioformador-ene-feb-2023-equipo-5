@@ -1,4 +1,3 @@
-import Main from "~/components/Main";
 import AboutSection from "~/components/AboutSection";
 import ValuesSection from "~/components/ValuesSection";
 import SubscribeSection from "~/components/SubscribeSection";
@@ -9,7 +8,6 @@ export default function Index(): JSX.Element {
   return (
     <main id="content">
       <div className="bg-gray-100">
-        <Main />
         <HeaderPage />
         <FirstSection />
         <AboutSection
@@ -35,6 +33,3 @@ export default function Index(): JSX.Element {
   );
 }
 
-// export function links(): {rel: string, href: string}[] {
-//   return [{ rel: 'stylesheet', href: homeStyles }];
-// }

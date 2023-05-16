@@ -11,10 +11,8 @@ export default function FirstSection() {
           </div>
           <div className=" font-monserrat items-center pt-72 text-center">
             <h1 className="text-3xl r">
-              {/* <h1 className="text-center text-sky-600 text-2xl place-items-center h-50 pr-10 mt-10  mb-60 font-monserrat"> */}
               This is us
             </h1>
-            {/* <p className="basis-1 mx-10 relative flex items-center h-10 text-sm text-center mt-20 mb-60"> */}
             <p className="font-light mt-5">
               Wizeline is facing the problem of receiving too many job
               applications and it needs to efficiently evaluate the applicants

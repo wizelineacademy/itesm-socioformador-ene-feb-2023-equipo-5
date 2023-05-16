@@ -1,16 +1,8 @@
-import React from "react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import { Link } from "react-router-dom";
 
 const HeaderPage = () => {
   return (
-    // <div classNameName='mx-auto w-64'>
-    //     <ul classNameName='text-sky-500 flex'>
-    //         <li classNameName='px-4 py-2 whitespace-nowrap'>About us</li>
-    //         <li classNameName='px-4 py-2 whitespace-nowrap'>Products</li>
-    //         <li classNameName='px-4 py-2 whitespace-nowrap'>Pricing</li>
-    //     </ul>
-    // </div>
     <header className="sticky top-0 z-50 flex flex-row mt-0 mx-10 justify-between bg-gray-100 py-4 px-10">
       <div>
         <img
@@ -33,7 +25,6 @@ const HeaderPage = () => {
         >
           About Us
         </a>
-
         <section>
           <a
             href="#SubscribeSection"
@@ -42,13 +33,6 @@ const HeaderPage = () => {
             Contact
           </a>
         </section>
-
-        {/* <a
-          href="#SubscribeSection"
-          className="hover:text-sky-800 hover:font-medium w-max"
-        >
-          Contact
-        </a> */}
       </nav>
       <div>
         <Link to="/login">

@@ -1,5 +1,8 @@
 import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
+import { isRouteErrorResponse } from "@remix-run/react";
+import { useRouteError } from "@remix-run/react";
+import Header from "~/components/Header";
 import { LoaderArgs } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
@@ -18,6 +21,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function TestsPages() {
   return (
     <>
+        <Header />
       <div className="flex flex-row mt-14 mx-10">
         <div className="basis-1/2 mx-2 relative">
           <p className="text-lg font-bold mb-4">Evaluaciones</p>
@@ -60,4 +64,23 @@ export default function TestsPages() {
       </div>
     </>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h3>ERROR</h3>
+        <p>{error.data.message}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p>ERROR PREDETETRMINADO</p>
+    </div>
+  )
 }
