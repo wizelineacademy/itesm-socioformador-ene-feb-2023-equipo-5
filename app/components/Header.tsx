@@ -20,7 +20,7 @@ function Header(nombre: any) {
   console.log(profile)
   */
 
-  console.log(nombre)
+  // console.log(nombre)
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-4/5">

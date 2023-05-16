@@ -5,6 +5,7 @@ import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 function Video(props: any) {
+
   const [showModal, setShowModal] = useState(false);
   const [capturing, setCapturing] = useState(false);
 

@@ -16,15 +16,15 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/login",
   });
   const s3ClientVideo = await getCredentials()
-
+  console.log(s3ClientVideo)
   return {
-    profile: json(profile),
+    profile: { profile },
     credentials: s3ClientVideo
   }
 }
 
 export default function Examn() {
-  const { profile: { profile }, credentiales: { credentials } } = useLoaderData()
+  const { profile: { profile }, credentials } = useLoaderData()
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
