@@ -6,7 +6,8 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "typecheck": "tsc",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.321.1",
