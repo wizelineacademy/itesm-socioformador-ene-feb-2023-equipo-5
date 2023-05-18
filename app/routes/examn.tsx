@@ -16,7 +16,6 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/login",
   });
   const s3ClientVideo = await getCredentials()
-  console.log(s3ClientVideo)
   return {
     profile: { profile },
     credentials: s3ClientVideo
@@ -28,7 +27,7 @@ export default function Examn() {
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
-      <Question texto="¿Cuál ha sido una situación en la que tuviste un desacuerdo en un ambiente de trabajo? ¿Cómo lo resolviste?"></Question>
+      <Question texto="What are you currently studying and why?"></Question>
       <Video credentials={credentials} />
     </div>
   )

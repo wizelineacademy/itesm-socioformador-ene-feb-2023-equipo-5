@@ -4,7 +4,75 @@ import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
+var text: string;
+var recognition: SpeechRecognition;
+var recognizing: Boolean = false;
+var convo = [{ "role": "system", "content": "You are an english evaluator. We will have a conversation about a topic. Start asking an initial question to talk with me. Keep the conversation going for 3 more questions in total, but ask only one question after i answer, and so on. After that, evaluate my grammar, coherence and vocabulary, each in a scale from 1 to 100. After finishing the conversations, only respond with the 3 scores on the areas previously mentioned, i don't want feedback, only the scores stored in a json. " },
+{ "role": "assistant", "content": "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user." },
+{ "role": "assistant", "content": "Hey! What are you currently studying and why?" }]
+// var respuesta = "Nada"
+
 function Video(props: any) {
+
+  const [respuesta, setRespuesta] = useState("");
+
+  function detectVoice() {
+    //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognizing = false;
+    //recognition.onend = reset;
+    recognition.start();
+    console.log("grabado");
+  }
+
+  function stopVoice() {
+    recognition.stop();
+    recognition.onresult = function (event) {
+      if (event.results.length > 0) {
+        text = event.results[0][0].transcript;
+        console.log(text);
+        var userResponse = { "role": "user", "content": text }
+        convo.push(userResponse)
+        getResponse();
+
+      }
+
+    };
+  }
+
+  function handleStartStop() {
+    if (recognizing) {
+      stopVoice();
+    } else {
+      detectVoice();
+    }
+    recognizing = !recognizing;
+  }
+
+  function getResponse() {
+
+    fetch('http://3.220.31.142:5000/chatgpt/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "messages": convo })
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        console.log(data["response"]);
+        convo.push({ "role": "assistant", "content": data["response"] });
+        setRespuesta(data.response)
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   const [showModal, setShowModal] = useState(false);
   const [capturing, setCapturing] = useState(false);
@@ -110,6 +178,8 @@ function Video(props: any) {
         </div>
         <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
           <img src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto" />
+          <button onClick={handleStartStop}>Start/stop</button>
+          <p>{respuesta}</p>
         </div>{" "}
       </div>
 
