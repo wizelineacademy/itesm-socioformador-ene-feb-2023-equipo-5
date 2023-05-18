@@ -177,9 +177,10 @@ function Video(props: any) {
           </div>
         </div>
         <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
-          <img src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto" />
-          <button onClick={handleStartStop}>Start/stop</button>
-          <p>{respuesta}</p>
+          <p className="text-2xl font-bold mb-10">Presiona sobre el ícono para iniciar/detener la conversación. </p>
+          <img onClick={handleStartStop} src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto cursor-pointer mb-10" />
+          <p className="text-xl font-semibold pb-5">Respuesta:</p>
+          <p className="italic text-lg">{respuesta}</p>
         </div>{" "}
       </div>
 
