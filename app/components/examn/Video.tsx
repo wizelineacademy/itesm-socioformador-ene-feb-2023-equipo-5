@@ -11,6 +11,8 @@ var convo = [{ "role": "system", "content": "You are an english evaluator. We wi
 { "role": "assistant", "content": "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user." },
 { "role": "assistant", "content": "Hey! What are you currently studying and why?" }]
 // var respuesta = "Nada"
+var questions: number = 0;
+
 
 function Video(props: any) {
 
@@ -32,12 +34,19 @@ function Video(props: any) {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
+        console.log("nada")
+        questions+=1
         text = event.results[0][0].transcript;
         console.log(text);
         var userResponse = { "role": "user", "content": text }
         convo.push(userResponse)
-        getResponse();
+        
+        if (questions == 5){
+          convo.push({"role": "assistant", "content": "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed.."})
+        }
 
+        getResponse();
+        
       }
 
     };
@@ -54,7 +63,8 @@ function Video(props: any) {
 
   function getResponse() {
 
-    fetch('http://3.220.31.142:5000/chatgpt/chat', {
+    // http://3.220.31.142:5000/chatgpt/chat
+    fetch('http://127.0.0.1:5000/chatgpt/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
