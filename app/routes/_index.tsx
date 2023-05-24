@@ -8,6 +8,7 @@ export default function Index() {
   return (
     <div>
       Asi es, Deploy exitoso
+      <p>Junto con prueba de CICD</p>
     </div>
   );
 }
