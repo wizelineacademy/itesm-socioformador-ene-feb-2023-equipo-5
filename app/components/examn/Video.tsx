@@ -17,7 +17,7 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 5 question I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
   },
   {
     role: "assistant",
@@ -54,7 +54,6 @@ function Video(props: any) {
         convo.push(userResponse);
 
         if (questions == 5) {
-          stopRecording();
           convo.push({
             role: "assistant",
             content:
@@ -187,25 +186,24 @@ function Video(props: any) {
             <p className="text-2xl font-bold mb-10">
               Presiona sobre el ícono para iniciar/detener la conversación.{" "}
             </p>
-
-            {capturing ? (
+            <img
+              onClick={handleStartRecording}
+              src={IA}
+              alt={props.alt}
+              className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+            />
+            {questions == 5 ? (
               <Form method="POST">
                 <input type="hidden" name="answer" value={respuesta} />
                 <button
                   className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
                   type="submit"
+                  onClick={stopRecording}
                 >
                   Stop Capture
                 </button>
               </Form>
-            ) : (
-              <button
-                className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                onClick={handleStartRecording}
-              >
-                Start Capture
-              </button>
-            )}
+            ) : null}
           </div>
 
           <p className="text-xl font-semibold pb-5">Respuesta:</p>
