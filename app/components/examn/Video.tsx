@@ -54,6 +54,7 @@ function Video(props: any) {
         convo.push(userResponse);
 
         if (questions == 5) {
+          stopRecording();
           convo.push({
             role: "assistant",
             content:
@@ -76,8 +77,8 @@ function Video(props: any) {
   }
 
   function getResponse() {
-    // http://3.220.31.142:5000/chatgpt/chat
-    fetch("http://127.0.0.1:5000/chatgpt/chat", {
+    // http://127.0.0.1:5000/chatgpt/chat
+    fetch("http://3.220.31.142:5000/chatgpt/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,6 +125,7 @@ function Video(props: any) {
   }, []);
 
   const handleStartRecording = async () => {
+    handleStartStop();
     setCapturing(true);
     try {
       const constraints = { audio: true, video: true };
@@ -179,12 +181,17 @@ function Video(props: any) {
             height={400}
             className="rounded-lg"
           />
+        </div>
+        <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
           <div className="my-4">
+            <p className="text-2xl font-bold mb-10">
+              Presiona sobre el ícono para iniciar/detener la conversación.{" "}
+            </p>
+
             {capturing ? (
               <Form method="POST">
                 <button
                   className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                  onClick={stopRecording}
                   type="submit"
                 >
                   Stop Capture
@@ -199,17 +206,7 @@ function Video(props: any) {
               </button>
             )}
           </div>
-        </div>
-        <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
-          <p className="text-2xl font-bold mb-10">
-            Presiona sobre el ícono para iniciar/detener la conversación.{" "}
-          </p>
-          <img
-            onClick={handleStartStop}
-            src={IA}
-            alt={props.alt}
-            className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
-          />
+
           <p className="text-xl font-semibold pb-5">Respuesta:</p>
           <p className="italic text-lg">{respuesta}</p>
         </div>{" "}
