@@ -14,18 +14,20 @@ model User {
   familyName   String?
   englishlevel Englishlevel @default(A1)
   summary      String?
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //Relation with Test
   tests Test[]
 }
 
 model Teacher {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -34,8 +36,9 @@ model Teacher {
 }
 
 model Comments {
-  comment   String
-  modified  Boolean  @default(false)
+  comment  String
+  modified Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -48,14 +51,17 @@ model Comments {
 }
 
 model Test {
-  id           String       @id @default(uuid())
-  videoURL     String
-  result       String
-  feedaback    String
-  englishlevel Englishlevel @default(A1)
-  resources    String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id             String       @id @default(uuid())
+  videoURL       String
+  coherence      Int
+  vocabulary     Int
+  grammar        Int
+  feedaback      String
+  recommendation String
+  englishlevel   Englishlevel @default(A1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //Relation with User
   author          User       @relation(fields: [authorId], references: [id])
@@ -71,8 +77,9 @@ model Question {
   id        String       @id @default(uuid())
   situation String
   level     Englishlevel @default(A1)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   //Relation with Test
   tests Test[]
