@@ -3,6 +3,7 @@ import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { Form } from "@remix-run/react";
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -45,6 +46,7 @@ function Video(props: any) {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
+<<<<<<< HEAD
         console.log("nada");
         questions += 1;
         text = event.results[0][0].transcript;
@@ -61,6 +63,21 @@ function Video(props: any) {
         }
 
         getResponse();
+=======
+        console.log("nada")
+        questions += 1
+        text = event.results[0][0].transcript;
+        console.log(text);
+        var userResponse = { "role": "user", "content": text }
+        convo.push(userResponse)
+
+        if (questions == 5) {
+          convo.push({ "role": "assistant", "content": "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed.." })
+        }
+
+        getResponse();
+
+>>>>>>> d60bc99df0e6a1c15bfc4d6945440dd9a29dc552
       }
     };
   }
@@ -180,12 +197,15 @@ function Video(props: any) {
           />
           <div className="my-4">
             {capturing ? (
-              <button
-                className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
-                onClick={stopRecording}
-              >
-                Stop Capture
-              </button>
+              <Form method="POST">
+                <button
+                  className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
+                  onClick={stopRecording}
+                  type="submit"
+                >
+                  Stop Capture
+                </button>
+              </Form>
             ) : (
               <button
                 className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
