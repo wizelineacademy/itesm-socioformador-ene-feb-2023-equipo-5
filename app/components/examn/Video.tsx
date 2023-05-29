@@ -17,7 +17,7 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+      "I understand, after 5 question I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
   },
   {
     role: "assistant",
@@ -58,7 +58,7 @@ function Video(props: any) {
           convo.push({
             role: "assistant",
             content:
-              "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. You can take this definitions as a guide to assign a level:  A1 (Beginner): The person demonstrates a limited vocabulary, uses basic sentence structures, and shows the ability to understand and produce simple and coherent texts.A2 (Elementary): The person exhibits an expanded vocabulary, utilizes past and future tenses, and is capable of comprehending short texts and producing coherent responses with basic language proficiency. B1 (Intermediate): The person showcases a wider range of vocabulary, employs accurate tenses and more complex sentence structures, comprehends straightforward texts, and expresses ideas with moderate coherence and linguistic accuracy. B2 (Upper Intermediate): The person demonstrates an extended vocabulary, proficient use of tenses and complex structures, can comprehend articles and reports, and communicates ideas effectively with a good level of coherence and linguistic accuracy.C1 (Advanced): The person possesses a broad vocabulary, utilizes advanced grammar structures accurately, comprehends complex texts effectively, and communicates ideas coherently with a high level of linguistic accuracy.C2 (Proficient): The person exhibits an extensive vocabulary, demonstrates near-native grammar proficiency, comprehends specialized and challenging texts proficiently, and communicates ideas with exceptional coherence, linguistic accuracy, and sophistication. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed..",
+              "The conversation has finished. Based on the answers I gave you, generate a JSON with the key 'data' with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. You can take this definitions as a guide to assign a level:  A1 (Beginner): The person demonstrates a limited vocabulary, uses basic sentence structures, and shows the ability to understand and produce simple and coherent texts.A2 (Elementary): The person exhibits an expanded vocabulary, utilizes past and future tenses, and is capable of comprehending short texts and producing coherent responses with basic language proficiency. B1 (Intermediate): The person showcases a wider range of vocabulary, employs accurate tenses and more complex sentence structures, comprehends straightforward texts, and expresses ideas with moderate coherence and linguistic accuracy. B2 (Upper Intermediate): The person demonstrates an extended vocabulary, proficient use of tenses and complex structures, can comprehend articles and reports, and communicates ideas effectively with a good level of coherence and linguistic accuracy.C1 (Advanced): The person possesses a broad vocabulary, utilizes advanced grammar structures accurately, comprehends complex texts effectively, and communicates ideas coherently with a high level of linguistic accuracy.C2 (Proficient): The person exhibits an extensive vocabulary, demonstrates near-native grammar proficiency, comprehends specialized and challenging texts proficiently, and communicates ideas with exceptional coherence, linguistic accuracy, and sophistication. The Recommendations field must be a string of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed..",
           });
         }
 
@@ -77,7 +77,7 @@ function Video(props: any) {
   }
 
   function getResponse() {
-    // http://127.0.0.1:5000/chatgpt/chat
+    // http://3.220.31.142:5000/chatgpt/chat
     fetch("http://3.220.31.142:5000/chatgpt/chat", {
       method: "POST",
       headers: {
@@ -190,6 +190,7 @@ function Video(props: any) {
 
             {capturing ? (
               <Form method="POST">
+                <input type="hidden" name="answer" value={respuesta} />
                 <button
                   className="bg-sky-200 hover:bg-sky-300 text-black font-bold py-2 px-4 rounded-full"
                   type="submit"
