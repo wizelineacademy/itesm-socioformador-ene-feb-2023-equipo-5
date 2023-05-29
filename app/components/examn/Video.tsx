@@ -7,15 +7,26 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 var text: string;
 var recognition: SpeechRecognition;
 var recognizing: Boolean = false;
-var convo = [{ "role": "system", "content": "You are an english evaluator. We will have a conversation about a topic. Start asking an initial question to talk with me. Keep the conversation going for 3 more questions in total, but ask only one question after i answer, and so on. After that, evaluate my grammar, coherence and vocabulary, each in a scale from 1 to 100. After finishing the conversations, only respond with the 3 scores on the areas previously mentioned, i don't want feedback, only the scores stored in a json. " },
-{ "role": "assistant", "content": "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user." },
-{ "role": "assistant", "content": "Hey! What are you currently studying and why?" }]
+var convo = [
+  {
+    role: "system",
+    content:
+      "You are an english evaluator. We will have a conversation about a topic. Start asking an initial question to talk with me. Keep the conversation going for 3 more questions in total, but ask only one question after i answer, and so on. After that, evaluate my grammar, coherence and vocabulary, each in a scale from 1 to 100. After finishing the conversations, only respond with the 3 scores on the areas previously mentioned, i don't want feedback, only the scores stored in a json. ",
+  },
+  {
+    role: "assistant",
+    content:
+      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+  },
+  {
+    role: "assistant",
+    content: "Hey! What are you currently studying and why?",
+  },
+];
 // var respuesta = "Nada"
 var questions: number = 0;
 
-
 function Video(props: any) {
-
   const [respuesta, setRespuesta] = useState("");
 
   function detectVoice() {
@@ -34,21 +45,23 @@ function Video(props: any) {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
-        console.log("nada")
-        questions+=1
+        console.log("nada");
+        questions += 1;
         text = event.results[0][0].transcript;
         console.log(text);
-        var userResponse = { "role": "user", "content": text }
-        convo.push(userResponse)
-        
-        if (questions == 5){
-          convo.push({"role": "assistant", "content": "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed.."})
+        var userResponse = { role: "user", content: text };
+        convo.push(userResponse);
+
+        if (questions == 5) {
+          convo.push({
+            role: "assistant",
+            content:
+              "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. You can take this definitions as a guide to assign a level:  A1 (Beginner): The person demonstrates a limited vocabulary, uses basic sentence structures, and shows the ability to understand and produce simple and coherent texts.A2 (Elementary): The person exhibits an expanded vocabulary, utilizes past and future tenses, and is capable of comprehending short texts and producing coherent responses with basic language proficiency. B1 (Intermediate): The person showcases a wider range of vocabulary, employs accurate tenses and more complex sentence structures, comprehends straightforward texts, and expresses ideas with moderate coherence and linguistic accuracy. B2 (Upper Intermediate): The person demonstrates an extended vocabulary, proficient use of tenses and complex structures, can comprehend articles and reports, and communicates ideas effectively with a good level of coherence and linguistic accuracy.C1 (Advanced): The person possesses a broad vocabulary, utilizes advanced grammar structures accurately, comprehends complex texts effectively, and communicates ideas coherently with a high level of linguistic accuracy.C2 (Proficient): The person exhibits an extensive vocabulary, demonstrates near-native grammar proficiency, comprehends specialized and challenging texts proficiently, and communicates ideas with exceptional coherence, linguistic accuracy, and sophistication. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed..",
+          });
         }
 
         getResponse();
-        
       }
-
     };
   }
 
@@ -62,24 +75,21 @@ function Video(props: any) {
   }
 
   function getResponse() {
-
     // http://3.220.31.142:5000/chatgpt/chat
-    fetch('http://127.0.0.1:5000/chatgpt/chat', {
-      method: 'POST',
+    fetch("http://127.0.0.1:5000/chatgpt/chat", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ "messages": convo })
+      body: JSON.stringify({ messages: convo }),
     })
-      .then(response => response.json())
-      .then(data => {
-
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data["response"]);
-        convo.push({ "role": "assistant", "content": data["response"] });
-        setRespuesta(data.response)
-
+        convo.push({ role: "assistant", content: data["response"] });
+        setRespuesta(data.response);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -90,7 +100,7 @@ function Video(props: any) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
-  const s3ClientCredentials = props.credentials
+  const s3ClientCredentials = props.credentials;
 
   useEffect(() => {
     const initCamera = async () => {
@@ -187,8 +197,15 @@ function Video(props: any) {
           </div>
         </div>
         <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
-          <p className="text-2xl font-bold mb-10">Presiona sobre el ícono para iniciar/detener la conversación. </p>
-          <img onClick={handleStartStop} src={IA} alt={props.alt} className="mx-auto w-2/5 h-auto cursor-pointer mb-10" />
+          <p className="text-2xl font-bold mb-10">
+            Presiona sobre el ícono para iniciar/detener la conversación.{" "}
+          </p>
+          <img
+            onClick={handleStartStop}
+            src={IA}
+            alt={props.alt}
+            className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+          />
           <p className="text-xl font-semibold pb-5">Respuesta:</p>
           <p className="italic text-lg">{respuesta}</p>
         </div>{" "}
