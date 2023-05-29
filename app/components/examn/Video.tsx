@@ -46,7 +46,6 @@ function Video(props: any) {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
-<<<<<<< HEAD
         console.log("nada");
         questions += 1;
         text = event.results[0][0].transcript;
@@ -63,21 +62,6 @@ function Video(props: any) {
         }
 
         getResponse();
-=======
-        console.log("nada")
-        questions += 1
-        text = event.results[0][0].transcript;
-        console.log(text);
-        var userResponse = { "role": "user", "content": text }
-        convo.push(userResponse)
-
-        if (questions == 5) {
-          convo.push({ "role": "assistant", "content": "The conversation has finished. Based on the answers I gave you, generate a JSON with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. The Recommendations field must be an array of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed.." })
-        }
-
-        getResponse();
-
->>>>>>> d60bc99df0e6a1c15bfc4d6945440dd9a29dc552
       }
     };
   }
