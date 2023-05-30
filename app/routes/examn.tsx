@@ -33,7 +33,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Examn() {
   const { profile: { profile }, credentials, question } = useLoaderData()
-  console.log(question)
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
@@ -57,10 +56,9 @@ export const action = async ({ request }: any) => {
       feedaback: answer.data.Feedback,
       recommendation: answer.data.Recommendations,
       englishlevel: answer.data.English_Level,
-      authorId: 'google-oauth2|116725110233682628133',
+      authorId: 'google-oauth2|111459029701878936451',
       mainSituationId: '7d10df40-099d-44dd-8d3a-065bb17e0ca4'
     }
   })
-  console.log(test)
   return "ok"
 }
