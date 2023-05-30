@@ -18,7 +18,7 @@ const exam4: Exam = { date: "25/02/2023", level: "A2", grade: "91%" }
 
 fake_exams = [exam1, exam2, exam3, exam4]
 
-function TableAdmin() {
+function TableAdmin({tests}:any) {
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,9 +35,9 @@ function TableAdmin() {
               </thead>
               <tbody>
                 {
-                  fake_exams.map(exam => {
+                  tests.map((test: { id: Number; createdAt: String; grade: Number; englishlevel: String; videoURL: String}) => {
                     return (
-                      <ExamRow date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen} />
+                      <ExamRow key={test.id} date={test.createdAt.split("T")[0]} grade={95} level={test.englishlevel} image={/*test.videoURL*/videoImagen} />
                     )
 
                   })
