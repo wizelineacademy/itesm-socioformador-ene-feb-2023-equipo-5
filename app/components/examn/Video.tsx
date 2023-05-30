@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
+import micOff from "./mic.png"
+import micOn from "./grabando.png"
+import loading from "./load.gif"
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -206,9 +209,9 @@ function Video(props: any) {
                 <p>Presiona sobre el icono para activar los permisos de microfono y camara</p>
                 <img
                   onClick={handleStartRecording}
-                  src={IA}
+                  src={micOff}
                   alt={props.alt}
-                  className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+                  className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                 />
               </>
             ) : (
@@ -216,13 +219,17 @@ function Video(props: any) {
                 {imgButton === false ? (
                   <>
                     {pastAnswer == respuesta ? (
-                      <div>Pensando</div>
+                      <img
+                        src={loading}
+                        alt={props.alt}
+                        className="mx-auto w-1/5 h-auto mb-10"
+                      />
                     ) : (
                       <img
                         onClick={handleStartStop}
-                        src={IA}
+                        src={micOff}
                         alt={props.alt}
-                        className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+                        className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                       />
                     )}
                   </>
@@ -230,9 +237,9 @@ function Video(props: any) {
                   <>
                     <img
                       onClick={handleStartStop}
-                      src={IA}
+                      src={micOn}
                       alt={props.alt}
-                      className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+                      className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                     />
                     <p>Grabando...</p>
                   </>
