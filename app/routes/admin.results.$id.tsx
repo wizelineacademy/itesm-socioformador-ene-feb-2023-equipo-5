@@ -32,7 +32,7 @@ export default function Result() {
             </button>
           </div>
         </div>
-        <div className="basis-1/2 mx-2 relative ">
+        <div className="basis-1/2 mx-2 relative">
           <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
           <span className="h-1 w-full bg-red-600 lg:w-1/3"></span>
           <ResultsTable />

@@ -14,28 +14,31 @@ export const loader = async ({ request }: LoaderArgs) => {
     });
 
     const tests = await db.test.findMany({
-        select: {
-            id: true,
-            videoURL: true,
-            englishlevel: true,
-            createdAt: true
+        include: {
+            author: {
+                select: {
+                    fullName: true
+                }
+            }
         }
     })
 
+    const s3_endpoint = process.env.S3_ENDPOINT;
+
     return {
-        tests: tests
+        tests: tests,
+        s3_endpoint: s3_endpoint
     }
 };
 
 export default function VideoAdmin() {
-    const {tests} = useLoaderData()
-    console.log(tests) 
+    const {tests, s3_endpoint} = useLoaderData()
     return (
         <>
         <div>
            <div className="flex flex-col px-20 py-8  place-content-center">
                <p className="text-lg font-bold py-5">Evaluaciones</p>
-               <TableAdmin tests={tests}/>
+               <TableAdmin tests={tests} s3_endpoint={s3_endpoint}/>
            </div>
 
            <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
