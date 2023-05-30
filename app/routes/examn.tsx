@@ -2,12 +2,12 @@ import Question from "~/components/examn/Question";
 import Video from "~/components/examn/Video";
 import Header from "~/components/Header";
 import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
-import { random } from "cypress/types/lodash";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Test" }]
@@ -33,12 +33,11 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Examn() {
   const { profile: { profile }, credentials, question } = useLoaderData()
-  console.log(question)
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
       <Question texto={question.situation}></Question>
-      <Video credentials={credentials} question={question}/>
+      <Video credentials={credentials} question={question} profile={profile} />
     </div>
   )
 }
@@ -46,21 +45,25 @@ export default function Examn() {
 export const action = async ({ request }: any) => {
   const form = await request.formData()
 
+  const user = form.get('userid')
+  const situation = form.get('situationid')
   const answer = JSON.parse(form.get('answer'))
+  const urlVideo = form.get('url')
 
-  const test = await db.test.create({
+  // const test = await db.test.create({
+  await db.test.create({
     data: {
-      videoURL: 'Prueba de subida',
+      videoURL: urlVideo,
       coherence: answer.data.Coherence,
       vocabulary: answer.data.Vocabulary,
       grammar: answer.data.Grammar,
       feedaback: answer.data.Feedback,
       recommendation: answer.data.Recommendations,
       englishlevel: answer.data.English_Level,
-      authorId: 'google-oauth2|116725110233682628133',
-      mainSituationId: '7d10df40-099d-44dd-8d3a-065bb17e0ca4'
+      authorId: user,
+      mainSituationId: situation
     }
   })
-  console.log(test)
-  return "ok"
+  // console.log(test)
+  return redirect('/')
 }
