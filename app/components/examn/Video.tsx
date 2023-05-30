@@ -34,8 +34,6 @@ function Video(props: any) {
   const [respuesta, setRespuesta] = useState("")
   const [imgButton, setImgButton] = useState(false)
   const [pastAnswer, setPastAnswer] = useState("Inicial")
-  const fechaActual = (new Date()).toISOString();
-  const urlVideo = props.question.situation + "_" + props.profile.id + "_" + fechaActual + ".mp4"
 
   function detectVoice() {
     //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -96,7 +94,7 @@ function Video(props: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data["response"]);
+        console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
         if (questions == 2) {
@@ -155,10 +153,9 @@ function Video(props: any) {
       recorder.onstop = async function () {
         const videoBlob = new Blob(chunksRef.current, { type: "video/mp4" });
         const s3Client = new S3Client(s3ClientCredentials);
-
         const params = {
           Bucket: "smartspeak",
-          Key: urlVideo,
+          Key: props.urlVideo,
           Body: videoBlob,
         };
 
@@ -180,7 +177,6 @@ function Video(props: any) {
 
   const stopRecording = () => {
     if (recorderRef.current && recorderRef.current.state === "recording") {
-      console.log("Grabacion terminada")
       recorderRef.current.stop();
       recorderRef.current.stream.getTracks().forEach((track) => track.stop());
       setShowModal(true);
@@ -301,7 +297,7 @@ function Video(props: any) {
                     <Form method="POST">
                       <input type="hidden" name="userid" value={props.profile.id} />
                       <input type="hidden" name="situationid" value={props.question.id} />
-                      <input type="hidden" name="url" value={urlVideo} />
+                      <input type="hidden" name="url" value={props.urlVideo} />
                       <input type="hidden" name="answer" value={respuesta} />
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"

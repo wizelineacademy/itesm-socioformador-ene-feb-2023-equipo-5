@@ -24,20 +24,25 @@ export const loader = async ({ request }: LoaderArgs) => {
   const randomIndex = Math.floor(Math.random() * question.length);
   const randomquestion = question[randomIndex];
 
+  const fechaActual = (new Date()).toISOString();
+  const urlVideo = randomquestion.situation + "_" + profile.id + "_" + fechaActual + ".mp4"
+
   return {
     profile: { profile },
     credentials: s3ClientVideo,
-    question: randomquestion
+    question: randomquestion,
+    urlVideo: urlVideo
   }
 }
 
 export default function Examn() {
-  const { profile: { profile }, credentials, question } = useLoaderData()
+  const { profile: { profile }, credentials, question, urlVideo } = useLoaderData()
+  console.log(urlVideo)
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
       <Question texto={question.situation}></Question>
-      <Video credentials={credentials} question={question} profile={profile} />
+      <Video credentials={credentials} question={question} profile={profile} urlVideo={urlVideo}/>
     </div>
   )
 }
@@ -49,7 +54,6 @@ export const action = async ({ request }: any) => {
   const situation = form.get('situationid')
   const answer = JSON.parse(form.get('answer'))
   const urlVideo = form.get('url')
-
   // const test = await db.test.create({
   await db.test.create({
     data: {
