@@ -17,7 +17,7 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+      "I understand, after 2 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
   },
   {
     role: "assistant",
@@ -31,6 +31,8 @@ function Video(props: any) {
   const [respuesta, setRespuesta] = useState("")
   const [imgButton, setImgButton] = useState(false)
   const [pastAnswer, setPastAnswer] = useState("Inicial")
+  const fechaActual = (new Date()).toISOString();
+  const urlVideo = props.question.situation + "_" + props.profile.id + "_" + fechaActual + ".mp4"
 
   function detectVoice() {
     //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -41,27 +43,26 @@ function Video(props: any) {
     recognizing = false;
     //recognition.onend = reset;
     recognition.start();
-    console.log("grabando");
+    // console.log("grabando");
   }
 
   function stopVoice() {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
-        console.log("nada");
+        // console.log("nada");
         questions += 1;
         text = event.results[0][0].transcript;
-        console.log(text);
+        // console.log(text);
         var userResponse = { role: "user", content: text };
         convo.push(userResponse);
 
-        if (questions == 5) {
+        if (questions == 2) {
           convo.push({
             role: "assistant",
             content:
               "The conversation has finished. Based on the answers I gave you, generate a JSON with the key 'data' with 6 fields: Grammar, Coherence, Vocabulary, Feedback, Recommendations and English_Level. The first three fields must be evaluated in a scale from 1 to 100, the feedback must be a paragraph of my overall performance and the English_Level field must be either A1, A2, B1, B2, C1 or C2. You can take this definitions as a guide to assign a level:  A1 (Beginner): The person demonstrates a limited vocabulary, uses basic sentence structures, and shows the ability to understand and produce simple and coherent texts.A2 (Elementary): The person exhibits an expanded vocabulary, utilizes past and future tenses, and is capable of comprehending short texts and producing coherent responses with basic language proficiency. B1 (Intermediate): The person showcases a wider range of vocabulary, employs accurate tenses and more complex sentence structures, comprehends straightforward texts, and expresses ideas with moderate coherence and linguistic accuracy. B2 (Upper Intermediate): The person demonstrates an extended vocabulary, proficient use of tenses and complex structures, can comprehend articles and reports, and communicates ideas effectively with a good level of coherence and linguistic accuracy.C1 (Advanced): The person possesses a broad vocabulary, utilizes advanced grammar structures accurately, comprehends complex texts effectively, and communicates ideas coherently with a high level of linguistic accuracy.C2 (Proficient): The person exhibits an extensive vocabulary, demonstrates near-native grammar proficiency, comprehends specialized and challenging texts proficiently, and communicates ideas with exceptional coherence, linguistic accuracy, and sophistication. The Recommendations field must be a string of 3 specific recommendations that the user could have done to improve his phrasing referring to what he said, in this recommendations mention specific words or sentences that could have been changed..",
           });
-          stopRecording()
         }
 
         getResponse();
@@ -92,9 +93,12 @@ function Video(props: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["response"]);
+        // console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
+        if (questions == 2) {
+          stopRecording()
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -102,7 +106,7 @@ function Video(props: any) {
   }
 
   const [showModal, setShowModal] = useState(false);
-  const [capturing, setCapturing] = useState(false);
+  // const [capturing, setCapturing] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
@@ -130,8 +134,10 @@ function Video(props: any) {
   }, []);
 
   const handleStartRecording = async () => {
-    handleStartStop();
-    setCapturing(true);
+    setPastAnswer("PostInitial")
+    // console.log("Iniciando grabacion")
+    // handleStartStop();
+    // setCapturing(true);
     try {
       const constraints = { audio: true, video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -149,15 +155,16 @@ function Video(props: any) {
 
         const params = {
           Bucket: "smartspeak",
-          Key: "pruebachicoITC.mp4",
+          Key: urlVideo,
           Body: videoBlob,
         };
 
         const command = new PutObjectCommand(params);
 
         try {
-          const data = await s3Client.send(command);
-          console.log("Archivo subido exitosamente a S3.", data);
+          // const data = await s3Client.send(command);
+          await s3Client.send(command);
+          // console.log("Archivo subido exitosamente a S3.", data);
         } catch (err) {
           console.log(err);
         }
@@ -170,6 +177,7 @@ function Video(props: any) {
 
   const stopRecording = () => {
     if (recorderRef.current && recorderRef.current.state === "recording") {
+      console.log("Grabacion terminada")
       recorderRef.current.stop();
       recorderRef.current.stream.getTracks().forEach((track) => track.stop());
       setShowModal(true);
@@ -192,9 +200,10 @@ function Video(props: any) {
             <p className="text-2xl font-bold mb-10">
               Presiona sobre el ícono para iniciar/detener la conversación.{" "}
             </p>
-            {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>}
-            {imgButton === false ? (
+            {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
+            {pastAnswer == "Inicial" ? (
               <>
+                <p>Presiona sobre el icono para activar los permisos de microfono y camara</p>
                 <img
                   onClick={handleStartRecording}
                   src={IA}
@@ -204,16 +213,34 @@ function Video(props: any) {
               </>
             ) : (
               <>
-                <img
-                  onClick={handleStartRecording}
-                  src={IA}
-                  alt={props.alt}
-                  className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
-                />
-                <p>Grabando...</p>
+                {imgButton === false ? (
+                  <>
+                    {pastAnswer == respuesta ? (
+                      <div>Pensando</div>
+                    ) : (
+                      <img
+                        onClick={handleStartStop}
+                        src={IA}
+                        alt={props.alt}
+                        className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <img
+                      onClick={handleStartStop}
+                      src={IA}
+                      alt={props.alt}
+                      className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
+                    />
+                    <p>Grabando...</p>
+                  </>
+                )}
               </>
             )}
-            {questions == 5 ? (
+
+            {/* {questions == 5 ? (
               <Form method="POST">
                 <input type="hidden" name="answer" value={respuesta} />
                 <button
@@ -224,11 +251,14 @@ function Video(props: any) {
                   Stop Capture
                 </button>
               </Form>
-            ) : null}
+            ) : null} */}
           </div>
-
-          <p className="text-xl font-semibold pb-5">Respuesta:</p>
-          <p className="italic text-lg">{respuesta}</p>
+          {questions == 2 ? null : (
+            <>
+              <p className="text-xl font-semibold pb-5">Respuesta:</p>
+              <p className="italic text-lg">{respuesta}</p>
+            </>
+          )}
         </div>{" "}
       </div>
 
@@ -260,14 +290,21 @@ function Video(props: any) {
                       </button>
                     </Link>
 
-                    <Link to="/tests">
+                    {/* <Link to="/tests"> */}
+                    <Form method="POST">
+                      <input type="hidden" name="userid" value={props.profile.id} />
+                      <input type="hidden" name="situationid" value={props.question.id} />
+                      <input type="hidden" name="url" value={urlVideo} />
+                      <input type="hidden" name="answer" value={respuesta} />
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
+                        type="submit"
+                        onClick={stopRecording}
                       >
                         Resultados
                       </button>
-                    </Link>
+                    </Form>
+                    {/* </Link> */}
                   </div>
                 </div>
               </div>
