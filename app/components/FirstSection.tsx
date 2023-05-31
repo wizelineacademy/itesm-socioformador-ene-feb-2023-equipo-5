@@ -7,7 +7,7 @@ export default function FirstSection() {
       >
         <div className="grid grid-cols-3 gap-10 h-200 pr-2 mt-10  ">
           <div className="pt-52 mb-10">
-            <img src="/img/Coluno.png" width="350px" height="auto" />
+            <img src="/img/Coluno.png" width="350px" height="auto" alt="Foto"/>
           </div>
           <div className=" font-monserrat items-center pt-72 text-center">
             <h1 className="text-3xl r">
@@ -20,7 +20,7 @@ export default function FirstSection() {
             </p>
           </div>
           <div className="pt-20">
-            <img src="/img/Coldos.png" width="350px" height="auto" />
+            <img src="/img/Coldos.png" width="350px" height="auto" alt="Foto"/>
           </div>
         </div>
       </div>

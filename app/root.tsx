@@ -23,18 +23,15 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-
       <body className="min-h-[35vw]">
         <Outlet />
+        <footer className="static inset-x-0 bottom-0 clear-both">
+          <Footer />
+        </footer>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
       </body>
-
-      <footer className="static inset-x-0 bottom-0 clear-both">
-        <Footer />
-      </footer>
-
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
     </html>
   );
 }

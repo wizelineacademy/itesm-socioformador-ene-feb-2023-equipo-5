@@ -25,10 +25,12 @@ const AboutSection = ({
           <img
             className="object-center object-scale-down h-48 w-96 mt-12"
             src={img_1_url}
+            alt="Foto"
           />
           <img
             className="object-center object-scale-down h-48 w-96 mb-15 "
             src={img_2_url}
+            alt="Foto"
           />
         </div>
       </div>

@@ -1,12 +1,11 @@
 import { useState } from "react";
-import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
-import micOff from "./microfono.png"
-import micOn from "./grabando.png"
-import loading from "./load.gif"
+import micOff from "../../../public/img/microfono.png"
+import micOn from "../../../public/img/grabando.png"
+import loading from "../../../public/img/load.gif"
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -94,7 +93,7 @@ function Video(props: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["response"]);
+        // console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
         if (questions == 2) {
@@ -142,8 +141,8 @@ function Video(props: any) {
     try {
       const constraints = { audio: true, video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-      const recorder = new MediaRecorder(stream, videoRef.current!.srcObject!);
+      // const recorder = new MediaRecorder(stream, videoRef.current!.srcObject)
+      const recorder = new MediaRecorder(stream)
       recorderRef.current = recorder;
 
       recorder.ondataavailable = function (e) {
@@ -302,7 +301,7 @@ function Video(props: any) {
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
-                        onClick={stopRecording}
+                      // onClick={stopRecording}
                       >
                         Resultados
                       </button>
