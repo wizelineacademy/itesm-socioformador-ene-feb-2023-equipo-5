@@ -27,7 +27,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const randomquestion = question[randomIndex];
 
   const fechaActual = (new Date()).toISOString();
-  const urlVideo = randomquestion.situation + "_" + profile.id + "_" + fechaActual + ".mp4"
+  const urlVideo = randomquestion.id + "_" + profile.id + "_" + fechaActual + ".mp4"
 
   return {
     profile: { profile },
