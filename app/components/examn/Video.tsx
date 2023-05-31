@@ -83,7 +83,7 @@ function Video(props: any) {
 
   function getResponse() {
     setPastAnswer(respuesta)
-    fetch("http://3.220.31.142:5000/chatgpt/chat", {
+    fetch("https://chatgpt.lcuoodnsn630q.us-east-1.cs.amazonlightsail.com/chatgpt/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
