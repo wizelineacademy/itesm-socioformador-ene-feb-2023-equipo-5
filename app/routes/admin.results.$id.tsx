@@ -4,51 +4,110 @@ import SquareR from "~/components/SquareResult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
 import { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { db } from "~/services/db";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
-  return profile
+  const test = await db.test.findUnique({
+    where: {
+      id: params.id
+    }
+  })
+
+  const userId = test ? test.authorId : ""
+  const situationId = test ? test.mainSituationId : ""
+
+  const user = await db.user.findUnique({
+    where: {
+      id: userId
+    },
+    select: {
+      fullName: true
+    }
+  })
+
+  const situation = await db.question.findUnique({
+    where: {
+      id: situationId
+    },
+    select: {
+      situation: true
+    }
+  })
+  
+  const s3_endpoint = process.env.S3_ENDPOINT;
+
+    return {
+      test: test,
+      s3_endpoint: s3_endpoint,
+      user: user,
+      situation: situation
+  }
 };
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);
+  const {test, s3_endpoint, user, situation} = useLoaderData()
+  var videoLink
+  try{
+    videoLink = s3_endpoint + "/" + test.videoURL
+  } catch {
+    videoLink = ""
+  }
   return (
     <>
-      <div className="flex flex-row mt-14 mx-10">
-        <div className="pb-5 absolute inset-x-0 bottom-[13%]">
-          <div className="flex  place-content-between mx-10">
-            <button className="py-2 w-40 rounded-md bg-blue-200">
-              Cambiar resultados
-            </button>
-            <button className="py-2 w-40 rounded-md bg-graybgfigma">
-              Recomendaciones
-            </button>
+      <div className="ml-12 my-4">
+        <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/videos"}>Go back</Link>
+      </div>
+      <div className="flex flex-row mt-6 mx-10">
+        <div className="basis-1/2 mx-2 relative">
+          <p className="text-3xl font-bold">{situation ? situation.situation : "No data available"}</p>
+          <p className="text-md text-gray-600"> {user ? user.fullName : "---"} </p>
+          
+          <div>
+              <video className="w-11/12 my-5 rounded-lg" controls>
+                  <source src={videoLink} type="video/mp4" />
+                  Video not supported by your browser.
+              </video>
           </div>
         </div>
-        <div className="basis-1/2 mx-2 relative ">
-          <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
-          <span className="h-1 w-full bg-red-600 lg:w-1/3"></span>
-          <ResultsTable />
-        </div>
         <div className="basis-1/2 mx-2">
+          
           <div className="mx-8 mt-4 p-3 ">
-
+          <p className="text-2xl mb-4">English level: <span className="text-green-600 font-bold">{test ? test.englishlevel : "---"}</span></p>
+          {test ? 
+            <SquareR grammar={test.grammar} vocabulary={test.vocabulary} coherence={test.coherence} average={Math.round((test.grammar +  test.coherence + test.vocabulary)/3)} />
+            : 
+            <SquareR grammar={0} vocabulary={0} coherence={0} average={0} />
+          }
+          <p className="text-xl font-bold">Feedback</p>
+          <p className="text-md">{test ? test.feedaback : "No feedback available"}</p>
+          <p className="text-xl font-bold pt-4">Recommendations</p>
+          <p className="text-md">{test ? test.recommendation : "No recommendations available"}</p>
+                {/*
             <button
               className=" ease-linear transition-all duration-150"
               type="button"
               onClick={() => setShowModal(true)}
             >
-              <div className="absolute inset-y-[14%] right-[15%] ">
-                <SquareR />
+              <div className="">
+                <p className="text-2xl">English level: <span className="text-green-600 font-bold">{test ? test.englishlevel : "---"}</span> </p>
+                {test ? 
+                  <SquareR grammar={test.grammar} vocabulary={test.vocabulary} coherence={test.coherence} average={Math.round((test.grammar +  test.coherence + test.vocabulary)/3)} />
+                  : 
+                  <SquareR grammar={0} vocabulary={0} coherence={0} average={0} />
+                }
               </div>
             </button>
+              */}
             {showModal ? (
               <>
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

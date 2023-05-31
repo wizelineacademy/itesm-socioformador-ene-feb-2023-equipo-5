@@ -18,7 +18,7 @@ const exam4: Exam = { date: "25/02/2023", level: "A2", grade: "91%" }
 
 fake_exams = [exam1, exam2, exam3, exam4]
 
-function TableAdmin() {
+function TableAdmin(props:any) {
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -28,18 +28,22 @@ function TableAdmin() {
               <thead className="font-medium">
                 <tr>
                   <th className="w-14" ><span></span></th>
-                  <th className="text-grayfigma font-extralight text-sm " >Fecha de Examen</th>
-                  <th className="text-grayfigma font-extralight text-sm">Nivel</th>
-                  <th className="text-grayfigma font-extralight text-sm">Porcentaje</th>
+                  <th className="text-grayfigma font-extralight text-sm " >Date</th>
+                  <th className="text-grayfigma font-extralight text-sm " >User</th>
+                  <th className="text-grayfigma font-extralight text-sm">English level</th>
+                  <th className="text-grayfigma font-extralight text-sm">Average Score</th>
+                  <th className="text-grayfigma font-extralight text-sm">Video preview</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  fake_exams.map(exam => {
+                  props.tests.map((test: {
+                    grammar: any; coherence: any; vocabulary: any; author: any; id: Number; createdAt: String; grade: Number; englishlevel: String; videoURL: String}) => {
+                    const average = Math.round((test.grammar +  test.coherence + test.vocabulary)/3)
+                    const videoLink = props.s3_endpoint + "/" + test.videoURL
                     return (
-                      <ExamRow date={exam.date} grade={exam.grade} level={exam.level} image={videoImagen} />
+                      <ExamRow key={test.id} date={test.createdAt.split("T")[0]} username={test.author.fullName} grade={average} level={test.englishlevel} video={videoLink} id={test.id} />
                     )
-
                   })
 
                 }

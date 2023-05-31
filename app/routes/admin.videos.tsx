@@ -1,7 +1,8 @@
 import { LoaderArgs } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
+import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import TableAdmin from "~/components/TableAdmin";
 import { authenticator } from "~/services/auth.server";
+import { db } from "~/services/db";
 
 export const meta: V2_MetaFunction = () => {
     return [{ title: "Videos" }];
@@ -12,16 +13,32 @@ export const loader = async ({ request }: LoaderArgs) => {
         failureRedirect: "/login",
     });
 
-    return profile
+    const tests = await db.test.findMany({
+        include: {
+            author: {
+                select: {
+                    fullName: true
+                }
+            }
+        }
+    })
+
+    const s3_endpoint = process.env.S3_ENDPOINT;
+
+    return {
+        tests: tests,
+        s3_endpoint: s3_endpoint
+    }
 };
 
 export default function VideoAdmin() {
+    const {tests, s3_endpoint} = useLoaderData()
     return (
         <>
         <div>
            <div className="flex flex-col px-20 py-8  place-content-center">
                <p className="text-lg font-bold py-5">Evaluaciones</p>
-               <TableAdmin/>
+               <TableAdmin tests={tests} s3_endpoint={s3_endpoint}/>
            </div>
 
            <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
