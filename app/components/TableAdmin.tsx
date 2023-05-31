@@ -44,7 +44,6 @@ function TableAdmin(props:any) {
                     return (
                       <ExamRow key={test.id} date={test.createdAt.split("T")[0]} username={test.author.fullName} grade={average} level={test.englishlevel} video={videoLink} id={test.id} />
                     )
-
                   })
 
                 }
