@@ -1,9 +1,10 @@
 import { Link } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
-import profilePicture from "../../public/img/profilePicture.jpg";
+//import profilePicture from "../../public/img/profilePicture.jpg";
 
 
 function Header(nombre: any) {
+  const profilePicture = nombre.nombre.photos[0].value
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-4/5">
