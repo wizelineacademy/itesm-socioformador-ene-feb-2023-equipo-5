@@ -1,5 +1,6 @@
 import { LoaderArgs } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { V2_MetaFunction, useLoaderData, useNavigation } from "@remix-run/react";
+import Loading from "~/components/Loading";
 import TableAdmin from "~/components/TableAdmin";
 import { authenticator } from "~/services/auth.server";
 import { db } from "~/services/db";
@@ -33,17 +34,19 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function VideoAdmin() {
     const {tests, s3_endpoint} = useLoaderData()
+    const navigation = useNavigation();
     return (
         <>
-        <div>
-           <div className="flex flex-col px-20 py-8  place-content-center">
-               <p className="text-lg font-bold py-5">Evaluaciones</p>
-               <TableAdmin tests={tests} s3_endpoint={s3_endpoint}/>
-           </div>
+            {navigation.state !== "idle" ? <Loading/> : 
+            <div>
+                <div className="flex flex-col px-20 py-8  place-content-center">
+                    <p className="text-lg font-bold py-5">Evaluaciones</p>
+                    <TableAdmin tests={tests} s3_endpoint={s3_endpoint}/>
+                </div>
 
-           <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
-
-        </div>
+                <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
+            </div>
+            }
         </>
     );
 }
