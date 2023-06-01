@@ -12,7 +12,7 @@ export default function ExamRow(props: any) {
         <td className="font-bold">{props.grade}%</td>
         <td className="font-gray-800 underline">
           {" "}
-          <Link to={"/"}>Detalle</Link>
+          <Link to={"/results"}>Detalle</Link>
         </td>
       </tr>
     </>

@@ -17,17 +17,16 @@ export default function ChartComponentRadar() {
         chartInstanceRef.current = new Chart(ctx, {
           type: "polarArea",
           data: {
-            labels: ["Red", "Green", "Yellow", "Grey", "Blue"],
+            labels: ["Coherence", "Vocabulary", "Grammar", "Average"],
             datasets: [
               {
-                label: "My First Dataset",
-                data: [11, 16, 7, 3, 14],
+                label: "Grades",
+                data: [85, 73, 68, 82],
                 backgroundColor: [
-                  "rgb(54, 162, 235)",
-                  "rgb(30, 100, 200)",
-                  "rgb(144, 202, 255)",
-                  "rgb(184, 222, 255)",
-                  "rgb(224, 242, 255)",
+                  "rgb(134,233,233)",
+                  "rgb(60,218,216)",
+                  "rgb(56,201,238)",
+                  "rgb(65,167,237",
                 ],
               },
             ],
