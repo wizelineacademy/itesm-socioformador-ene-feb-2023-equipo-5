@@ -5,6 +5,7 @@ import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 
 function Header(nombre: any) {
   const profilePicture = nombre.nombre.photos[0].value
+  console.log(nombre.nombre)
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-4/5">
@@ -12,7 +13,7 @@ function Header(nombre: any) {
           <img src={brainWaveLogo} className="h-20 ml-4" alt="Logo de BrainWave"/>
         </Link>
       </div>
-      <img src={profilePicture} className="h-12 my-4 rounded-full" alt="Foto del usuario"/>
+      <img src={profilePicture} className="h-12 my-4 rounded-full" alt="Foto del usuario" referrerPolicy="no-referrer"/>
       <span className="text-white text-base mx-5 my-7">{nombre.nombre.displayName}</span>
     </div>
   );
