@@ -1,4 +1,4 @@
-import { LoaderArgs } from "@remix-run/node";
+import { LoaderArgs, redirect } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
 import TableAdmin from "~/components/TableAdmin";
@@ -12,7 +12,12 @@ export const meta: V2_MetaFunction = () => {
 export const loader = async ({ request }: LoaderArgs) => {
     const profile = await authenticator.isAuthenticated(request, {
         failureRedirect: "/login",
-    });
+    }).then(( resp:any ) => {
+        if(!resp._json['https://smartspeak.example.com/roles'].includes('admin')){
+            throw redirect("/Instructions")
+        }
+        //return resp
+      });
 
     const tests = await db.test.findMany({
         include: {

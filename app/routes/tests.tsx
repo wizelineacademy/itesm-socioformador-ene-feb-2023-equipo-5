@@ -1,9 +1,10 @@
 import ResultsTable from "~/components/ResultsTable";
 import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { isRouteErrorResponse } from "@remix-run/react";
 import { useRouteError } from "@remix-run/react";
 import Header from "~/components/Header";
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
 export const meta: V2_MetaFunction = () => {
@@ -19,9 +20,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function TestsPages() {
+  const profile = useLoaderData()
   return (
     <>
-        <Header />
+      <Header nombre={profile} />
       <div className="flex flex-row mt-14 mx-10">
         <div className="basis-1/2 mx-2 relative">
           <p className="text-lg font-bold mb-4">Evaluaciones</p>

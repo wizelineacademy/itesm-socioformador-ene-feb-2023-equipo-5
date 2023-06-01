@@ -3,7 +3,7 @@ import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { LoaderArgs, V2_MetaFunction, redirect } from "@remix-run/node";
 import { db } from "~/services/db";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
@@ -15,6 +15,11 @@ export const meta: V2_MetaFunction = () => {
 export const loader = async ({ request, params }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
+  }).then(( resp:any ) => {
+    if(!resp._json['https://smartspeak.example.com/roles'].includes('admin')){
+        throw redirect("/Instructions")
+    }
+    //return resp
   });
 
   const test = await db.test.findUnique({

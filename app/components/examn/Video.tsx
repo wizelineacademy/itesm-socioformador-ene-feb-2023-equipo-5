@@ -1,9 +1,11 @@
 import { useState } from "react";
-import IA from "../../../public/img/IA.png";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
+import micOff from "../../../public/img/microfono.png";
+import micOn from "../../../public/img/grabando.png";
+import loading from "../../../public/img/load.gif";
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -17,7 +19,7 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+      "I understand, after 2 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
   },
   {
     role: "assistant",
@@ -29,6 +31,8 @@ var questions: number = 0;
 
 function Video(props: any) {
   const [respuesta, setRespuesta] = useState("");
+  const [imgButton, setImgButton] = useState(false);
+  const [pastAnswer, setPastAnswer] = useState("Inicial");
 
   function detectVoice() {
     //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -39,21 +43,21 @@ function Video(props: any) {
     recognizing = false;
     //recognition.onend = reset;
     recognition.start();
-    console.log("grabado");
+    // console.log("grabando");
   }
 
   function stopVoice() {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
-        console.log("nada");
+        // console.log("nada");
         questions += 1;
         text = event.results[0][0].transcript;
-        console.log(text);
+        // console.log(text);
         var userResponse = { role: "user", content: text };
         convo.push(userResponse);
 
-        if (questions == 5) {
+        if (questions == 2) {
           convo.push({
             role: "assistant",
             content:
@@ -68,27 +72,35 @@ function Video(props: any) {
 
   function handleStartStop() {
     if (recognizing) {
+      setImgButton(false);
       stopVoice();
     } else {
+      setImgButton(true);
       detectVoice();
     }
     recognizing = !recognizing;
   }
 
   function getResponse() {
-    // http://3.220.31.142:5000/chatgpt/chat
-    fetch("http://3.220.31.142:5000/chatgpt/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ messages: convo }),
-    })
+    setPastAnswer(respuesta);
+    fetch(
+      "https://chatgpt.lcuoodnsn630q.us-east-1.cs.amazonlightsail.com/chatgpt/chat",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messages: convo }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["response"]);
+        // console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
+        if (questions == 2) {
+          stopRecording();
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -96,7 +108,7 @@ function Video(props: any) {
   }
 
   const [showModal, setShowModal] = useState(false);
-  const [capturing, setCapturing] = useState(false);
+  // const [capturing, setCapturing] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
@@ -124,13 +136,15 @@ function Video(props: any) {
   }, []);
 
   const handleStartRecording = async () => {
-    handleStartStop();
-    setCapturing(true);
+    setPastAnswer("PostInitial");
+    // console.log("Iniciando grabacion")
+    // handleStartStop();
+    // setCapturing(true);
     try {
       const constraints = { audio: true, video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-      const recorder = new MediaRecorder(stream, videoRef.current!.srcObject!);
+      // const recorder = new MediaRecorder(stream, videoRef.current!.srcObject)
+      const recorder = new MediaRecorder(stream);
       recorderRef.current = recorder;
 
       recorder.ondataavailable = function (e) {
@@ -140,18 +154,18 @@ function Video(props: any) {
       recorder.onstop = async function () {
         const videoBlob = new Blob(chunksRef.current, { type: "video/mp4" });
         const s3Client = new S3Client(s3ClientCredentials);
-
         const params = {
           Bucket: "smartspeak",
-          Key: "pruebachicoITC.mp4",
+          Key: props.urlVideo,
           Body: videoBlob,
         };
 
         const command = new PutObjectCommand(params);
 
         try {
-          const data = await s3Client.send(command);
-          console.log("Archivo subido exitosamente a S3.", data);
+          // const data = await s3Client.send(command);
+          await s3Client.send(command);
+          // console.log("Archivo subido exitosamente a S3.", data);
         } catch (err) {
           console.log(err);
         }
@@ -186,13 +200,51 @@ function Video(props: any) {
             <p className="text-2xl font-bold mb-10">
               Presiona sobre el ícono para iniciar/detener la conversación.{" "}
             </p>
-            <img
-              onClick={handleStartRecording}
-              src={IA}
-              alt={props.alt}
-              className="mx-auto w-2/5 h-auto cursor-pointer mb-10"
-            />
-            {questions == 5 ? (
+            {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
+            {pastAnswer == "Inicial" ? (
+              <>
+                <p>Presiona sobre el icono para comenzar el examen</p>
+                <img
+                  onClick={handleStartRecording}
+                  src={micOff}
+                  alt={props.alt}
+                  className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
+                />
+              </>
+            ) : (
+              <>
+                {imgButton === false ? (
+                  <>
+                    {pastAnswer == respuesta ? (
+                      <img
+                        src={loading}
+                        alt={props.alt}
+                        className="mx-auto w-1/5 h-auto mb-10"
+                      />
+                    ) : (
+                      <img
+                        onClick={handleStartStop}
+                        src={micOff}
+                        alt={props.alt}
+                        className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <img
+                      onClick={handleStartStop}
+                      src={micOn}
+                      alt={props.alt}
+                      className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
+                    />
+                    <p>Grabando...</p>
+                  </>
+                )}
+              </>
+            )}
+
+            {/* {questions == 5 ? (
               <Form method="POST">
                 <input type="hidden" name="answer" value={respuesta} />
                 <button
@@ -203,11 +255,14 @@ function Video(props: any) {
                   Stop Capture
                 </button>
               </Form>
-            ) : null}
+            ) : null} */}
           </div>
-
-          <p className="text-xl font-semibold pb-5">Respuesta:</p>
-          <p className="italic text-lg">{respuesta}</p>
+          {questions == 2 ? null : (
+            <>
+              <p className="text-xl font-semibold pb-5">Respuesta:</p>
+              <p className="italic text-lg">{respuesta}</p>
+            </>
+          )}
         </div>{" "}
       </div>
 
@@ -230,7 +285,7 @@ function Video(props: any) {
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
-                    <Link to="/Instructions">
+                    <Link to="/instructions">
                       <button
                         className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
@@ -239,14 +294,29 @@ function Video(props: any) {
                       </button>
                     </Link>
 
-                    <Link to="/tests">
+                    {/* <Link to="/tests"> */}
+                    <Form method="POST">
+                      <input
+                        type="hidden"
+                        name="userid"
+                        value={props.profile.id}
+                      />
+                      <input
+                        type="hidden"
+                        name="situationid"
+                        value={props.question.id}
+                      />
+                      <input type="hidden" name="url" value={props.urlVideo} />
+                      <input type="hidden" name="answer" value={respuesta} />
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
+                        type="submit"
+                        // onClick={stopRecording}
                       >
                         Resultados
                       </button>
-                    </Link>
+                    </Form>
+                    {/* </Link> */}
                   </div>
                 </div>
               </div>
