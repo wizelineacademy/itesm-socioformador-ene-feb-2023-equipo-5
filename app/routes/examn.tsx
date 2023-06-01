@@ -12,61 +12,74 @@ import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "Test" }]
-}
+  return [{ title: "Test" }];
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
-  const s3ClientVideo = await getCredentials()
+  const s3ClientVideo = await getCredentials();
 
-  const question = await db.question.findMany()
+  const question = await db.question.findMany();
   const randomIndex = Math.floor(Math.random() * question.length);
   const randomquestion = question[randomIndex];
 
-  const fechaActual = (new Date()).toISOString();
-  const urlVideo = randomquestion.id + "_" + profile.id + "_" + fechaActual + ".mp4"
+  const fechaActual = new Date().toISOString();
+  const urlVideo =
+    randomquestion.id + "_" + profile.id + "_" + fechaActual + ".mp4";
 
   return {
     profile: { profile },
     credentials: s3ClientVideo,
     question: randomquestion,
-    urlVideo: urlVideo
-  }
-}
+    urlVideo: urlVideo,
+  };
+};
 
 export default function Examn() {
-  const { profile: { profile }, credentials, question, urlVideo } = useLoaderData()
+  const {
+    profile: { profile },
+    credentials,
+    question,
+    urlVideo,
+  } = useLoaderData();
   return (
     <div className="mx-auto">
       <Header nombre={profile} />
       <Question texto={question.situation}></Question>
-      <Video credentials={credentials} question={question} profile={profile} urlVideo={urlVideo} />
+      <Video
+        credentials={credentials}
+        question={question}
+        profile={profile}
+        urlVideo={urlVideo}
+      />
     </div>
-  )
+  );
 }
 
 export const action = async ({ request }: any) => {
-  const form = await request.formData()
+  const form = await request.formData();
 
-  const user = form.get('userid')
-  const situation = form.get('situationid')
-  const urlVideo = form.get('url')
-  let answer = form.get('answer')
-  console.log(answer)
+  const user = form.get("userid");
+  const situation = form.get("situationid");
+  const urlVideo = form.get("url");
+  let answer = form.get("answer");
   const regex = /{[^{}]+}/g;
   const match = answer.match(regex);
   try {
     if (match) {
       answer = JSON.parse(match[0]);
-      console.log(answer);
+      // console.log(answer);
     } else {
       throw json({ message: "No se encontró un JSON válido" }, { status: 404 });
     }
   } catch (error) {
-    throw json({ message: "Error al analizar el JSON:", error }, { status: 404 });
+    throw json(
+      { message: "Error al analizar el JSON:", error },
+      { status: 404 }
+    );
   }
   // const test = await db.test.create({
   await db.test.create({
@@ -79,12 +92,12 @@ export const action = async ({ request }: any) => {
       recommendation: answer.Recommendations,
       englishlevel: answer.English_Level,
       authorId: user,
-      mainSituationId: situation
-    }
-  })
+      mainSituationId: situation,
+    },
+  });
   // console.log(test)
-  return redirect('/')
-}
+  return redirect("/userProfile");
+};
 
 export function ErrorBoundary() {
   const error = useRouteError();

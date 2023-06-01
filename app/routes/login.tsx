@@ -9,10 +9,10 @@ export const meta: V2_MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
-    successRedirect: "/Instructions",
+    successRedirect: "/userProfile",
   });
 
-  return profile
+  return profile;
 };
 
 export default function LoginPage() {
