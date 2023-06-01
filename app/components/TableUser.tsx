@@ -1,5 +1,4 @@
-import videoImagen from "../../public/img/video.png";
-import ExamRow from "./ExamRow";
+import ExamRow from "./ExamRowUser";
 
 interface Exam {
   date: String;
@@ -16,10 +15,10 @@ const exam4: Exam = { date: "25/02/2023", level: "A2", grade: "91%" };
 
 fake_exams = [exam1, exam2, exam3, exam4];
 
-function TableAdmin(props: any) {
+function TableUser(props: any) {
   return (
     <div className="flex flex-col">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 scroll-auto h-[150px]">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div className="overflow-hidden">
             <table className="min-w-full text-left text-sm font-light table-fixed">
@@ -31,17 +30,11 @@ function TableAdmin(props: any) {
                   <th className="text-grayfigma font-extralight text-sm ">
                     Date
                   </th>
-                  <th className="text-grayfigma font-extralight text-sm ">
-                    User
-                  </th>
                   <th className="text-grayfigma font-extralight text-sm">
                     English level
                   </th>
                   <th className="text-grayfigma font-extralight text-sm">
                     Average Score
-                  </th>
-                  <th className="text-grayfigma font-extralight text-sm">
-                    Video preview
                   </th>
                 </tr>
               </thead>
@@ -56,20 +49,16 @@ function TableAdmin(props: any) {
                     createdAt: String;
                     grade: Number;
                     englishlevel: String;
-                    videoURL: String;
                   }) => {
                     const average = Math.round(
                       (test.grammar + test.coherence + test.vocabulary) / 3
                     );
-                    const videoLink = props.s3_endpoint + "/" + test.videoURL;
                     return (
                       <ExamRow
                         key={test.id}
                         date={test.createdAt.split("T")[0]}
-                        username={test.author.fullName}
                         grade={average}
                         level={test.englishlevel}
-                        video={videoLink}
                         id={test.id}
                       />
                     );
@@ -83,4 +72,4 @@ function TableAdmin(props: any) {
     </div>
   );
 }
-export default TableAdmin;
+export default TableUser;

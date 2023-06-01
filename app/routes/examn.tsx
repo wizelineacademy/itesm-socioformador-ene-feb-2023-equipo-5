@@ -4,12 +4,13 @@ import Header from "~/components/Header";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
+import { useNavigation, V2_MetaFunction } from "@remix-run/react";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
+import Loading from "~/components/Loading";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Test" }];
@@ -39,6 +40,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function Examn() {
+  const navigation = useNavigation();
   const {
     profile: { profile },
     credentials,
@@ -46,16 +48,22 @@ export default function Examn() {
     urlVideo,
   } = useLoaderData();
   return (
-    <div className="mx-auto">
-      <Header nombre={profile} />
-      <Question texto={question.situation}></Question>
-      <Video
-        credentials={credentials}
-        question={question}
-        profile={profile}
-        urlVideo={urlVideo}
-      />
-    </div>
+    <>
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
+        <div className="mx-auto">
+          <Header nombre={profile} />
+          <Question texto={question.situation}></Question>
+          <Video
+            credentials={credentials}
+            question={question}
+            profile={profile}
+            urlVideo={urlVideo}
+          />
+        </div>
+      )}
+    </>
   );
 }
 
