@@ -11,7 +11,7 @@ export default function ExamRow(props: any) {
         <td className="font-gray-800">{props.username}</td>
         <td className="text-greenfigma font-bold">{props.level}</td>
         <td className="font-bold">{props.grade}%</td>
-        <td>
+        <td className="grid place-content-center">
           <div>
             <video className="w-28 my-5 rounded-lg">
               <source src={props.video} type="video/mp4" />
