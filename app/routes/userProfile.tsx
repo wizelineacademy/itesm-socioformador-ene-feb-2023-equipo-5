@@ -94,8 +94,8 @@ export default function Result() {
                   type="button"
                   onClick={() => setShowModal(true)}
                 >
-                  <div className=" ml-20 w-full">
-                    <Chart />
+                  <div className=" mt-20 ml-36 w-full">
+                    <SquareR />
                   </div>
                 </button>
                 {showModal ? (
