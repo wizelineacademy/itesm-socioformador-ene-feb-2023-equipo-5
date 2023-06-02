@@ -104,7 +104,7 @@ export const action = async ({ request }: any) => {
     },
   });
   // console.log(test)
-  return redirect("/userProfile");
+  return redirect("/results");
 };
 
 export function ErrorBoundary() {
