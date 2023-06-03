@@ -6,6 +6,15 @@ on:
       - main
       - dev
 
+env:
+  AWS_REGION: us-east-1
+  MAIN_SERVICE_NAME: smartspeak
+  DEV_SERVICE_NAME: smartspeak-dev
+  MAIN_CONTAINER_NAME: smartspeak-container
+  DEV_CONTAINER_NAME: smartspeak-container-dev
+  MAIN_IMAGE_NAME: smartspeak-image
+  DEV_IMAGE_NAME: smartspeak-image-dev
+
 jobs:
   build_and_deploy:
     name: Build and Deploy
@@ -30,22 +39,27 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
+        run: docker build -t ${{ getServiceName }}:release .
       - name: Push and Deploy
         run: |
-          service_name=${{ secrets.AWS_LIGHTSAIL_SERVICE_NAME }}
+          service_name=${{ getServiceName }}
           aws lightsail push-container-image \
-            --region ${{ secrets.AWS_REGION }} \
+            --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
             --label ${service_name} \
             --image ${service_name}:release
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
+          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container-updated.json
+          jq --arg databaseUrl ${{ secrets.DATABASE_MAIN_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+    env:
+      getServiceName: ${{ env.MAIN_SERVICE_NAME }}
+      getContainerName: ${{ env.MAIN_CONTAINER_NAME }}
+      getImageName: ${{ env.MAIN_IMAGE_NAME }}
     if: github.ref == 'refs/heads/main'
 
   build_and_deploy_dev:
@@ -71,20 +85,25 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.AWS_LIGHTSAIL_SERVICE_NAME_DEV }}:release .
+        run: docker build -t ${{ getServiceName }}:release .
       - name: Push and Deploy
         run: |
-          service_name=${{ secrets.AWS_LIGHTSAIL_SERVICE_NAME_DEV }}
+          service_name=${{ getServiceName }}
           aws lightsail push-container-image \
-            --region ${{ secrets.AWS_REGION }} \
+            --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
             --label ${service_name} \
             --image ${service_name}:release
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
+          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container-updated.json
+          jq --arg databaseUrl ${{ secrets.DATABASE_DEV_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+    env:
+      getServiceName: ${{ env.DEV_SERVICE_NAME }}
+      getContainerName: ${{ env.DEV_CONTAINER_NAME }}
+      getImageName: ${{ env.DEV_IMAGE_NAME }}
     if: github.ref == 'refs/heads/dev'
