@@ -44,7 +44,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Build Docker Image
-        run: docker build -t ${{ getServiceName }}:release .
+        run: docker build -t ${{ env.MAIN_SERVICE_NAME }}:release .
       - name: Push and Deploy
         run: |
           service_name=${{ getServiceName }}
@@ -58,7 +58,6 @@ jobs:
           jq --arg databaseUrl ${{ secrets.DATABASE_MAIN_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
     env:
-      getServiceName: ${{ env.MAIN_SERVICE_NAME }}
       getContainerName: ${{ env.MAIN_CONTAINER_NAME }}
       getImageName: ${{ env.MAIN_IMAGE_NAME }}
     if: github.ref == 'refs/heads/main'
@@ -90,7 +89,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Build Docker Image
-        run: docker build -t ${{ getServiceName }}:release .
+        run: docker build -t ${{ env.DEV_SERVICE_NAME }}:release .
       - name: Push and Deploy
         run: |
           service_name=${{ getServiceName }}
@@ -104,7 +103,6 @@ jobs:
           jq --arg databaseUrl ${{ secrets.DATABASE_DEV_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
     env:
-      getServiceName: ${{ env.DEV_SERVICE_NAME }}
       getContainerName: ${{ env.DEV_CONTAINER_NAME }}
       getImageName: ${{ env.DEV_IMAGE_NAME }}
     if: github.ref == 'refs/heads/dev'
