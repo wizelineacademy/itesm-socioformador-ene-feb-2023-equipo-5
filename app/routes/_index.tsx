@@ -8,7 +8,7 @@ export default function Index() {
   return (
     <div>
       Asi es, Deploy exitoso
-      <p>Junto con prueba de CICD con deploy tanto para MAIN como DEV</p>
+      <p>Junto con prueba de CICD con deploy tanto para MAIN como DEV final final</p>
     </div>
   );
 }
