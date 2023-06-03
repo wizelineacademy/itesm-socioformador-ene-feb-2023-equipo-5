@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: smartspeak-container
-    image: smartspeak-image
+    container_name: ${{ getContainerName }}
+    image: ${{ getImageName }}
     ports:
       - "3000:3000"
