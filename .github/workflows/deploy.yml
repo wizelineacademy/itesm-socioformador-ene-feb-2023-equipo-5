@@ -43,6 +43,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Set environment variables
+        run: |
+          echo "CONTAINER_NAME=${{ env.MAIN_CONTAINER_NAME }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${{ env.MAIN_IMAGE_NAME }}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t ${{ env.MAIN_SERVICE_NAME }}:release .
       - name: Push and Deploy
@@ -88,6 +92,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Set environment variables
+        run: |
+          echo "CONTAINER_NAME=${{ env.DEV_CONTAINER_NAME }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${{ env.DEV_IMAGE_NAME }}" >> $GITHUB_ENV
       - name: Build Docker Image
         run: docker build -t ${{ env.DEV_SERVICE_NAME }}:release .
       - name: Push and Deploy
