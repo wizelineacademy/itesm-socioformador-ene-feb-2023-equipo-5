@@ -1,9 +1,9 @@
-import ResultsTable from "~/components/ResultsTable";
 import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, V2_MetaFunction, redirect } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { db } from "~/services/db";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
@@ -13,11 +13,12 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  const profile = await authenticator.isAuthenticated(request, {
+  // const profile = await authenticator.isAuthenticated(request, {
+  await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
-  }).then(( resp:any ) => {
-    if(!resp._json['https://smartspeak.example.com/roles'].includes('admin')){
-        throw redirect("/Instructions")
+  }).then((resp: any) => {
+    if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
+      throw redirect("/Instructions")
     }
     //return resp
   });
@@ -48,30 +49,30 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       situation: true
     }
   })
-  
+
   const s3_endpoint = process.env.S3_ENDPOINT;
 
-    return {
-      test: test,
-      s3_endpoint: s3_endpoint,
-      user: user,
-      situation: situation
+  return {
+    test: test,
+    s3_endpoint: s3_endpoint,
+    user: user,
+    situation: situation
   }
 };
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);
-  const {test, s3_endpoint, user, situation} = useLoaderData()
+  const { test, s3_endpoint, user, situation } = useLoaderData()
   const navigation = useNavigation();
   var videoLink
-  try{
+  try {
     videoLink = s3_endpoint + "/" + test.videoURL
   } catch {
     videoLink = ""
   }
   return (
     <>
-      {navigation.state !== "idle" ? <Loading/> : <>
+      {navigation.state !== "idle" ? <Loading /> : <>
         <div className="ml-12 my-4">
           <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/videos"}>Go back</Link>
         </div>
@@ -79,28 +80,28 @@ export default function Result() {
           <div className="basis-1/2 mx-2 relative">
             <p className="text-3xl font-bold">{situation ? situation.situation : "No data available"}</p>
             <p className="text-md text-gray-600"> {user ? user.fullName : "---"} </p>
-            
+
             <div>
-                <video className="w-11/12 my-5 rounded-lg" controls>
-                    <source src={videoLink} type="video/mp4" />
-                    Video not supported by your browser.
-                </video>
+              <video className="w-11/12 my-5 rounded-lg" controls>
+                <source src={videoLink} type="video/mp4" />
+                Video not supported by your browser.
+              </video>
             </div>
           </div>
           <div className="basis-1/2 mx-2">
-            
+
             <div className="mx-8 mt-4 p-3 ">
-            <p className="text-2xl mb-4">English level: <span className="text-green-600 font-bold">{test ? test.englishlevel : "---"}</span></p>
-            {test ? 
-              <SquareR grammar={test.grammar} vocabulary={test.vocabulary} coherence={test.coherence} average={Math.round((test.grammar +  test.coherence + test.vocabulary)/3)} />
-              : 
-              <SquareR grammar={0} vocabulary={0} coherence={0} average={0} />
-            }
-            <p className="text-xl font-bold">Feedback</p>
-            <p className="text-md">{test ? test.feedaback : "No feedback available"}</p>
-            <p className="text-xl font-bold pt-4">Recommendations</p>
-            <p className="text-md">{test ? test.recommendation : "No recommendations available"}</p>
-                  {/*
+              <p className="text-2xl mb-4">English level: <span className="text-green-600 font-bold">{test ? test.englishlevel : "---"}</span></p>
+              {test ?
+                <SquareR grammar={test.grammar} vocabulary={test.vocabulary} coherence={test.coherence} average={Math.round((test.grammar + test.coherence + test.vocabulary) / 3)} />
+                :
+                <SquareR grammar={0} vocabulary={0} coherence={0} average={0} />
+              }
+              <p className="text-xl font-bold">Feedback</p>
+              <p className="text-md">{test ? test.feedaback : "No feedback available"}</p>
+              <p className="text-xl font-bold pt-4">Recommendations</p>
+              <p className="text-md">{test ? test.recommendation : "No recommendations available"}</p>
+              {/*
               <button
                 className=" ease-linear transition-all duration-150"
                 type="button"

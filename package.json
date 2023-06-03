@@ -7,14 +7,11 @@
     "start": "remix-serve build",
     "typecheck": "tsc",
     "cypress:open": "cypress open",
-    "prismadev": "nodemon prismatests.ts",
-    "seed": "node prisma/seed.js"
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.327.0",
-    "@material-tailwind/react": "^1.4.2",
-    "@prisma/client": "^4.12.0",
-    "@react-types/shared": "^3.18.0",
+    "@aws-sdk/client-s3": "^3.321.1",
+    "@prisma/client": "^4.13.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/serve": "^1.15.0",

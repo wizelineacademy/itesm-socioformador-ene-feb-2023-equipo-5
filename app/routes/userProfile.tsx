@@ -1,11 +1,9 @@
-import ResultsTable from "~/components/ResultsTable";
 import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
-import Chart from "~/components/Chartresult";
 import TableUser from "~/components/TableUser";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { Link } from "react-router-dom";
 import Header from "~/components/Header";
 import { useLoaderData, useNavigation } from "@remix-run/react";
@@ -48,7 +46,7 @@ export default function Result() {
 
               <TableUser tests={tests} />
               <div className="bg-gray-200 px-3 py-3 mt-20 text-left rounded-md">
-                <a className="font-bold">Recomendaciones</a>
+                <p className="font-bold">Recomendaciones</p>
                 <p className="text-sm">
                   {" "}
                   To improve your phrasing, it would be recommended to replace

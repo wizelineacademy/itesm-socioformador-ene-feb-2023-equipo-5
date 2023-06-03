@@ -1,5 +1,5 @@
-import { LoaderArgs } from "@remix-run/node";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
 import { Link } from "react-router-dom";
 import { authenticator } from "~/services/auth.server";
 
