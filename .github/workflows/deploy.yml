@@ -47,7 +47,7 @@ jobs:
         run: docker build -t ${{ env.MAIN_SERVICE_NAME }}:release .
       - name: Push and Deploy
         run: |
-          service_name=${{ getServiceName }}
+          service_name=${{ env.MAIN_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
@@ -92,7 +92,7 @@ jobs:
         run: docker build -t ${{ env.DEV_SERVICE_NAME }}:release .
       - name: Push and Deploy
         run: |
-          service_name=${{ getServiceName }}
+          service_name=${{ env.DEV_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
