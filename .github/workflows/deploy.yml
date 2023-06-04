@@ -125,3 +125,4 @@ jobs:
           jq --arg databaseUrl ${{ secrets.DATABASE_DEV_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated-AUTH-LOGOUT.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
     if: github.ref == 'refs/heads/dev'
+
