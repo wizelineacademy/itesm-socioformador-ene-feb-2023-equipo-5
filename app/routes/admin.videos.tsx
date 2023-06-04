@@ -51,7 +51,7 @@ export default function VideoAdmin() {
                         <p className="text-lg font-bold py-5">Evaluaciones</p>
                         {tests.length > 0 ? (
                             <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-                        ) : <p>No hay videos</p>}
+                        ) : <p>No hay videos v2</p>}
                     </div>
 
                     <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
