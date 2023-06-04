@@ -1,5 +1,5 @@
+import { Links } from "@remix-run/react";
 import {
-  Links,
   LiveReload,
   Meta,
   Outlet,
@@ -8,8 +8,10 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 
+import Footer from "~/components/Footer";
+
 export function links() {
-  return [{ rel: 'stylesheet', href: stylesheet }]
+  return [{ rel: "stylesheet", href: stylesheet }];
 }
 
 export default function App() {
@@ -21,8 +23,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="min-h-[35vw]">
         <Outlet />
+        <footer className="static inset-x-0 bottom-0 clear-both">
+          <Footer />
+        </footer>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
