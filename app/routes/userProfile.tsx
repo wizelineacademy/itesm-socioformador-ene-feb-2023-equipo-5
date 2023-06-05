@@ -15,6 +15,19 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
+  var convo = [
+    {
+      role: "system",
+      content:
+        "You are part of an evaluation of english system. The system evaluates the english level of the users and provides a recommendation for each of the tests that the user has done. You will receive a large string of all the recommendations that the user has received in all of his/her tests. I want you to return a string of a summary of the recommendations given. Write the message in first person, as if you were talking to the user.",
+    },
+    {
+      role: "assistant",
+      content:
+        "I understand, I will receive a big string of all of the historic recommendations given to the user in his/her tests and return a overall summary recommendation to show in the profile page of the user. I will talk to the user in a learning tone.",
+    },
+  ];
+
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
@@ -23,16 +36,47 @@ export const loader = async ({ request }: LoaderArgs) => {
     where: { authorId: profile.id },
   });
 
+  const recommendationsArray = tests.map((item) => item.recommendation);
+  const reccomendations = recommendationsArray.join("\n");
+  convo.push({ role: "user", content: reccomendations });
+  var reccomendationsSummary = "hola";
+
+  async function getResponse() {
+    const answer = fetch(
+      "https://chatgpt.lcuoodnsn630q.us-east-1.cs.amazonlightsail.com/chatgpt/chat",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messages: convo }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data["response"];
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return answer;
+  }
+
+  reccomendationsSummary = await getResponse();
+
   return {
     tests: tests,
     profile: profile,
+    reccomendationsSummary: reccomendationsSummary,
   };
 };
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);
-  const { tests, profile } = useLoaderData();
+  const { tests, profile, reccomendationsSummary } = useLoaderData();
   const navigation = useNavigation();
+
   return (
     <>
       {navigation.state !== "idle" ? (
@@ -47,27 +91,7 @@ export default function Result() {
               <TableUser tests={tests} />
               <div className="bg-gray-200 px-3 py-3 mt-20 text-left rounded-md">
                 <p className="font-bold">Recomendaciones</p>
-                <p className="text-sm">
-                  {" "}
-                  To improve your phrasing, it would be recommended to replace
-                  the incorrect sentence 'I really love everything that has to
-                  do with mobile app development artificial intelligence and
-                  cyber security and I will love to have a specific
-                  concentration in this', with 'I am interested in mobile app
-                  development, artificial intelligence, and cybersecurity, and
-                  would like to concentrate my studies in these areas.' Another
-                  recommendation would be to replace 'so I think that this is an
-                  amazing major that has a lot of opportunities', with 'due to
-                  the versatility and potential of technological advancement, I
-                  believe that the computer science and technology major offers
-                  countless opportunities and a promising future.'. Lastly, to
-                  improve sentence structure, I would recommend avoiding run-on
-                  sentences such as 'it's amazing that technology can be applied
-                  in almost every area and every field so I think that this is
-                  an amazing major that has a lot of opportunities'. Instead,
-                  try breaking it up into two separate sentences for better
-                  readability.{" "}
-                </p>
+                <p className="text-sm"> {reccomendationsSummary} </p>
               </div>
               <div className="pb-5 mt-8 ">
                 <Link
