@@ -198,12 +198,12 @@ function Video(props: any) {
         <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
           <div className="my-4">
             <p className="text-2xl font-bold mb-10">
-              Presiona sobre el ícono para iniciar/detener la conversación.{" "}
+              Click on the icon to start/stop the conversation.{" "}
             </p>
             {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
             {pastAnswer == "Inicial" ? (
               <>
-                <p>Presiona sobre el icono para comenzar el examen</p>
+                <p>Click on the icon to start the exam</p>
                 <img
                   onClick={handleStartRecording}
                   src={micOff}
@@ -238,7 +238,7 @@ function Video(props: any) {
                       alt={props.alt}
                       className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                     />
-                    <p>Grabando...</p>
+                    <p>Recording...</p>
                   </>
                 )}
               </>
@@ -259,7 +259,7 @@ function Video(props: any) {
           </div>
           {questions == 2 ? null : (
             <>
-              <p className="text-xl font-semibold pb-5">Respuesta:</p>
+              <p className="text-xl font-semibold pb-5">Answer:</p>
               <p className="italic text-lg">{respuesta}</p>
             </>
           )}
@@ -276,11 +276,11 @@ function Video(props: any) {
                   {/*body*/}
                   <div className="relative p-6 flex-auto mx-10">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                      A continuación aparecerán los resultados de tu prueba,
-                      recuerda que en caso de querer realizarla podrás hacerlo
-                      dando click al botón “repetir prueba”. Si consideras que
-                      tus resultados no son adecuados, podrás pedir una
-                      revisión, y se te contactará en caso de haber cambios.
+                      Your test results will appear below. remember that if you
+                      want to do it you can do it clicking the "repeat test"
+                      button. If you consider that your results are not
+                      adequate, you can request a review, and you will be
+                      contacted if there are any changes.
                     </p>
                   </div>
                   {/*footer*/}
@@ -313,7 +313,7 @@ function Video(props: any) {
                         type="submit"
                         // onClick={stopRecording}
                       >
-                        Resultados
+                        Results
                       </button>
                     </Form>
                     {/* </Link> */}
