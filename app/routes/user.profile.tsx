@@ -95,7 +95,7 @@ export default function Result() {
         <Loading />
       ) : (
         <>
-          <div className="flex flex-row mt-14 mx-10">
+          <div className="flex flex-row mt-6 mx-10">
             <div className="basis-1/2 ml-4 relative ">
               <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
               {tests.length > 0 ? (
@@ -103,7 +103,7 @@ export default function Result() {
               ) : (
                 <p>There are no examns here</p>
               )}
-              <div className="bg-gray-200 px-3 py-3 mt-20 text-left rounded-md">
+              <div className="bg-gray-200 px-3 py-3 mt-16 text-left rounded-md">
                 <p className="font-bold">Recomendaciones</p>
                 <p className="text-sm"> {reccomendationsSummary} </p>
               </div>
