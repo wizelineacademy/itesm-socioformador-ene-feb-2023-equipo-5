@@ -15,15 +15,17 @@ function Header(nombre: any) {
           />
         </Link>
       </div>
-      <img
-        src={profilePicture}
-        className="h-12 my-4 rounded-full"
-        alt="Foto del usuario"
-        referrerPolicy="no-referrer"
-      />
-      <span className="text-white text-base mx-5 my-7">
-        {nombre.nombre.displayName}
-      </span>
+      <Link to={"/userProfile"} className="inline-block basis-1/4">
+        <img
+          src={profilePicture}
+          className="h-12 my-4 rounded-full float-left"
+          alt="Foto del usuario"
+          referrerPolicy="no-referrer"
+        />
+        <span className="text-white text-base mx-5 my-7 float-left">
+          {nombre.nombre.displayName}
+        </span>
+      </Link>
     </div>
   );
 }

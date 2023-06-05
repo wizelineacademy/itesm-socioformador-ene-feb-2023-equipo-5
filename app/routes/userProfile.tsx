@@ -95,7 +95,12 @@ export default function Result() {
                   onClick={() => setShowModal(true)}
                 >
                   <div className=" mt-20 ml-36 w-full">
-                    <SquareR />
+                    <SquareR
+                      grammar={50}
+                      vocabulary={60}
+                      coherence={40}
+                      average={50}
+                    />
                   </div>
                 </button>
                 {showModal ? (

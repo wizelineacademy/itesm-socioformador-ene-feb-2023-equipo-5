@@ -54,7 +54,9 @@ export default function Examn() {
       ) : (
         <div className="mx-auto">
           <Header nombre={profile} />
-          <Question texto={question.situation}></Question>
+          <Question
+            texto={"What are you currently studying and why?"}
+          ></Question>
           <Video
             credentials={credentials}
             question={question}
@@ -104,7 +106,7 @@ export const action = async ({ request }: any) => {
     },
   });
   // console.log(test)
-  return redirect("/userProfile");
+  return redirect("/results");
 };
 
 export function ErrorBoundary() {
