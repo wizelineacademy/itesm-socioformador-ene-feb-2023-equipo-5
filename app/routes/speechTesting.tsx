@@ -1,4 +1,5 @@
-import { V2_MetaFunction, Form } from "@remix-run/react";
+import type { V2_MetaFunction} from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { useState } from 'react';
@@ -22,10 +23,10 @@ var recognizing: Boolean = false;
 var convo = [{ "role": "system", "content": "You are an english evaluator. We will have a conversation about a topic. Start asking an initial question to talk with me. Keep the conversation going for 3 more questions in total, but ask only one question after i answer, and so on. After that, evaluate my grammar, coherence and vocabulary, each in a scale from 1 to 100. After finishing the conversations, only respond with the 3 scores on the areas previously mentioned, i don't want feedback, only the scores stored in a json. " },
 { "role": "assistant", "content": "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user." },
 { "role": "assistant", "content": "Hey! What are you currently studying and why?" }]
-var respuesta = "Nada"
+// var respuesta = "Nada"
 
 
-export default function speechTesting() {
+export default function SpeechTesting() {
   const [respuesta, setRespuesta] = useState();
 
   function detectVoice() {

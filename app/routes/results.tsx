@@ -1,16 +1,11 @@
-import ResultsTable from "~/components/ResultsTable";
-import Dashboard from "~/components/DashboardAdmin";
-import SquareR from "~/components/SquareResult";
-import Chart from "~/components/Chartresult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { Link } from "react-router-dom";
 import Header from "~/components/Header";
 import { useLoaderData } from "@remix-run/react";
-import { db } from "~/services/db";
-import  ChartComponentRadar  from "../Components/RadarChart"
-
+import ChartComponentRadar from "~/components/Radarchart";
+// import { db } from "~/services/db";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
@@ -25,7 +20,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function Result() {
-  const [showModal, setShowModal] = React.useState(false);
   const profile = useLoaderData();
   return (
     <>
@@ -35,7 +29,7 @@ export default function Result() {
           <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
 
           <div className="bg-gray-200 px-3 py-3 mt-10 text-left rounded-md">
-            <a className="font-bold">Feedback</a>
+            <p className="font-bold">Feedback</p>
             <p className="text-sm">
               {" "}
               To improve your phrasing, it would be recommended to replace the
@@ -59,7 +53,7 @@ export default function Result() {
           </div>
 
           <div className="bg-gray-200 px-3 py-3 mt-10 text-left rounded-md">
-            <a className="font-bold">Recommendations</a>
+            <p className="font-bold">Recommendations</p>
             <p className="text-sm">
               {" "}
               To improve your phrasing, it would be recommended to replace the
@@ -99,9 +93,9 @@ export default function Result() {
         </div>
         <div className="basis-1/2 mx-2">
           <div className="mx-2 mt-4 p-3 ">
-              <div className=" ml-20 w-10/12">
-                <ChartComponentRadar />
-              </div>
+            <div className=" ml-20 w-10/12">
+              <ChartComponentRadar />
+            </div>
           </div>
         </div>
       </div>

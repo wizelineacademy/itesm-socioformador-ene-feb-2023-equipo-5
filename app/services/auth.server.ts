@@ -1,7 +1,7 @@
 // app/utils/auth.server.ts
 import { Authenticator } from "remix-auth";
 import { Auth0Strategy } from "remix-auth-auth0";
-import { Auth0Profile } from "remix-auth-auth0"
+import type { Auth0Profile } from "remix-auth-auth0"
 
 import { sessionStorage } from './session.server';
 import { auth0 } from './authEnv.server'
@@ -34,7 +34,8 @@ let auth0Strategy = new Auth0Strategy(
         let authType = profile.id?.split("|")
 
         if (authType![0] === "google-oauth2") {
-          const perfil = await db.user.create({
+          // const perfil = await db.user.create({
+          await db.user.create({
             data: {
               id: profile.id!,
               fullName: profile._json?.name,
@@ -43,7 +44,8 @@ let auth0Strategy = new Auth0Strategy(
             }
           })
         } else if (authType![0] === "auth0") {
-          const perfil = await db.user.create({
+          // const perfil = await db.user.create({
+          await db.user.create({
             data: {
               id: profile.id!
             }

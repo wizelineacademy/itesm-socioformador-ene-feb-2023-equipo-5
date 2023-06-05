@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import Chart, { ChartOptions } from "chart.js/auto";
+import { useRef, useEffect } from "react";
+import type { ChartOptions } from "chart.js/auto";
+import Chart from "chart.js/auto";
 
 export default function ChartComponent() {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
