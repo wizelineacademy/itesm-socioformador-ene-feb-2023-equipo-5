@@ -16,7 +16,6 @@ import ExamRow from "./ExamRowAdmin";
 // fake_exams = [exam1, exam2, exam3, exam4];
 
 function TableAdminUsers(props: any) {
-  console.log(props.users);
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 scroll-auto h-[150px]">

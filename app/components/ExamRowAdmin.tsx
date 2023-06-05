@@ -7,14 +7,13 @@ export default function ExamRow(props: any) {
         <td className="w-14">
           <div className="w-4 h-4 bg-bluefigma1 rounded-full"></div>
         </td>
-        <td className="font-bold">{props.name}</td>
+        <td className="font-bold">
+          <Link to={`/profile/${props.id}`}>{props.name}</Link>
+        </td>
         <td className="text-greenfigma font-bold">{props.level}</td>
         <td className="text-greenfigma font-bold">{props.date}</td>
         <td className="font-bold">{props.grade}%</td>
-        <td className="font-gray-800 underline">
-          {" "}
-          <Link to={`/results/${props.id}`}>Detalle</Link>
-        </td>
+        <td className="font-gray-800 underline"> </td>
       </tr>
     </>
   );

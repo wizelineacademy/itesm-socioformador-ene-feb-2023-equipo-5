@@ -3,7 +3,7 @@ import SquareR from "~/components/SquareResult";
 import TableUser from "~/components/TableUser";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { LoaderArgs, redirect, V2_MetaFunction } from "@remix-run/node";
 import { Link } from "react-router-dom";
 import Header from "~/components/Header";
 import { useLoaderData, useNavigation } from "@remix-run/react";
@@ -14,13 +14,27 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const profile = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+export const loader = async ({ request, params }: LoaderArgs) => {
+  const profile = await authenticator
+    .isAuthenticated(request, {
+      // await authenticator.isAuthenticated(request, {
+      failureRedirect: "/login",
+    })
+    .then((resp: any) => {
+      if (
+        !resp._json["https://smartspeak.example.com/roles"].includes("admin")
+      ) {
+        throw redirect("/Instructions");
+      }
+      return resp;
+    });
+
+  const user = await db.user.findUnique({
+    where: { id: params.id },
   });
 
   const tests = await db.test.findMany({
-    where: { authorId: profile.id },
+    where: { authorId: user!.id },
   });
 
   var convo = [
@@ -80,12 +94,14 @@ export const loader = async ({ request }: LoaderArgs) => {
     coherenceaverage: Math.round(coherenceaverage / tests.length),
     tests: tests,
     profile: profile,
+    user: user,
     reccomendationsSummary: reccomendationsSummary,
   };
 };
 
-export default function Result() {
+export default function IndexProfile() {
   const {
+    user,
     tests,
     profile,
     grammaraverage,
@@ -106,6 +122,7 @@ export default function Result() {
         <>
           <div className="flex flex-row mt-6 mx-10">
             <div className="basis-1/2 ml-4 relative ">
+              <p className="text-center">{user.fullName}</p>
               <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
               {tests.length > 0 ? (
                 <TableUser tests={tests} />
@@ -115,21 +132,6 @@ export default function Result() {
               <div className="bg-gray-200 px-3 py-3 mt-16 text-left rounded-md">
                 <p className="font-bold">Recomendaciones</p>
                 <p className="text-sm"> {reccomendationsSummary} </p>
-              </div>
-              <div className="pb-5 mt-8 ">
-                <Link
-                  to="/instructions"
-                  className="py-2 w-60 px-8 rounded-md bg-blue-200"
-                >
-                  Take test
-                </Link>
-
-                <Link
-                  to="/resources"
-                  className="py-2 w-60 px-8 rounded-md mx-12 bg-blue-200"
-                >
-                  Resources
-                </Link>
               </div>
             </div>
             <div className="basis-1/2 mx-2">

@@ -13,15 +13,19 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const profile = await authenticator.isAuthenticated(request, {
-    // await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  }).then((resp: any) => {
-    if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
-      throw redirect("/Instructions")
-    }
-    return resp
-  });
+  const profile = await authenticator
+    .isAuthenticated(request, {
+      // await authenticator.isAuthenticated(request, {
+      failureRedirect: "/login",
+    })
+    .then((resp: any) => {
+      if (
+        !resp._json["https://smartspeak.example.com/roles"].includes("admin")
+      ) {
+        throw redirect("/Instructions");
+      }
+      return resp;
+    });
 
   const tests = await db.test.findMany({
     include: {
@@ -37,24 +41,27 @@ export const loader = async ({ request }: LoaderArgs) => {
   return {
     profile: profile,
     tests: tests,
-    s3_endpoint: s3_endpoint
-  }
+    s3_endpoint: s3_endpoint,
+  };
 };
 
 export default function VideoAdmin() {
-  const { profile, tests, s3_endpoint } = useLoaderData()
-  console.log(profile)
+  const { profile, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   return (
     <>
       <Header nombre={profile} />
-      {navigation.state !== "idle" ? <Loading /> : (
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
         <div>
           <div className="flex flex-col px-20 py-8  place-content-center">
             <p className="text-lg font-bold py-5">Evaluaciones</p>
             {tests.length > 0 ? (
               <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-            ) : <p>There are no videos</p>}
+            ) : (
+              <p>There are no videos</p>
+            )}
           </div>
 
           <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">

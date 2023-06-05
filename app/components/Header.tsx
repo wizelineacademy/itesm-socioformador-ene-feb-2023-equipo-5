@@ -15,9 +15,16 @@ function Header(props: any) {
           />
         </Link>
       </div>
-      <Link to={
-        props.nombre._json["https://smartspeak.example.com/roles"].includes("admin") ? "/admin/videos" : "/user/profile"
-      } className="inline-block basis-1/4">
+      <Link
+        to={
+          props.nombre._json["https://smartspeak.example.com/roles"].includes(
+            "admin"
+          )
+            ? "/admin/videos"
+            : "/user/profile"
+        }
+        className="inline-block basis-1/4"
+      >
         <img
           src={profilePicture}
           className="h-12 my-4 rounded-full float-left"

@@ -115,8 +115,8 @@ export const action = async ({ request }: any) => {
     (answer.Grammar + answer.Coherence + answer.Vocabulary) / 3
   );
 
-  if (userdata?.averageMaxLevel == null || userdata.averageMaxLevel > average) {
-    const userupdated = await db.user.update({
+  if (userdata?.averageMaxLevel == null || average > userdata.averageMaxLevel) {
+    await db.user.update({
       where: { id: user },
       data: {
         averageMaxLevel: average,
@@ -124,7 +124,6 @@ export const action = async ({ request }: any) => {
         dateMaxLevel: test.createdAt,
       },
     });
-    console.log(userupdated);
   }
 
   // console.log(test)

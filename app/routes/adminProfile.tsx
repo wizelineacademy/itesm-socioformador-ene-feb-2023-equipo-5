@@ -15,14 +15,14 @@ import TableAdmin from "~/components/TableAdmin";
 import TableAdminUsers from "~/components/TableAdminUsers";
 import { authenticator } from "~/services/auth.server";
 import { db } from "~/services/db";
+import Header from "~/components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Videos" }];
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // const profile = await authenticator.isAuthenticated(request, {
-  await authenticator
+  const profile = await authenticator
     .isAuthenticated(request, {
       failureRedirect: "/login",
     })
@@ -32,7 +32,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       ) {
         throw redirect("/Instructions");
       }
-      //return resp
+      return resp;
     });
 
   const tests = await db.test.findMany({
@@ -50,13 +50,14 @@ export const loader = async ({ request }: LoaderArgs) => {
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
+    profile: profile,
     users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
   };
 };
 export default function Example() {
-  const { users, tests, s3_endpoint } = useLoaderData();
+  const { profile, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("html");
   const data = [
@@ -76,65 +77,72 @@ export default function Example() {
   ];
   return (
     <>
-      <Tabs value={activeTab}>
-        <div className="mt-8 w-1/2">
-          <TabsHeader
-            className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
-            indicatorProps={{
-              className:
-                "bg-transparent border-b-2 border-blue-500 shadow-none rounded-none",
-            }}
-          >
-            <Tab
-              key="Usuario"
-              value="Usuario"
-              onClick={() => setActiveTab("Usuario")}
-              className={activeTab === "Usuario" ? "text-blue-500" : ""}
+      <Header nombre={profile} />
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
+        <>
+          <Tabs value={activeTab}>
+            <div className="mt-8 w-1/2">
+              <TabsHeader
+                className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                indicatorProps={{
+                  className:
+                    "bg-transparent border-b-2 border-blue-500 shadow-none rounded-none",
+                }}
+              >
+                <Tab
+                  key="Usuario"
+                  value="Usuario"
+                  onClick={() => setActiveTab("Usuario")}
+                  className={activeTab === "Usuario" ? "text-blue-500" : ""}
+                >
+                  Usuarios
+                </Tab>
+                <Tab
+                  key="Video"
+                  value="Video"
+                  onClick={() => setActiveTab("Video")}
+                  className={activeTab === "Video" ? "text-blue-500" : ""}
+                >
+                  Videos
+                </Tab>
+              </TabsHeader>
+            </div>
+            <TabsBody
+              animate={{
+                initial: { y: 250 },
+                mount: { y: 0 },
+                unmount: { y: 250 },
+              }}
             >
-              Usuarios
-            </Tab>
-            <Tab
-              key="Video"
-              value="Video"
-              onClick={() => setActiveTab("Video")}
-              className={activeTab === "Video" ? "text-blue-500" : ""}
-            >
-              Videos
-            </Tab>
-          </TabsHeader>
-        </div>
-        <TabsBody
-          animate={{
-            initial: { y: 250 },
-            mount: { y: 0 },
-            unmount: { y: 250 },
-          }}
-        >
-          <TabPanel key="Usuario" value="Usuario">
-            <TableAdminUsers users={users} />
-          </TabPanel>
-          <TabPanel key={"Video"} value={"Video"}>
-            {navigation.state !== "idle" ? (
-              <Loading />
-            ) : (
-              <div>
-                <div className="flex flex-col px-20 py-8  place-content-center">
-                  <p className="text-lg font-bold py-5">Evaluaciones</p>
-                  {tests.length > 0 ? (
-                    <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-                  ) : (
-                    <p>No hay videos v2</p>
-                  )}
-                </div>
+              <TabPanel key="Usuario" value="Usuario">
+                <TableAdminUsers users={users} />
+              </TabPanel>
+              <TabPanel key={"Video"} value={"Video"}>
+                {navigation.state !== "idle" ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="flex flex-col px-20 py-8  place-content-center">
+                      <p className="text-lg font-bold py-5">Evaluaciones</p>
+                      {tests.length > 0 ? (
+                        <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
+                      ) : (
+                        <p>No hay videos v2</p>
+                      )}
+                    </div>
 
-                <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">
-                  Go Back
-                </button>
-              </div>
-            )}
-          </TabPanel>
-        </TabsBody>
-      </Tabs>
+                    <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">
+                      Go Back
+                    </button>
+                  </div>
+                )}
+              </TabPanel>
+            </TabsBody>
+          </Tabs>
+        </>
+      )}
     </>
   );
 }
