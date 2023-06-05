@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 //import profilePicture from "../../public/img/profilePicture.jpg";
 
@@ -6,7 +6,7 @@ function Header(nombre: any) {
   const profilePicture = nombre.nombre.photos[0].value;
   return (
     <div className="flex flex-row bg-black h-20">
-      <div className="basis-4/5">
+      <div className="basis-8/12">
         <Link to="/">
           <img
             src={brainWaveLogo}
@@ -15,17 +15,28 @@ function Header(nombre: any) {
           />
         </Link>
       </div>
-      <Link to={"/userProfile"} className="inline-block basis-1/4">
-        <img
-          src={profilePicture}
-          className="h-12 my-4 rounded-full float-left"
-          alt="Foto del usuario"
-          referrerPolicy="no-referrer"
-        />
-        <span className="text-white text-base mx-5 my-7 float-left">
-          {nombre.nombre.displayName}
-        </span>
-      </Link>
+      <div className="inline-block basis-3/12">
+        <Link to={"/user/profile"}>
+          <img
+            src={profilePicture}
+            className="h-12 my-4 rounded-full float-left"
+            alt="Usuario"
+            referrerPolicy="no-referrer"
+          />
+          <span className="text-white text-base mx-5 my-7 float-left">
+            {nombre.nombre.displayName/*Esto se tiene que cambiar*/}
+          </span>
+        </Link>
+      </div>
+      <div className="inline-block basis-1/12">
+        <Form method="post" action="/auth/logout">
+          <button className="bg-bluefigma4 hover:bg-bluefigma6 w-full">
+            <span className="text-white text-base mx-10 my-7 float-left">
+              Logout
+            </span>
+          </button>
+        </Form>
+      </div>
     </div>
   );
 }
