@@ -49,11 +49,13 @@ export default function VideoAdmin() {
                 <div>
                     <div className="flex flex-col px-20 py-8  place-content-center">
                         <p className="text-lg font-bold py-5">Evaluaciones</p>
-                        <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
+                        {tests.length > 0 ? (
+                            <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
+                        ) : <p>No hay videos v2</p>}
                     </div>
 
                     <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">Go Back</button>
-                </div>
+                </div >
             }
         </>
     );

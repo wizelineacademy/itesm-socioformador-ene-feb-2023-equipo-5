@@ -58,16 +58,16 @@ jobs:
             --image ${service_name}:release
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
           jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container-updated.json
-          jq --arg s3Endpoint ${{ secrets.S3_ENDPOINT }} '.containers.app.environment["S3_ENDPOINT"] = $s3Endpoint' container-updated.json > container-updated.json
-          jq --arg s3Key ${{ secrets.S3_KEY }} '.containers.app.environment["S3_KEY"] = $s3Key' container-updated.json > container-updated.json
-          jq --arg s3Secret ${{ secrets.S3_SECRET }} '.containers.app.environment["S3_SECRET"] = $s3Secret' container-updated.json > container-updated.json
-          jq --arg auth0ClientId ${{ secrets.AUTH0_CLIENT_ID_MAIN }} '.containers.app.environment["AUTH0_CLIENT_ID"] = $auth0ClientId' container-updated.json > container-updated.json
-          jq --arg auth0ClientSecret ${{ secrets.AUTH0_CLIENT_SECRET_MAIN }} '.containers.app.environment["AUTH0_CLIENT_SECRET"] = $auth0ClientSecret' container-updated.json > container-updated.json
-          jq --arg auth0Domain ${{ secrets.AUTH0_DOMAIN }} '.containers.app.environment["AUTH0_DOMAIN"] = $auth0Domain' container-updated.json > container-updated.json
-          jq --arg auth0CallbackUrl ${{ secrets.AUTH0_CALLBACK_URL_MAIN }} '.containers.app.environment["AUTH0_CALLBACK_URL"] = $auth0CallbackUrl' container-updated.json > container-updated.json
-          jq --arg auth0ReturnToUrl ${{ secrets.AUTH0_RETURN_TO_URL_MAIN }} '.containers.app.environment["AUTH0_RETURN_TO_URL"] = $auth0ReturnToUrl' container-updated.json > container-updated.json
-          jq --arg auth0LogoutUrl ${{ secrets.AUTH0_LOGOUT_URL }} '.containers.app.environment["AUTH0_LOGOUT_URL"] = $auth0LogoutUrl' container-updated.json > container-updated.json
-          jq --arg databaseUrl ${{ secrets.DATABASE_MAIN_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated.json > container.json
+          jq --arg s3Endpoint ${{ secrets.S3_ENDPOINT }} '.containers.app.environment["S3_ENDPOINT"] = $s3Endpoint' container-updated.json > container-updated-S3-ENDPOINT.json
+          jq --arg s3Key ${{ secrets.S3_KEY }} '.containers.app.environment["S3_KEY"] = $s3Key' container-updated-S3-ENDPOINT.json > container-updated-S3-KEY.json
+          jq --arg s3Secret ${{ secrets.S3_SECRET }} '.containers.app.environment["S3_SECRET"] = $s3Secret' container-updated-S3-KEY.json > container-updated-S3-SECRET.json
+          jq --arg auth0ClientId ${{ secrets.AUTH0_CLIENT_ID_MAIN }} '.containers.app.environment["AUTH0_CLIENT_ID"] = $auth0ClientId' container-updated-S3-SECRET.json > container-updated-AUTH-ID.json
+          jq --arg auth0ClientSecret ${{ secrets.AUTH0_CLIENT_SECRET_MAIN }} '.containers.app.environment["AUTH0_CLIENT_SECRET"] = $auth0ClientSecret' container-updated-AUTH-ID.json > container-updated-AUTH-SECRET.json
+          jq --arg auth0Domain ${{ secrets.AUTH0_DOMAIN }} '.containers.app.environment["AUTH0_DOMAIN"] = $auth0Domain' container-updated-AUTH-SECRET.json > container-updated-AUTH-DOMAIN.json
+          jq --arg auth0CallbackUrl ${{ secrets.AUTH0_CALLBACK_URL_MAIN }} '.containers.app.environment["AUTH0_CALLBACK_URL"] = $auth0CallbackUrl' container-updated-AUTH-DOMAIN.json > container-updated-AUTH-CALLBACK.json
+          jq --arg auth0ReturnToUrl ${{ secrets.AUTH0_RETURN_TO_URL_MAIN }} '.containers.app.environment["AUTH0_RETURN_TO_URL"] = $auth0ReturnToUrl' container-updated-AUTH-CALLBACK.json > container-updated-AUTH-RETURN.json
+          jq --arg auth0LogoutUrl ${{ secrets.AUTH0_LOGOUT_URL }} '.containers.app.environment["AUTH0_LOGOUT_URL"] = $auth0LogoutUrl' container-updated-AUTH-RETURN.json > container-updated-AUTH-LOGOUT.json
+          jq --arg databaseUrl ${{ secrets.DATABASE_MAIN_URL }} '.containers.app.environment["DATABASE_URL"] = $databaseUrl' container-updated-AUTH-LOGOUT.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
     if: github.ref == 'refs/heads/main'
 
