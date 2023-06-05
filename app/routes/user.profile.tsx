@@ -1,7 +1,5 @@
-import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import TableUser from "~/components/TableUser";
-import React from "react";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { Link } from "react-router-dom";

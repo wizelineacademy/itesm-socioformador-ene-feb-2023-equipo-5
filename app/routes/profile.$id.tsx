@@ -1,10 +1,8 @@
-import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import TableUser from "~/components/TableUser";
-import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, redirect, V2_MetaFunction } from "@remix-run/node";
-import { Link } from "react-router-dom";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import Header from "~/components/Header";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import { db } from "~/services/db";
