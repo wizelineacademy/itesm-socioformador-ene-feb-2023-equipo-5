@@ -6,6 +6,7 @@ import { Form } from "@remix-run/react";
 import micOff from "../../../public/img/microfono.png";
 import micOn from "../../../public/img/grabando.png";
 import loading from "../../../public/img/load.gif";
+import play from "../../../public/img/play.png";
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -206,7 +207,7 @@ function Video(props: any) {
                 <p>Click on the icon to start the exam</p>
                 <img
                   onClick={handleStartRecording}
-                  src={micOff}
+                  src={play}
                   alt={props.alt}
                   className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                 />
