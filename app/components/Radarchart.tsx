@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import Chart, { ChartOptions } from "chart.js/auto";
 
-export default function ChartComponentRadar() {
+export default function ChartComponentRadar(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
+  const results = [props.coherence, props.vocabulary, props.grammar]
 
   useEffect(() => {
     if (chartRef.current) {
@@ -21,7 +22,7 @@ export default function ChartComponentRadar() {
             datasets: [
               {
                 label: "Grades",
-                data: [85, 73, 68],
+                data: results,
                 backgroundColor: [
                   "rgb(134,233,233)",
                   "rgb(56,201,238)",

@@ -74,7 +74,7 @@ export default function Result() {
         <div className="basis-1/2 mx-2">
           <div className="mx-2 mt-4 p-3 ">
             <div className=" ml-20 w-10/12">
-              <ChartComponentRadar />
+              <ChartComponentRadar grammar={test.grammar} coherence={test.coherence} vocabulary={test.vocabulary}/>
             </div>
           </div>
         </div>
