@@ -2,8 +2,8 @@ import { Link } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 //import profilePicture from "../../public/img/profilePicture.jpg";
 
-function Header(nombre: any) {
-  const profilePicture = nombre.nombre.photos[0].value;
+function Header(props: any) {
+  const profilePicture = props.nombre.photos[0].value;
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-4/5">
@@ -15,7 +15,9 @@ function Header(nombre: any) {
           />
         </Link>
       </div>
-      <Link to={"/userProfile"} className="inline-block basis-1/4">
+      <Link to={
+        props.nombre._json["https://smartspeak.example.com/roles"].includes("admin") ? "/admin/videos" : "/user/profile"
+      } className="inline-block basis-1/4">
         <img
           src={profilePicture}
           className="h-12 my-4 rounded-full float-left"
@@ -23,7 +25,7 @@ function Header(nombre: any) {
           referrerPolicy="no-referrer"
         />
         <span className="text-white text-base mx-5 my-7 float-left">
-          {nombre.nombre.displayName}
+          {props.nombre.displayName}
         </span>
       </Link>
     </div>

@@ -15,6 +15,14 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+
+  const tests = await db.test.findMany({
+    where: { authorId: profile.id },
+  });
+
   var convo = [
     {
       role: "system",
@@ -27,14 +35,6 @@ export const loader = async ({ request }: LoaderArgs) => {
         "I understand, I will receive a big string of all of the historic recommendations given to the user in his/her tests and return a overall summary recommendation to show in the profile page of the user. I will talk to the user in a learning tone.",
     },
   ];
-
-  const profile = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  });
-
-  const tests = await db.test.findMany({
-    where: { authorId: profile.id },
-  });
 
   const recommendationsArray = tests.map((item) => item.recommendation);
   const reccomendations = recommendationsArray.join("\n");
@@ -65,30 +65,44 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   reccomendationsSummary = await getResponse();
 
+  let grammaraverage = 0
+  let vocabularyaverage = 0
+  let coherenceaverage = 0
+  for (let i = 0; i < tests.length; i++) {
+    grammaraverage += tests[i].grammar
+    vocabularyaverage += tests[i].vocabulary
+    coherenceaverage += tests[i].coherence
+  }
+
   return {
+    grammaraverage: grammaraverage / tests.length,
+    vocabularyaverage: vocabularyaverage / tests.length,
+    coherenceaverage: coherenceaverage / tests.length,
     tests: tests,
     profile: profile,
-    reccomendationsSummary: reccomendationsSummary,
+    reccomendationsSummary: reccomendationsSummary
   };
 };
 
 export default function Result() {
-  const [showModal, setShowModal] = React.useState(false);
-  const { tests, profile, reccomendationsSummary } = useLoaderData();
+  const { tests, profile, grammaraverage, vocabularyaverage, coherenceaverage, reccomendationsSummary } = useLoaderData();
+  const average = (grammaraverage + vocabularyaverage + coherenceaverage) / 3
   const navigation = useNavigation();
-
   return (
     <>
+      <Header nombre={profile} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
         <>
-          <Header nombre={profile} />
           <div className="flex flex-row mt-14 mx-10">
             <div className="basis-1/2 ml-4 relative ">
               <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
-
-              <TableUser tests={tests} />
+              {tests.length > 0 ? (
+                <TableUser tests={tests} />
+              ) : (
+                <p>There are no examns here</p>
+              )}
               <div className="bg-gray-200 px-3 py-3 mt-20 text-left rounded-md">
                 <p className="font-bold">Recomendaciones</p>
                 <p className="text-sm"> {reccomendationsSummary} </p>
@@ -111,49 +125,16 @@ export default function Result() {
             </div>
             <div className="basis-1/2 mx-2">
               <div className="mx-2 mt-4 p-3 ">
-                <button
-                  className=" ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={() => setShowModal(true)}
-                >
+                <button className="ease-linear" disabled>
                   <div className=" mt-20 ml-36 w-full">
                     <SquareR
-                      grammar={50}
-                      vocabulary={60}
-                      coherence={40}
-                      average={50}
+                      grammar={grammaraverage}
+                      vocabulary={vocabularyaverage}
+                      coherence={coherenceaverage}
+                      average={average}
                     />
                   </div>
                 </button>
-                {showModal ? (
-                  <>
-                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                      <h3 className="text-2xl font-semibold">RESULTADOS</h3>
-                      <button
-                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                        onClick={() => setShowModal(false)}
-                      >
-                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                          ×
-                        </span>
-                      </button>
-                    </div>
-                    {/body/}
-                    <Dashboard />
-                    {/footer/}
-                    <div className="flex items-center justify-end px-6 py-2 border-t border-solid border-slate-200 rounded-b">
-                      <button
-                        className="bg-bluefigma5 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={() => setShowModal(false)}
-                      >
-                        Cerrar
-                      </button>
-                    </div>
-
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                  </>
-                ) : null}
               </div>
             </div>
           </div>

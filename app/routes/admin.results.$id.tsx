@@ -7,14 +7,15 @@ import { redirect } from "@remix-run/node";
 import { db } from "~/services/db";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
+import Header from "~/components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
 };
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  // const profile = await authenticator.isAuthenticated(request, {
-  await authenticator.isAuthenticated(request, {
+  const profile = await authenticator.isAuthenticated(request, {
+    // await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   }).then((resp: any) => {
     if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
@@ -53,6 +54,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
+    profile: profile,
     test: test,
     s3_endpoint: s3_endpoint,
     user: user,
@@ -62,7 +64,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);
-  const { test, s3_endpoint, user, situation } = useLoaderData()
+  const { profile, test, s3_endpoint, user, situation } = useLoaderData()
   const navigation = useNavigation();
   var videoLink
   try {
@@ -72,6 +74,7 @@ export default function Result() {
   }
   return (
     <>
+      <Header nombre={profile} />
       {navigation.state !== "idle" ? <Loading /> : <>
         <div className="ml-12 my-4">
           <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/videos"}>Go back</Link>

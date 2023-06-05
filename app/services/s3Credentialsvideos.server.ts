@@ -1,6 +1,6 @@
 export async function getCredentials() {
     const s3ClientVideo = {
-        region: process.env.S3_REGION,
+        region: 'us-east-2',
         credentials: {
             accessKeyId: process.env.S3_KEY!,
             secretAccessKey: process.env.S3_SECRET!

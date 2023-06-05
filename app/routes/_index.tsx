@@ -3,12 +3,21 @@ import ValuesSection from "~/components/ValuesSection";
 import SubscribeSection from "~/components/SubscribeSection";
 import FirstSection from "~/components/FirstSection";
 import HeaderPage from "~/components/HeaderPage";
+import { authenticator } from "~/services/auth.server";
+import type { LoaderArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const profile = await authenticator.isAuthenticated(request)
+  return { profile }
+}
 
 export default function Index(): JSX.Element {
+  const { profile } = useLoaderData()
   return (
     <main id="content">
       <div className="bg-gray-100">
-        <HeaderPage />
+        <HeaderPage profile={profile} />
         <FirstSection />
         <AboutSection
           title="Mision"

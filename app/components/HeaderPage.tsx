@@ -1,7 +1,7 @@
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import { Link } from "react-router-dom";
 
-const HeaderPage = () => {
+const HeaderPage = (props: any) => {
   return (
     <header className="sticky top-0 z-50 flex flex-row mt-0 mx-10 justify-between bg-gray-100 py-4 px-10">
       <div>
@@ -35,11 +35,19 @@ const HeaderPage = () => {
         </section>
       </nav>
       <div>
-        <Link to="/login">
-          <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Log In
-          </button>
-        </Link>
+        {props.profile ? (
+          <Link to="/auth/handle/redirect">
+            <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+              Home
+            </button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+              Log In
+            </button>
+          </Link>
+        )}
       </div>
     </header>
   );
