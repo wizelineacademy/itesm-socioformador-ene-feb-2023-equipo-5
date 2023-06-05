@@ -21,22 +21,31 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       id: params.id
     }
   })
+  const mainsituation = test?.mainSituationId
+
+  const question = await db.question.findUnique({
+    where: { id: mainsituation },
+    select: {
+      situation: true
+    }
+  })
 
   return {
     test: test,
+    question: question,
     profile: profile,
   };
 };
 
 export default function Result() {
-  const { profile, test } = useLoaderData()
-
+  const { profile, test, question } = useLoaderData()
+  
   return (
     <>
       <Header nombre={profile} />
       <div className="flex flex-row mt-14 mx-10">
         <div className="basis-1/2 ml-4 relative ">
-          <p className="text-lg font-bold mb-4  ">{test ? test.createdAt.split("T")[0] : "No recommendations available"}</p>
+          <p className="text-lg font-bold mb-4  ">{question ? question.situation : "No recommendations available"}</p>
           <div className="bg-gray-200 px-3 py-3 mt-10 text-left rounded-md">
             <p className="font-bold">Feedback</p>
             <p className="text-sm">

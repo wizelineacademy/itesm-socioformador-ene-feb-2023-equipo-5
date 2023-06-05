@@ -92,8 +92,8 @@ export const action = async ({ request }: any) => {
       { status: 404 }
     );
   }
-  // const test = await db.test.create({
-  await db.test.create({
+  const test = await db.test.create({
+  // await db.test.create({
     data: {
       videoURL: urlVideo,
       coherence: answer.Coherence,
@@ -107,7 +107,7 @@ export const action = async ({ request }: any) => {
     },
   });
   // console.log(test)
-  return redirect("/results");
+  return redirect(`/results/${test.id}`);
 };
 
 export function ErrorBoundary() {
