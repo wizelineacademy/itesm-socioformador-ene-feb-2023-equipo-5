@@ -1,4 +1,4 @@
-import ExamRow from "./ExamRowUser";
+import ExamRow from "./ExamRowAdmin";
 
 // interface Exam {
 //   date: String;
@@ -15,7 +15,8 @@ import ExamRow from "./ExamRowUser";
 
 // fake_exams = [exam1, exam2, exam3, exam4];
 
-function TableAdminUsers() {
+function TableAdminUsers(props: any) {
+  console.log(props.users);
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 scroll-auto h-[150px]">
@@ -42,31 +43,27 @@ function TableAdminUsers() {
                 </tr>
               </thead>
               <tbody>
-                {/* {props.tests.map(
-                  (test: {
-                    grammar: any;
-                    coherence: any;
-                    vocabulary: any;
-                    author: any;
+                {props.users.map(
+                  (user: {
                     id: Number;
-                    createdAt: String;
-                    grade: Number;
+                    fullName: String;
                     englishlevel: String;
+                    dateMaxLevel: string;
+                    averageMaxLevel: Number;
+                    createdAt: String;
                   }) => {
-                    const average = Math.round(
-                      (test.grammar + test.coherence + test.vocabulary) / 3
-                    );
                     return (
                       <ExamRow
-                        key={test.id}
-                        date={test.createdAt.split("T")[0]}
-                        grade={average}
-                        level={test.englishlevel}
-                        id={test.id}
+                        key={user.id}
+                        name={user.fullName}
+                        date={user.dateMaxLevel}
+                        level={user.englishlevel}
+                        grade={user.averageMaxLevel}
+                        id={user.id}
                       />
                     );
                   }
-                )} */}
+                )}
               </tbody>
             </table>
           </div>

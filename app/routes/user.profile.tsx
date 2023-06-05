@@ -65,13 +65,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   reccomendationsSummary = await getResponse();
 
-  let grammaraverage = 0
-  let vocabularyaverage = 0
-  let coherenceaverage = 0
+  let grammaraverage = 0;
+  let vocabularyaverage = 0;
+  let coherenceaverage = 0;
   for (let i = 0; i < tests.length; i++) {
-    grammaraverage += tests[i].grammar
-    vocabularyaverage += tests[i].vocabulary
-    coherenceaverage += tests[i].coherence
+    grammaraverage += tests[i].grammar;
+    vocabularyaverage += tests[i].vocabulary;
+    coherenceaverage += tests[i].coherence;
   }
 
   return {
@@ -80,13 +80,20 @@ export const loader = async ({ request }: LoaderArgs) => {
     coherenceaverage: coherenceaverage / tests.length,
     tests: tests,
     profile: profile,
-    reccomendationsSummary: reccomendationsSummary
+    reccomendationsSummary: reccomendationsSummary,
   };
 };
 
 export default function Result() {
-  const { tests, profile, grammaraverage, vocabularyaverage, coherenceaverage, reccomendationsSummary } = useLoaderData();
-  const average = (grammaraverage + vocabularyaverage + coherenceaverage) / 3
+  const {
+    tests,
+    profile,
+    grammaraverage,
+    vocabularyaverage,
+    coherenceaverage,
+    reccomendationsSummary,
+  } = useLoaderData();
+  const average = (grammaraverage + vocabularyaverage + coherenceaverage) / 3;
   const navigation = useNavigation();
   return (
     <>
@@ -112,14 +119,14 @@ export default function Result() {
                   to="/instructions"
                   className="py-2 w-60 px-8 rounded-md bg-blue-200"
                 >
-                  Realizar Prueba
+                  Take test
                 </Link>
 
                 <Link
                   to="/resources"
                   className="py-2 w-60 px-8 rounded-md mx-12 bg-blue-200"
                 >
-                  Recursos
+                  Resources
                 </Link>
               </div>
             </div>

@@ -46,17 +46,17 @@ export const loader = async ({ request }: LoaderArgs) => {
   });
 
   const users = await db.user.findMany({});
-  console.log(users);
 
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
+    users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
   };
 };
 export default function Example() {
-  const { tests, s3_endpoint } = useLoaderData();
+  const { users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("html");
   const data = [
@@ -111,7 +111,7 @@ export default function Example() {
           }}
         >
           <TabPanel key="Usuario" value="Usuario">
-            <TableAdminUsers />
+            <TableAdminUsers users={users} />
           </TabPanel>
           <TabPanel key={"Video"} value={"Video"}>
             {navigation.state !== "idle" ? (
