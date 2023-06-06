@@ -5,7 +5,7 @@ import Chart from "chart.js/auto";
 export default function ChartComponentRadar(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
-  const results = [props.coherence, props.vocabulary, props.grammar]
+  const results = [props.coherence, props.vocabulary, props.grammar];
 
   useEffect(() => {
     if (chartRef.current) {
@@ -23,11 +23,13 @@ export default function ChartComponentRadar(props: any) {
             datasets: [
               {
                 label: "Grades",
-                data: results,
+                data: [11, 16, 7, 3, 14],
                 backgroundColor: [
-                  "rgb(134,233,233)",
-                  "rgb(56,201,238)",
-                  "rgb(57,148,207)",
+                  "rgb(134, 233, 233)",
+                  "rgb(60, 218, 216)",
+                  "rgb(56, 201, 238)",
+                  "rgb(65, 167, 237)",
+                  "rgb(21, 82, 138)",
                 ],
               },
             ],
