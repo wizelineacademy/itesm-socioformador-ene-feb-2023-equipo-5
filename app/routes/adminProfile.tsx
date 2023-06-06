@@ -59,7 +59,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Example() {
   const { profile, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
-  const [activeTab, setActiveTab] = React.useState("html");
+  const [activeTab, setActiveTab] = React.useState("Usuario");
   return (
     <>
       <Header nombre={profile} />
