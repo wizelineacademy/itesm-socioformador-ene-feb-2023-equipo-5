@@ -83,7 +83,7 @@ export default function Example() {
       ) : (
         <>
           <Tabs value={activeTab}>
-            <div className="mt-8 w-1/2">
+            <div className="mt-8 ">
               <TabsHeader
                 className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
                 indicatorProps={{
@@ -117,7 +117,9 @@ export default function Example() {
               }}
             >
               <TabPanel key="Usuario" value="Usuario">
-                <TableAdminUsers users={users} />
+                <div className=" place-self-center mx-[5%]">
+                  <TableAdminUsers users={users} />
+                </div>
               </TabPanel>
               <TabPanel key={"Video"} value={"Video"}>
                 {navigation.state !== "idle" ? (
@@ -132,10 +134,6 @@ export default function Example() {
                         <p>No hay videos v2</p>
                       )}
                     </div>
-
-                    <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">
-                      Go Back
-                    </button>
                   </div>
                 )}
               </TabPanel>
