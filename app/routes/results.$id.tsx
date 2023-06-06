@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "~/components/Header";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import { db } from "~/services/db";
-import ChartComponentRadar from "../components/Radarchart";
+import { PolarAreaChart } from "../components/Chart";
 import Loading from "~/components/Loading";
 
 export const meta: V2_MetaFunction = () => {
@@ -84,7 +84,7 @@ export default function Result() {
             <div className="basis-1/2 mx-2">
               <div className="mx-2 mt-4 p-3 ">
                 <div className=" ml-20 w-10/12">
-                  <ChartComponentRadar grammar={test.grammar} coherence={test.coherence} vocabulary={test.vocabulary} />
+                  <PolarAreaChart grammar={test.grammar} coherence={test.coherence} vocabulary={test.vocabulary} />
                 </div>
               </div>
             </div>
