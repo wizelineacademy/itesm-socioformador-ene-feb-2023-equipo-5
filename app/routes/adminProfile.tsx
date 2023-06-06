@@ -84,7 +84,7 @@ export default function Example() {
       ) : (
         <>
           <Tabs value={activeTab}>
-            <div className="mt-8 ">
+            <div className="mt-8 w-1/2 ml-2">
               <TabsHeader
                 className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
                 indicatorProps={{
@@ -139,13 +139,13 @@ export default function Example() {
                   </select> */}
                   Filtros
                 </div>
-                <div className="w-3/4 float-left text-center">
+                <div className="w-1/4 border-2 border-gray-200 rounded-md float-left text-center ">
                   <input
                     type="text"
-                    placeholder="Buscador"
-                    className="w-full"
+                    placeholder=" Buscador"
+                    className="w-full "
                     value={query}
-                    onChange={e => setQuery(e.target.value)}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
                 </div>
                 <div className=" place-self-center mx-[5%] clear-both">
