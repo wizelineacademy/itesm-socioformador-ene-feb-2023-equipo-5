@@ -14,7 +14,7 @@ export let loader = ({ request }: LoaderArgs) => {
       ) {
         throw redirect("/admin/videos");
       } else {
-        throw redirect("/userProfile");
+        throw redirect("/user/profile");
       }
       //return resp
     });

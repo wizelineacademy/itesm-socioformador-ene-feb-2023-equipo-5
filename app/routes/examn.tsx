@@ -50,11 +50,11 @@ export default function Examn() {
   } = useLoaderData();
   return (
     <>
+      <Header nombre={profile} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
         <div className="mx-auto">
-          <Header nombre={profile} />
           <Question
             texto={"What are you currently studying and why?"}
           ></Question>
@@ -93,7 +93,7 @@ export const action = async ({ request }: any) => {
     );
   }
   const test = await db.test.create({
-  // await db.test.create({
+    // await db.test.create({
     data: {
       videoURL: urlVideo,
       coherence: answer.Coherence,
@@ -106,6 +106,26 @@ export const action = async ({ request }: any) => {
       mainSituationId: situation,
     },
   });
+
+  const userdata = await db.user.findUnique({
+    where: { id: user },
+  });
+
+  const average = Math.round(
+    (answer.Grammar + answer.Coherence + answer.Vocabulary) / 3
+  );
+
+  if (userdata?.averageMaxLevel == null || average > userdata.averageMaxLevel) {
+    await db.user.update({
+      where: { id: user },
+      data: {
+        averageMaxLevel: average,
+        englishlevel: answer.English_Level,
+        dateMaxLevel: test.createdAt,
+      },
+    });
+  }
+
   // console.log(test)
   return redirect(`/results/${test.id}`);
 };
