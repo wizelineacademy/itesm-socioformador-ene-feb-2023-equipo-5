@@ -5,9 +5,9 @@ import Chart from "chart.js/auto";
 export default function ChartComponentRadar(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
-  //const results = [props.coherence, props.vocabulary, props.grammar];
+  const results = [props.coherence, props.vocabulary, props.grammar];
 
-  useEffect(() => { 
+  useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
       if (ctx) {
