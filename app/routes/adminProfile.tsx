@@ -60,21 +60,21 @@ export default function Example() {
   const { profile, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("Usuario");
-  // const [nivel, setNivel] = useState("");
+  const [nivel, setNivel] = useState("");
   const [query, setQuery] = useState("");
 
   let filteredUsers = users.filter(
     (user: any) =>
-      // (nivel === "" ||
-      //   user.englishlevel == nivel) &&
-      // (query === "" ||
-      user.fullName && user.fullName.toLowerCase().includes(query.toLowerCase())
+      (nivel === "" ||
+        user.englishlevel == nivel) &&
+      (query === "" ||
+        user.fullName && user.fullName.toLowerCase().includes(query.toLowerCase()))
   );
 
-  // const handleSelectChange = (event: any) => {
-  //   setNivel(event.target.value);
-  //   setQuery("");
-  // };
+  const handleSelectChange = (event: any) => {
+    setNivel(event.target.value);
+    setQuery("");
+  };
 
   return (
     <>
@@ -119,7 +119,7 @@ export default function Example() {
             >
               <TabPanel key="Usuario" value="Usuario">
                 <div className="w-1/4 float-left text-center">
-                  {/* <select
+                  <select
                     className=""
                     id="dificultad"
                     name="dificultad"
@@ -136,8 +136,7 @@ export default function Example() {
                     <option value="B2">B2</option>
                     <option value="C1">C1</option>
                     <option value="C2">C2</option>
-                  </select> */}
-                  Filtros
+                  </select>
                 </div>
                 <div className="w-1/4 border-2 border-gray-200 rounded-md float-left text-center ">
                   <input
