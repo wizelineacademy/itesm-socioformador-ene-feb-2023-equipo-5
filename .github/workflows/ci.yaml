@@ -87,7 +87,7 @@ jobs:
         run: npx prisma migrate reset --force
 
       - name: ⚙️ Build
-        run: npm run dev
+        run: npm run build
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
