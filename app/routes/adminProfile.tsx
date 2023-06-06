@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -60,6 +60,22 @@ export default function Example() {
   const { profile, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("Usuario");
+  // const [nivel, setNivel] = useState("");
+  const [query, setQuery] = useState("");
+
+  let filteredUsers = users.filter(
+    (user: any) =>
+      // (nivel === "" ||
+      //   user.englishlevel == nivel) &&
+      // (query === "" ||
+      user.fullName && user.fullName.toLowerCase().includes(query.toLowerCase())
+  );
+
+  // const handleSelectChange = (event: any) => {
+  //   setNivel(event.target.value);
+  //   setQuery("");
+  // };
+
   return (
     <>
       <Header nombre={profile} />
@@ -102,8 +118,38 @@ export default function Example() {
               }}
             >
               <TabPanel key="Usuario" value="Usuario">
-                <div className=" place-self-center mx-[5%]">
-                  <TableAdminUsers users={users} />
+                <div className="w-1/4 float-left text-center">
+                  {/* <select
+                    className=""
+                    id="dificultad"
+                    name="dificultad"
+                    value={nivel}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="" defaultValue='true'>
+                      Nivel
+                    </option>
+                    <option value="">Todos</option>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select> */}
+                  Filtros
+                </div>
+                <div className="w-3/4 float-left text-center">
+                  <input
+                    type="text"
+                    placeholder="Buscador"
+                    className="w-full"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                  />
+                </div>
+                <div className=" place-self-center mx-[5%] clear-both">
+                  <TableAdminUsers users={filteredUsers} />
                 </div>
               </TabPanel>
               <TabPanel key={"Video"} value={"Video"}>
