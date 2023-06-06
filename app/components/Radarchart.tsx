@@ -7,7 +7,7 @@ export default function ChartComponentRadar(props: any) {
   const chartInstanceRef = useRef<Chart | null>(null);
   const results = [props.coherence, props.vocabulary, props.grammar];
 
-  useEffect(() => {
+  useEffect(() => { 
     if (chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
       if (ctx) {
