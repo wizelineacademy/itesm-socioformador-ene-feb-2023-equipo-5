@@ -15,7 +15,7 @@ function Header(props: any) {
           />
         </Link>
       </div>
-<!-- <<<<<<< H101/Logout -->
+{/* <!-- <<<<<<< H101/Logout --> */}
       <div className="inline-block basis-3/12">
         <Link
           to={
@@ -47,7 +47,7 @@ function Header(props: any) {
           </button>
         </Form>
       </div>
-<!-- =======
+{/* <!-- =======
       <Link
         to={
           props.nombre._json["https://smartspeak.example.com/roles"].includes(
@@ -68,7 +68,7 @@ function Header(props: any) {
           {props.nombre.displayName}
         </span>
       </Link>
-// >>>>>>> dev -->
+// >>>>>>> dev --> */}
     </div>
   );
 }
