@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import type { ChartOptions } from "chart.js/auto";
 import Chart from "chart.js/auto";
 
-export default function ChartComponentRadar() {
+export function PolarAreaChart(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -18,17 +18,20 @@ export default function ChartComponentRadar() {
         chartInstanceRef.current = new Chart(ctx, {
           type: "polarArea",
           data: {
-            labels: ["Coherence", "Vocabulary", "Grammar", "Average"],
+            labels: props.data.map((test: any) => Object.keys(test)[0]),
             datasets: [
               {
-                label: "Grades",
-                data: [85, 73, 68, 82],
+                label: "English Level Counts",
+                data: props.data.map((test: any) => Object.values(test)[0]),
                 backgroundColor: [
-                  "rgb(134,233,233)",
-                  "rgb(60,218,216)",
-                  "rgb(56,201,238)",
-                  "rgb(65,167,237",
+                  "rgb(54, 162, 235)",
+                  "rgb(30, 100, 200)",
+                  "rgb(144, 202, 255)",
+                  "rgb(150, 200, 255)",
+                  "rgb(224, 242, 255)",
+                  "rgb(100, 200, 170)",
                 ],
+                hoverOffset: 4,
               },
             ],
           },
@@ -50,11 +53,11 @@ export default function ChartComponentRadar() {
         chartInstanceRef.current = null;
       }
     };
-  }, []);
+  });
 
   return (
-    <div style={{ width: "100%", height: "100vh" }}>
-      <canvas ref={chartRef} style={{ width: "50%", height: "50%" }} />
+    <div style={{ padding: "1rem" }}>
+      <canvas ref={chartRef} style={{ width: "100%", height: "100%" }} />
     </div>
   );
 }

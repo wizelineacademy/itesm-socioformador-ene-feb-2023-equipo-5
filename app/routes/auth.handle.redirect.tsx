@@ -1,21 +1,30 @@
-import type { LoaderArgs} from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-
 import { authenticator } from "../services/auth.server";
+import { db } from "~/services/db";
 
-export let loader = ({ request }: LoaderArgs) => {
-  return authenticator
-    .authenticate("auth0", request, {
+export let loader = async ({ request }: LoaderArgs) => {
+    const profile:any = await authenticator.authenticate("auth0", request, {
       failureRedirect: "/login",
     })
-    .then((resp: any) => {
-      if (
-        resp._json["https://smartspeak.example.com/roles"].includes("admin")
-      ) {
-        throw redirect("/admin/videos");
-      } else {
-        throw redirect("/userProfile");
+    
+    const userName:any = await db.user.findUnique({
+      where: {
+        id: profile.id
+      },
+      select: {
+        name: true
       }
-      //return resp
-    });
+    })
+
+    if (!(typeof userName.name === "string")) {
+      throw redirect("/user/registration")
+    }
+
+    if (profile._json["https://smartspeak.example.com/roles"].includes("admin")) {
+      throw redirect("/admin/profile");
+    } else {
+      throw redirect("/user/profile");
+    }
+
 };

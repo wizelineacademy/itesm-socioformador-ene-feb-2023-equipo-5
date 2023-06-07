@@ -6,6 +6,7 @@ import { Form } from "@remix-run/react";
 import micOff from "../../../public/img/microfono.png";
 import micOn from "../../../public/img/grabando.png";
 import loading from "../../../public/img/load.gif";
+import play from "../../../public/img/play.png"
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -19,12 +20,8 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 2 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
-  },
-  {
-    role: "assistant",
-    content: "Hey! What are you currently studying and why?",
-  },
+      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+  }
 ];
 // var respuesta = "Nada"
 var questions: number = 0;
@@ -33,6 +30,11 @@ function Video(props: any) {
   const [respuesta, setRespuesta] = useState("");
   const [imgButton, setImgButton] = useState(false);
   const [pastAnswer, setPastAnswer] = useState("Inicial");
+
+  convo.push({
+    role: "assistant",
+    content: props.question.situation,
+  })
 
   function detectVoice() {
     //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -57,7 +59,7 @@ function Video(props: any) {
         var userResponse = { role: "user", content: text };
         convo.push(userResponse);
 
-        if (questions == 2) {
+        if (questions == 5) {
           convo.push({
             role: "assistant",
             content:
@@ -98,7 +100,7 @@ function Video(props: any) {
         // console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
-        if (questions == 2) {
+        if (questions == 5) {
           stopRecording();
         }
       })
@@ -198,15 +200,15 @@ function Video(props: any) {
         <div className="bg-white rounded-lg p-4 my-10 mx-auto w-4/12">
           <div className="my-4">
             <p className="text-2xl font-bold mb-10">
-              Presiona sobre el ícono para iniciar/detener la conversación.{" "}
+              Click on the icon to start/stop the conversation.{" "}
             </p>
             {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
             {pastAnswer == "Inicial" ? (
               <>
-                <p>Presiona sobre el icono para comenzar el examen</p>
+                <p>Click on the icon to start the examn</p>
                 <img
                   onClick={handleStartRecording}
-                  src={micOff}
+                  src={play}
                   alt={props.alt}
                   className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                 />
@@ -238,7 +240,7 @@ function Video(props: any) {
                       alt={props.alt}
                       className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                     />
-                    <p>Grabando...</p>
+                    <p>Recording...</p>
                   </>
                 )}
               </>
@@ -257,9 +259,9 @@ function Video(props: any) {
               </Form>
             ) : null} */}
           </div>
-          {questions == 2 ? null : (
+          {questions == 5 ? null : (
             <>
-              <p className="text-xl font-semibold pb-5">Respuesta:</p>
+              <p className="text-xl font-semibold pb-5">Answer:</p>
               <p className="italic text-lg">{respuesta}</p>
             </>
           )}
@@ -276,11 +278,11 @@ function Video(props: any) {
                   {/*body*/}
                   <div className="relative p-6 flex-auto mx-10">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                      A continuación aparecerán los resultados de tu prueba,
-                      recuerda que en caso de querer realizarla podrás hacerlo
-                      dando click al botón “repetir prueba”. Si consideras que
-                      tus resultados no son adecuados, podrás pedir una
-                      revisión, y se te contactará en caso de haber cambios.
+                      Your test results will appear below. remember that if you
+                      want to do it you can do it clicking the "repeat test"
+                      button. If you consider that your results are not
+                      adequate, you can request a review, and you will be
+                      contacted if there are any changes.
                     </p>
                   </div>
                   {/*footer*/}
@@ -311,9 +313,9 @@ function Video(props: any) {
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
-                        // onClick={stopRecording}
+                      // onClick={stopRecording}
                       >
-                        Resultados
+                        Results
                       </button>
                     </Form>
                     {/* </Link> */}

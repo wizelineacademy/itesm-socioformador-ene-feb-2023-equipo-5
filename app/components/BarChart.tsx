@@ -2,10 +2,9 @@ import { useRef, useEffect } from "react";
 import type { ChartOptions } from "chart.js/auto";
 import Chart from "chart.js/auto";
 
-export default function ChartComponent() {
+export function ChartComponent(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
-
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
@@ -18,18 +17,11 @@ export default function ChartComponent() {
         chartInstanceRef.current = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: [
-              "Coherencia",
-              "Gramática",
-              "Fluidez",
-              "Vocabulario",
-              "Pronunciación",
-              "Comprensión",
-            ],
+            labels: props.data.map((test: any) => Object.keys(test)[0]),
             datasets: [
               {
-                label: "Results Belen Ariadna González Mendoza",
-                data: [12, 20, 3, 5, 10, 3],
+                label: "English Level Counts",
+                data: props.data.map((test: any) => Object.values(test)[0]),
                 backgroundColor: [
                   "rgb(54, 162, 235)",
                   "rgb(30, 100, 200)",
@@ -46,7 +38,7 @@ export default function ChartComponent() {
                   "rgb(224, 242, 255)",
                   "rgb(100, 200, 170)",
                 ],
-                borderWidth: 5,
+                hoverOffset: 4,
               },
             ],
           },
@@ -68,7 +60,7 @@ export default function ChartComponent() {
         chartInstanceRef.current = null;
       }
     };
-  }, []);
+  });
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>

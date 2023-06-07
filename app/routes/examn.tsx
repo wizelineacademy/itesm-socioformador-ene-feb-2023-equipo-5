@@ -12,6 +12,7 @@ import { authenticator } from "../services/auth.server";
 import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
 import Loading from "~/components/Loading";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Test" }];
@@ -21,6 +22,8 @@ export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+
+  const headerData = await getHeaderData(request);
 
   const s3ClientVideo = await getCredentials();
 
@@ -37,6 +40,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     credentials: s3ClientVideo,
     question: randomquestion,
     urlVideo: urlVideo,
+    headerData: headerData
   };
 };
 
@@ -47,15 +51,18 @@ export default function Examn() {
     credentials,
     question,
     urlVideo,
+    headerData
   } = useLoaderData();
   return (
     <>
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
         <div className="mx-auto">
-          <Header nombre={profile} />
-          <Question texto={question.situation}></Question>
+          <Question
+            texto={question.situation}
+          ></Question>
           <Video
             credentials={credentials}
             question={question}
@@ -90,8 +97,8 @@ export const action = async ({ request }: any) => {
       { status: 404 }
     );
   }
-  // const test = await db.test.create({
-  await db.test.create({
+  const test = await db.test.create({
+    // await db.test.create({
     data: {
       videoURL: urlVideo,
       coherence: answer.Coherence,
@@ -104,8 +111,28 @@ export const action = async ({ request }: any) => {
       mainSituationId: situation,
     },
   });
+
+  const userdata = await db.user.findUnique({
+    where: { id: user },
+  });
+
+  const average = Math.round(
+    (answer.Grammar + answer.Coherence + answer.Vocabulary) / 3
+  );
+
+  if (userdata?.averageMaxLevel == null || average > userdata.averageMaxLevel) {
+    await db.user.update({
+      where: { id: user },
+      data: {
+        averageMaxLevel: average,
+        englishlevel: answer.English_Level,
+        dateMaxLevel: test.createdAt,
+      },
+    });
+  }
+
   // console.log(test)
-  return redirect("/userProfile");
+  return redirect(`/results/${test.id}`);
 };
 
 export function ErrorBoundary() {
