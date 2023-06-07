@@ -25,7 +25,7 @@ function Header(props: any) {
               : "/user/profile"
           }
           className="inline-block basis-1/4"
-        >
+        > 
           <img
             src={profilePicture}
             className="h-12 my-4 rounded-full float-left"
