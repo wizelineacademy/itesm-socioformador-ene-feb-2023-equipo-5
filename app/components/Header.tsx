@@ -20,7 +20,7 @@ function Header(props: any) {
           props.nombre._json["https://smartspeak.example.com/roles"].includes(
             "admin"
           )
-            ? "/admin/videos"
+            ? "/adminProfile"
             : "/user/profile"
         }
         className="inline-block basis-1/4"

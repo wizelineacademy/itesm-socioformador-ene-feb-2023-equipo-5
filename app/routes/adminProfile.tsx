@@ -65,10 +65,10 @@ export default function Example() {
 
   let filteredUsers = users.filter(
     (user: any) =>
-      (nivel === "" ||
-        user.englishlevel == nivel) &&
+      (nivel === "" || user.englishlevel == nivel) &&
       (query === "" ||
-        user.fullName && user.fullName.toLowerCase().includes(query.toLowerCase()))
+        (user.fullName &&
+          user.fullName.toLowerCase().includes(query.toLowerCase())))
   );
 
   const handleSelectChange = (event: any) => {
@@ -84,7 +84,7 @@ export default function Example() {
       ) : (
         <>
           <Tabs value={activeTab}>
-            <div className="mt-8 w-1/2 ml-2">
+            <div className="mt-8  ml-2">
               <TabsHeader
                 className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
                 indicatorProps={{
@@ -118,15 +118,24 @@ export default function Example() {
               }}
             >
               <TabPanel key="Usuario" value="Usuario">
-                <div className="w-1/4 float-left text-center">
+                <div className="w-1/4 border-2 border-gray-200 rounded-md float-right text-center ">
+                  <input
+                    type="text"
+                    placeholder=" Buscador"
+                    className="w-full "
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                <div className="w-1/4  float-right text-center">
                   <select
-                    className=""
+                    className="border-2 border-gray-200 rounded-md w-[90%]"
                     id="dificultad"
                     name="dificultad"
                     value={nivel}
                     onChange={handleSelectChange}
                   >
-                    <option value="" defaultValue='true'>
+                    <option value="" defaultValue="true">
                       Nivel
                     </option>
                     <option value="">Todos</option>
@@ -138,15 +147,7 @@ export default function Example() {
                     <option value="C2">C2</option>
                   </select>
                 </div>
-                <div className="w-1/4 border-2 border-gray-200 rounded-md float-left text-center ">
-                  <input
-                    type="text"
-                    placeholder=" Buscador"
-                    className="w-full "
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                </div>
+
                 <div className=" place-self-center mx-[5%] clear-both">
                   <TableAdminUsers users={filteredUsers} />
                 </div>

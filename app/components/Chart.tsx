@@ -3,6 +3,7 @@ import type { ChartOptions } from "chart.js/auto";
 import Chart from "chart.js/auto";
 
 export function PolarAreaChart(props: any) {
+  console.log(props);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -18,11 +19,11 @@ export function PolarAreaChart(props: any) {
         chartInstanceRef.current = new Chart(ctx, {
           type: "polarArea",
           data: {
-            labels: props.data.map((test: any) => Object.keys(test)[0]),
+            labels: ["Coherence", "Vocabulary", "Grammar"],
             datasets: [
               {
                 label: "English Level Counts",
-                data: props.data.map((test: any) => Object.values(test)[0]),
+                data: [props.coherence, props.vocabulary, props.grammar],
                 backgroundColor: [
                   "rgb(54, 162, 235)",
                   "rgb(30, 100, 200)",

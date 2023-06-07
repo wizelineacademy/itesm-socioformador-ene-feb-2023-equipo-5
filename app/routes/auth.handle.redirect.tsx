@@ -1,4 +1,4 @@
-import type { LoaderArgs} from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 
 import { authenticator } from "../services/auth.server";
@@ -12,7 +12,7 @@ export let loader = ({ request }: LoaderArgs) => {
       if (
         resp._json["https://smartspeak.example.com/roles"].includes("admin")
       ) {
-        throw redirect("/admin/videos");
+        throw redirect("/adminProfile");
       } else {
         throw redirect("/user/profile");
       }

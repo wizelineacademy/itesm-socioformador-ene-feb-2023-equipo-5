@@ -86,7 +86,7 @@ export default function Result() {
           <div className="ml-12 my-4">
             <Link
               className="px-6 py-2 w-max rounded-md bg-blue-200"
-              to={"/admin/videos"}
+              to={"/adminProfile"}
             >
               Go back
             </Link>
