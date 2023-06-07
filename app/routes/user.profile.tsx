@@ -132,9 +132,9 @@ export default function Result() {
                 <button className="ease-linear" disabled>
                   <div className=" mt-20 ml-36 w-full">
                     <SquareR
-                      grammar={grammaraverage}
-                      vocabulary={vocabularyaverage}
-                      coherence={coherenceaverage}
+                      grammar={grammaraverage ? grammaraverage : 0}
+                      vocabulary={vocabularyaverage ? vocabularyaverage : 0}
+                      coherence={coherenceaverage ? coherenceaverage : 0}
                       average={average}
                     />
                   </div>

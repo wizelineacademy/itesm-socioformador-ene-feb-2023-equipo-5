@@ -20,12 +20,8 @@ var convo = [
   {
     role: "assistant",
     content:
-      "I understand, after 2 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
-  },
-  {
-    role: "assistant",
-    content: "Hey! What are you currently studying and why?",
-  },
+      "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
+  }
 ];
 // var respuesta = "Nada"
 var questions: number = 0;
@@ -34,6 +30,11 @@ function Video(props: any) {
   const [respuesta, setRespuesta] = useState("");
   const [imgButton, setImgButton] = useState(false);
   const [pastAnswer, setPastAnswer] = useState("Inicial");
+
+  convo.push({
+    role: "assistant",
+    content: props.question.situation,
+  })
 
   function detectVoice() {
     //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
@@ -58,7 +59,7 @@ function Video(props: any) {
         var userResponse = { role: "user", content: text };
         convo.push(userResponse);
 
-        if (questions == 2) {
+        if (questions == 5) {
           convo.push({
             role: "assistant",
             content:
@@ -99,7 +100,7 @@ function Video(props: any) {
         // console.log(data["response"]);
         convo.push({ role: "assistant", content: data["response"] });
         setRespuesta(data.response);
-        if (questions == 2) {
+        if (questions == 5) {
           stopRecording();
         }
       })
@@ -258,7 +259,7 @@ function Video(props: any) {
               </Form>
             ) : null} */}
           </div>
-          {questions == 2 ? null : (
+          {questions == 5 ? null : (
             <>
               <p className="text-xl font-semibold pb-5">Answer:</p>
               <p className="italic text-lg">{respuesta}</p>

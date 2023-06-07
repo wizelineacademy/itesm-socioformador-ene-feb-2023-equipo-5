@@ -76,7 +76,7 @@ export default function Result() {
                     profile._json[
                       "https://smartspeak.example.com/roles"
                     ].includes("admin")
-                      ? "/adminProfile"
+                      ? "/admin/profile"
                       : "/user/profile"
                   }
                   className="py-2 w-60 px-8 rounded-md bg-blue-200"

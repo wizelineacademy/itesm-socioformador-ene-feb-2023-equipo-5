@@ -61,7 +61,7 @@ export default function Examn() {
       ) : (
         <div className="mx-auto">
           <Question
-            texto={"What are you currently studying and why?"}
+            texto={question.situation}
           ></Question>
           <Video
             credentials={credentials}

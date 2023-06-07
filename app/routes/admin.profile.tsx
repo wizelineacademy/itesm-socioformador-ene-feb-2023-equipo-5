@@ -36,7 +36,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       return resp;
     });
 
-    const headerData = await getHeaderData(request)
+  const headerData = await getHeaderData(request)
 
   const tests = await db.test.findMany({
     include: {

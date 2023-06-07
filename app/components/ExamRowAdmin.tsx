@@ -11,8 +11,8 @@ export default function ExamRow(props: any) {
           <Link to={`/profile/${props.id}`}>{props.name}</Link>
         </td>
         <td className="text-greenfigma font-bold">{props.level}</td>
-        <td className="text-greenfigma font-bold">{props.date}</td>
-        <td className="font-bold">{props.grade}%</td>
+        <td className="text-greenfigma font-bold">{props.date ? props.date : "---"}</td>
+        <td className="font-bold">{props.grade ? props.grade : 0}%</td>
         <td className="font-gray-800 underline"> </td>
       </tr>
     </>

@@ -22,7 +22,7 @@ export let loader = async ({ request }: LoaderArgs) => {
     }
 
     if (profile._json["https://smartspeak.example.com/roles"].includes("admin")) {
-      throw redirect("/adminProfile");
+      throw redirect("/admin/profile");
     } else {
       throw redirect("/user/profile");
     }
