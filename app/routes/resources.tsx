@@ -3,6 +3,7 @@ import type { V2_MetaFunction} from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import Header from "~/components/Header";
 import { authenticator } from "~/services/auth.server";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Resources" }];
@@ -13,7 +14,12 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/login",
   });
 
-  return profile;
+  const headerData = await getHeaderData(request);
+
+  return {
+    profile: profile,
+    headerData: headerData
+  };
 };
 
 const videoLinks = [
@@ -32,10 +38,10 @@ const videoLinks = [
 ];
 
 const Grid = () => {
-  const profile = useLoaderData();
+  const { headerData }= useLoaderData();
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       <div className="container mx-auto px-5  pl-20 pr-20 ml-20 mr-20  ">
         <div className=" font-monserrat items-center pt-10 text-start text-cyan-600">
           <h1 className="text-2xl font-bold	 ">

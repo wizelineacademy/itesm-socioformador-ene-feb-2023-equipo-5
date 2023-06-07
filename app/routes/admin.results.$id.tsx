@@ -2,12 +2,13 @@ import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { LoaderArgs, V2_MetaFunction, json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { db } from "~/services/db";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
 import Header from "~/components/Header";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
@@ -21,8 +22,10 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
       throw redirect("/Instructions")
     }
-    //return resp
+    return resp
   });
+
+  const headerData = await getHeaderData(request);
 
   const test = await db.test.findUnique({
     where: {
@@ -33,7 +36,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const userId = test ? test.authorId : ""
   const situationId = test ? test.mainSituationId : ""
 
-  const user = await db.user.findUnique({
+  const user:any = await db.user.findUnique({
     where: {
       id: userId
     },
@@ -54,7 +57,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
-    profile: profile,
+    headerData: headerData,
     test: test,
     s3_endpoint: s3_endpoint,
     user: user,
@@ -64,7 +67,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
 export default function Result() {
   const [showModal, setShowModal] = React.useState(false);
-  const { profile, test, s3_endpoint, user, situation } = useLoaderData()
+  const { headerData, test, s3_endpoint, user, situation } = useLoaderData()
   const navigation = useNavigation();
   var videoLink
   try {
@@ -74,7 +77,7 @@ export default function Result() {
   }
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? <Loading /> : <>
         <div className="ml-12 my-4">
           <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/videos"}>Go back</Link>

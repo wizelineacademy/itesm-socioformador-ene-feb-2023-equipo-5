@@ -7,6 +7,7 @@ import TableAdmin from "~/components/TableAdmin";
 import { authenticator } from "~/services/auth.server";
 import { db } from "~/services/db";
 import Header from "~/components/Header";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Videos" }];
@@ -23,6 +24,8 @@ export const loader = async ({ request }: LoaderArgs) => {
     return resp
   });
 
+  const headerData = await getHeaderData(request);
+
   const tests = await db.test.findMany({
     include: {
       author: {
@@ -35,6 +38,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const s3_endpoint = process.env.S3_ENDPOINT;
   return {
+    headerData: headerData,
     profile: profile,
     tests: tests,
     s3_endpoint: s3_endpoint
@@ -42,12 +46,11 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function VideoAdmin() {
-  const { profile, tests, s3_endpoint } = useLoaderData()
-  console.log(profile)
+  const { headerData, profile, tests, s3_endpoint } = useLoaderData()
   const navigation = useNavigation();
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? <Loading /> : (
         <div>
           <div className="flex flex-col px-20 py-8  place-content-center">

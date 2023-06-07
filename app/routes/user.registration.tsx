@@ -13,6 +13,8 @@ export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+
+  //Aqui podriamos poner una verificacion si el usuario ya tiene nombre que te haga throw redirect a /user/profile
   const profileId = profile.id
 
   return profileId
@@ -20,11 +22,11 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export async function action({ request }: ActionArgs) {
   const form = await request.formData();
-  const fname = form.get("name")
-  const fsurname = form.get("surname")
-  const fid = form.get("profileId")
+  const fname:any = form.get("name")
+  const fsurname:any = form.get("surname")
+  const fid:any = form.get("profileId")
 
-  const response = await db.user.update({
+  await db.user.update({
     where: {
       id: fid
     },

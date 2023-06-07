@@ -1,4 +1,3 @@
-import React from "react";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { Link } from "react-router-dom";
@@ -7,6 +6,7 @@ import { useLoaderData, useNavigation } from "@remix-run/react";
 import { db } from "~/services/db";
 import ChartComponentRadar from "../components/Radarchart";
 import Loading from "~/components/Loading";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
@@ -16,6 +16,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+
+  const headerData = await getHeaderData(request);
 
   const test = await db.test.findUnique({
     where: {
@@ -35,16 +37,17 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     test: test,
     question: question,
     profile: profile,
+    headerData: headerData,
   };
 };
 
 export default function Result() {
-  const { profile, test, question } = useLoaderData()
+  const { headerData, test, question } = useLoaderData()
   const navigation = useNavigation();
 
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
