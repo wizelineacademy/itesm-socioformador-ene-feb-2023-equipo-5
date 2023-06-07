@@ -42,7 +42,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 };
 
 export default function Result() {
-  const { headerData, test, question } = useLoaderData()
+  const { profile, headerData, test, question } = useLoaderData()
   const navigation = useNavigation();
 
   return (
