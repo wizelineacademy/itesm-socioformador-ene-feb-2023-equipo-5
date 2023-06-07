@@ -5,7 +5,8 @@ import FirstSection from "~/components/FirstSection";
 import HeaderPage from "~/components/HeaderPage";
 import { authenticator } from "~/services/auth.server";
 import type { LoaderArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigation } from "@remix-run/react";
+import Loading from "~/components/Loading";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request)
@@ -14,8 +15,12 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Index(): JSX.Element {
   const { profile } = useLoaderData()
+  const navigation = useNavigation();
   return (
     <main id="content">
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
       <div className="bg-gray-100">
         <HeaderPage profile={profile} />
         <FirstSection />
@@ -38,6 +43,7 @@ export default function Index(): JSX.Element {
         <ValuesSection />
         <SubscribeSection />
       </div>
+      )}
     </main>
   );
 }
