@@ -6,6 +6,7 @@ on:
       - main
       - dev
 
+
 env:
   AWS_REGION: us-east-1
   MAIN_SERVICE_NAME: smartspeak
