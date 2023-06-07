@@ -7,6 +7,7 @@ import Header from "~/components/Header";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import { db } from "~/services/db";
 import Loading from "~/components/Loading";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Results" }];
@@ -26,6 +27,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
       }
       return resp;
     });
+
+    const headerData = await getHeaderData(request)
 
   const user = await db.user.findUnique({
     where: { id: params.id },
@@ -94,6 +97,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     profile: profile,
     user: user,
     reccomendationsSummary: reccomendationsSummary,
+    headerData: headerData
   };
 };
 
@@ -101,7 +105,7 @@ export default function IndexProfile() {
   const {
     user,
     tests,
-    profile,
+    headerData,
     grammaraverage,
     vocabularyaverage,
     coherenceaverage,
@@ -113,7 +117,7 @@ export default function IndexProfile() {
   const navigation = useNavigation();
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (

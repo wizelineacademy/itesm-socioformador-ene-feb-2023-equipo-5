@@ -16,6 +16,7 @@ import TableAdminUsers from "~/components/TableAdminUsers";
 import { authenticator } from "~/services/auth.server";
 import { db } from "~/services/db";
 import Header from "~/components/Header";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Videos" }];
@@ -34,6 +35,8 @@ export const loader = async ({ request }: LoaderArgs) => {
       }
       return resp;
     });
+
+    const headerData = await getHeaderData(request)
 
   const tests = await db.test.findMany({
     include: {
@@ -54,10 +57,11 @@ export const loader = async ({ request }: LoaderArgs) => {
     users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
+    headerData: headerData
   };
 };
 export default function Example() {
-  const { profile, users, tests, s3_endpoint } = useLoaderData();
+  const { headerData, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("Usuario");
   const [nivel, setNivel] = useState("");
@@ -80,7 +84,7 @@ export default function Example() {
 
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
