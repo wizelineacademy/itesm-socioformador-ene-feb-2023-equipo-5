@@ -111,6 +111,26 @@ export const action = async ({ request }: any) => {
       mainSituationId: situation,
     },
   });
+
+  const userdata = await db.user.findUnique({
+    where: { id: user },
+  });
+
+  const average = Math.round(
+    (answer.Grammar + answer.Coherence + answer.Vocabulary) / 3
+  );
+
+  if (userdata?.averageMaxLevel == null || average > userdata.averageMaxLevel) {
+    await db.user.update({
+      where: { id: user },
+      data: {
+        averageMaxLevel: average,
+        englishlevel: answer.English_Level,
+        dateMaxLevel: test.createdAt,
+      },
+    });
+  }
+
   // console.log(test)
   return redirect(`/results/${test.id}`);
 };

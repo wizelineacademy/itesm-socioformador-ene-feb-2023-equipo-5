@@ -6,6 +6,7 @@ import { Form } from "@remix-run/react";
 import micOff from "../../../public/img/microfono.png";
 import micOn from "../../../public/img/grabando.png";
 import loading from "../../../public/img/load.gif";
+import play from "../../../public/img/play.png"
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -203,10 +204,10 @@ function Video(props: any) {
             {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
             {pastAnswer == "Inicial" ? (
               <>
-                <p>Click on the icon to start the exam</p>
+                <p>Click on the icon to start the examn</p>
                 <img
                   onClick={handleStartRecording}
-                  src={micOff}
+                  src={play}
                   alt={props.alt}
                   className="mx-auto w-1/5 h-auto cursor-pointer mb-10"
                 />
@@ -311,7 +312,7 @@ function Video(props: any) {
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
-                        // onClick={stopRecording}
+                      // onClick={stopRecording}
                       >
                         Results
                       </button>

@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import type { ChartOptions } from "chart.js/auto";
 import Chart from "chart.js/auto";
 
-export default function ChartComponentPie() {
+export function PolarAreaChart(props: any) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -16,20 +16,13 @@ export default function ChartComponentPie() {
         }
 
         chartInstanceRef.current = new Chart(ctx, {
-          type: "doughnut",
+          type: "polarArea",
           data: {
-            labels: [
-              "Coherencia",
-              "Gramática",
-              "Fluidez",
-              "Vocabulario",
-              "Pronunciación",
-              "Comprensión",
-            ],
+            labels: props.data.map((test: any) => Object.keys(test)[0]),
             datasets: [
               {
-                label: "Results Belen Ariadna González Mendoza",
-                data: [300, 50, 100, 50, 100],
+                label: "English Level Counts",
+                data: props.data.map((test: any) => Object.values(test)[0]),
                 backgroundColor: [
                   "rgb(54, 162, 235)",
                   "rgb(30, 100, 200)",
@@ -60,7 +53,7 @@ export default function ChartComponentPie() {
         chartInstanceRef.current = null;
       }
     };
-  }, []);
+  });
 
   return (
     <div style={{ padding: "1rem" }}>

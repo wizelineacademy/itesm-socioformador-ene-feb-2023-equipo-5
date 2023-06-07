@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -15,14 +15,14 @@ import TableAdmin from "~/components/TableAdmin";
 import TableAdminUsers from "~/components/TableAdminUsers";
 import { authenticator } from "~/services/auth.server";
 import { db } from "~/services/db";
+import Header from "~/components/Header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Videos" }];
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // const profile = await authenticator.isAuthenticated(request, {
-  await authenticator
+  const profile = await authenticator
     .isAuthenticated(request, {
       failureRedirect: "/login",
     })
@@ -32,7 +32,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       ) {
         throw redirect("/Instructions");
       }
-      //return resp
+      return resp;
     });
 
   const tests = await db.test.findMany({
@@ -46,95 +46,133 @@ export const loader = async ({ request }: LoaderArgs) => {
   });
 
   const users = await db.user.findMany({});
-  console.log(users);
 
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
+    profile: profile,
+    users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
   };
 };
 export default function Example() {
-  const { tests, s3_endpoint } = useLoaderData();
+  const { profile, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
-  const [activeTab, setActiveTab] = React.useState("html");
-  const data = [
-    {
-      label: "Usuario",
-      value: "html",
-      desc: `It really matters and then like it really doesn't matter.
-      What matters is the people who are sparked by it. And the people 
-      who are like offended by it, it doesn't matter.`,
-    },
-    {
-      label: "Video",
-      value: "react",
-      desc: `Because it's about motivating the doers. Because I'm here
-      to follow my dreams and inspire other people to follow their dreams, too.`,
-    },
-  ];
+  const [activeTab, setActiveTab] = React.useState("Usuario");
+  const [nivel, setNivel] = useState("");
+  const [query, setQuery] = useState("");
+
+  let filteredUsers = users.filter(
+    (user: any) =>
+      (nivel === "" ||
+        user.englishlevel == nivel) &&
+      // eslint-disable-next-line no-mixed-operators
+      (query === "" ||
+        // eslint-disable-next-line no-mixed-operators
+        user.fullName && user.fullName.toLowerCase().includes(query.toLowerCase()))
+  );
+
+  const handleSelectChange = (event: any) => {
+    setNivel(event.target.value);
+    setQuery("");
+  };
+
   return (
     <>
-      <Tabs value={activeTab}>
-        <div className="mt-8 w-1/2">
-          <TabsHeader
-            className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
-            indicatorProps={{
-              className:
-                "bg-transparent border-b-2 border-blue-500 shadow-none rounded-none",
-            }}
-          >
-            <Tab
-              key="Usuario"
-              value="Usuario"
-              onClick={() => setActiveTab("Usuario")}
-              className={activeTab === "Usuario" ? "text-blue-500" : ""}
+      <Header nombre={profile} />
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
+        <>
+          <Tabs value={activeTab}>
+            <div className="mt-8 ">
+              <TabsHeader
+                className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                indicatorProps={{
+                  className:
+                    "bg-transparent border-b-2 border-blue-500 shadow-none rounded-none",
+                }}
+              >
+                <Tab
+                  key="Usuario"
+                  value="Usuario"
+                  onClick={() => setActiveTab("Usuario")}
+                  className={activeTab === "Usuario" ? "text-blue-500" : ""}
+                >
+                  Usuarios
+                </Tab>
+                <Tab
+                  key="Video"
+                  value="Video"
+                  onClick={() => setActiveTab("Video")}
+                  className={activeTab === "Video" ? "text-blue-500" : ""}
+                >
+                  Videos
+                </Tab>
+              </TabsHeader>
+            </div>
+            <TabsBody
+              animate={{
+                initial: { y: 250 },
+                mount: { y: 0 },
+                unmount: { y: 250 },
+              }}
             >
-              Usuarios
-            </Tab>
-            <Tab
-              key="Video"
-              value="Video"
-              onClick={() => setActiveTab("Video")}
-              className={activeTab === "Video" ? "text-blue-500" : ""}
-            >
-              Videos
-            </Tab>
-          </TabsHeader>
-        </div>
-        <TabsBody
-          animate={{
-            initial: { y: 250 },
-            mount: { y: 0 },
-            unmount: { y: 250 },
-          }}
-        >
-          <TabPanel key="Usuario" value="Usuario">
-            <TableAdminUsers />
-          </TabPanel>
-          <TabPanel key={"Video"} value={"Video"}>
-            {navigation.state !== "idle" ? (
-              <Loading />
-            ) : (
-              <div>
-                <div className="flex flex-col px-20 py-8  place-content-center">
-                  <p className="text-lg font-bold py-5">Evaluaciones</p>
-                  {tests.length > 0 ? (
-                    <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-                  ) : (
-                    <p>No hay videos v2</p>
-                  )}
+              <TabPanel key="Usuario" value="Usuario">
+                <div className="w-1/4 float-left text-center">
+                  <select
+                    className=""
+                    id="dificultad"
+                    name="dificultad"
+                    value={nivel}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="" defaultValue='true'>
+                      Nivel
+                    </option>
+                    <option value="">Todos</option>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
                 </div>
-
-                <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">
-                  Go Back
-                </button>
-              </div>
-            )}
-          </TabPanel>
-        </TabsBody>
-      </Tabs>
+                <div className="w-3/4 float-left text-center">
+                  <input
+                    type="text"
+                    placeholder="Buscador"
+                    className="w-full"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                  />
+                </div>
+                <div className=" place-self-center mx-[5%] clear-both">
+                  <TableAdminUsers users={filteredUsers} />
+                </div>
+              </TabPanel>
+              <TabPanel key={"Video"} value={"Video"}>
+                {navigation.state !== "idle" ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="flex flex-col px-20 py-8  place-content-center">
+                      <p className="text-lg font-bold py-5">Evaluaciones</p>
+                      {tests.length > 0 ? (
+                        <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
+                      ) : (
+                        <p>No hay videos v2</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </TabPanel>
+            </TabsBody>
+          </Tabs>
+        </>
+      )}
     </>
   );
 }

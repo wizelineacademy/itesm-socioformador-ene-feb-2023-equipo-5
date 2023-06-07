@@ -14,15 +14,19 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const profile = await authenticator.isAuthenticated(request, {
-    // await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  }).then((resp: any) => {
-    if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
-      throw redirect("/Instructions")
-    }
-    return resp
-  });
+  const profile = await authenticator
+    .isAuthenticated(request, {
+      // await authenticator.isAuthenticated(request, {
+      failureRedirect: "/login",
+    })
+    .then((resp: any) => {
+      if (
+        !resp._json["https://smartspeak.example.com/roles"].includes("admin")
+      ) {
+        throw redirect("/Instructions");
+      }
+      return resp;
+    });
 
   const headerData = await getHeaderData(request);
 
@@ -41,8 +45,8 @@ export const loader = async ({ request }: LoaderArgs) => {
     headerData: headerData,
     profile: profile,
     tests: tests,
-    s3_endpoint: s3_endpoint
-  }
+    s3_endpoint: s3_endpoint,
+  };
 };
 
 export default function VideoAdmin() {
@@ -57,7 +61,9 @@ export default function VideoAdmin() {
             <p className="text-lg font-bold py-5">Evaluaciones</p>
             {tests.length > 0 ? (
               <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-            ) : <p>There are no videos</p>}
+            ) : (
+              <p>There are no videos</p>
+            )}
           </div>
 
           <button className="bg-bluefigma4 text-base font-semibold text-white p-2 rounded-lg ml-20">
