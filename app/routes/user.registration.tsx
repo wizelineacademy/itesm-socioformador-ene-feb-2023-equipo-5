@@ -1,8 +1,9 @@
 import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
-import { Form, V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { Form, V2_MetaFunction, useLoaderData, useNavigation } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import { db } from "~/services/db";
+import Loading from "~/components/Loading";
 
 
 export const meta: V2_MetaFunction = () => {
@@ -42,8 +43,12 @@ export async function action({ request }: ActionArgs) {
 
 export default function Examn() {
   const profileId = useLoaderData()
+  const navigation = useNavigation();
   return(
     <>
+      {navigation.state !== "idle" ? (
+        <Loading />
+      ) : (
       <div className="grid place-content-center">
         <div className="max-w-lg grid place-content-center px-24 py-12 mt-20 border-2 border-stone-200 rounded-2xl shadow-xl">
           <img
@@ -76,6 +81,7 @@ export default function Examn() {
           </Form>
         </div>
       </div>
+      )}
     </>
   )
 }
