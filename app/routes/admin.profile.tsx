@@ -172,7 +172,7 @@ export default function Example() {
                       {tests.length > 0 ? (
                         <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
                       ) : (
-                        <p>No hay videos</p>
+                        <p>There are no videos</p>
                       )}
                     </div>
                   </div>
