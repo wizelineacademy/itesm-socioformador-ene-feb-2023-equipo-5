@@ -12,6 +12,7 @@ import { authenticator } from "../services/auth.server";
 import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
 import Loading from "~/components/Loading";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Test" }];
@@ -21,6 +22,8 @@ export const loader = async ({ request }: LoaderArgs) => {
   const profile = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+
+  const headerData = await getHeaderData(request);
 
   const s3ClientVideo = await getCredentials();
 
@@ -37,6 +40,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     credentials: s3ClientVideo,
     question: randomquestion,
     urlVideo: urlVideo,
+    headerData: headerData
   };
 };
 
@@ -47,10 +51,11 @@ export default function Examn() {
     credentials,
     question,
     urlVideo,
+    headerData
   } = useLoaderData();
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (

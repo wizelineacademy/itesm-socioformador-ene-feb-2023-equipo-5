@@ -1,9 +1,8 @@
 import { Form, Link } from "@remix-run/react";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
-//import profilePicture from "../../public/img/profilePicture.jpg";
 
 function Header(props: any) {
-  const profilePicture = props.nombre.photos[0].value;
+  const profilePicture = props.photo;
   return (
     <div className="flex flex-row bg-black h-20">
       <div className="basis-8/12">
@@ -65,7 +64,7 @@ function Header(props: any) {
           referrerPolicy="no-referrer"
         />
         <span className="text-white text-base mx-5 my-7 float-left">
-          {props.nombre.displayName}
+          {props.name}
         </span>
       </Link>
 // >>>>>>> dev --> */}

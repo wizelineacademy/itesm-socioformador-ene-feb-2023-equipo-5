@@ -6,6 +6,7 @@ import { useRouteError } from "@remix-run/react";
 import Header from "~/components/Header";
 import type { LoaderArgs } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
+import { getHeaderData } from "~/services/header.server";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Tests" }];
@@ -16,14 +17,19 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/login",
   });
 
-  return profile
+  const headerData = await getHeaderData(request);
+
+  return {
+    profile: profile,
+    headerData: headerData
+  }
 };
 
 export default function TestsPages() {
-  const profile = useLoaderData()
+  const {headerData} = useLoaderData()
   return (
     <>
-      <Header nombre={profile} />
+      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       <div className="flex flex-row mt-14 mx-10">
         <div className="basis-1/2 mx-2 relative">
           <p className="text-lg font-bold mb-4">Evaluaciones</p>
