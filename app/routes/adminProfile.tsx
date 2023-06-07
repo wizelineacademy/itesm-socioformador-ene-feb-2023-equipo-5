@@ -66,7 +66,9 @@ export default function Example() {
   let filteredUsers = users.filter(
     (user: any) =>
       (nivel === "" || user.englishlevel == nivel) &&
+      // eslint-disable-next-line no-mixed-operators
       (query === "" ||
+        // eslint-disable-next-line no-mixed-operators
         (user.fullName &&
           user.fullName.toLowerCase().includes(query.toLowerCase())))
   );
