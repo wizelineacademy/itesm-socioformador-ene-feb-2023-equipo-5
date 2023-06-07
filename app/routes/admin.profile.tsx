@@ -36,7 +36,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       return resp;
     });
 
-  const headerData = await getHeaderData(request)
+  const headerData = await getHeaderData(request);
 
   const tests = await db.test.findMany({
     include: {
@@ -57,7 +57,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
-    headerData: headerData
+    headerData: headerData,
   };
 };
 export default function Example() {
@@ -84,7 +84,11 @@ export default function Example() {
 
   return (
     <>
-      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
+      <Header
+        name={headerData.name}
+        role={headerData.role}
+        photo={headerData.photo}
+      />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
@@ -168,7 +172,7 @@ export default function Example() {
                       {tests.length > 0 ? (
                         <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
                       ) : (
-                        <p>No hay videos v2</p>
+                        <p>No hay videos</p>
                       )}
                     </div>
                   </div>
