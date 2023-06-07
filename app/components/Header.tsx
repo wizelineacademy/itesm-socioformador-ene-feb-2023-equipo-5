@@ -15,6 +15,7 @@ function Header(props: any) {
           />
         </Link>
       </div>
+<!-- <<<<<<< H101/Logout -->
       <div className="inline-block basis-3/12">
         <Link
           to={
@@ -46,6 +47,28 @@ function Header(props: any) {
           </button>
         </Form>
       </div>
+<!-- =======
+      <Link
+        to={
+          props.nombre._json["https://smartspeak.example.com/roles"].includes(
+            "admin"
+          )
+            ? "/adminProfile"
+            : "/user/profile"
+        }
+        className="inline-block basis-1/4"
+      >
+        <img
+          src={profilePicture}
+          className="h-12 my-4 rounded-full float-left"
+          alt="Foto del usuario"
+          referrerPolicy="no-referrer"
+        />
+        <span className="text-white text-base mx-5 my-7 float-left">
+          {props.nombre.displayName}
+        </span>
+      </Link>
+// >>>>>>> dev -->
     </div>
   );
 }
