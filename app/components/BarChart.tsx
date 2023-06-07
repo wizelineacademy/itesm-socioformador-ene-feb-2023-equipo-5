@@ -60,7 +60,7 @@ export function ChartComponent(props: any) {
         chartInstanceRef.current = null;
       }
     };
-  }, []);
+  });
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>

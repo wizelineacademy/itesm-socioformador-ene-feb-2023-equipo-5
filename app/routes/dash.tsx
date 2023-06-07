@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import { db } from "~/services/db";
-import { PolarAreaChart } from "~/components/Chart";
+import { PolarAreaChart } from "~/components/ChartDash";
 import { ChartComponent } from "~/components/BarChart";
 
 // Define the loader method hook to retrieve data from the prisma client "Test" table

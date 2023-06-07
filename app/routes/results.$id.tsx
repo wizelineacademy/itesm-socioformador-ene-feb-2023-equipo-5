@@ -21,17 +21,17 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
   const test = await db.test.findUnique({
     where: {
-      id: params.id
-    }
-  })
-  const mainsituation = test?.mainSituationId
+      id: params.id,
+    },
+  });
+  const mainsituation = test?.mainSituationId;
 
   const question = await db.question.findUnique({
     where: { id: mainsituation },
     select: {
-      situation: true
-    }
-  })
+      situation: true,
+    },
+  });
 
   return {
     test: test,
@@ -54,7 +54,9 @@ export default function Result() {
         <>
           <div className="flex flex-row mt-14 mx-10">
             <div className="basis-1/2 ml-4 relative ">
-              <p className="text-lg font-bold mb-4  ">{question ? question.situation : "No recommendations available"}</p>
+              <p className="text-lg font-bold mb-4  ">
+                {question ? question.situation : "No recommendations available"}
+              </p>
               <div className="bg-gray-200 px-3 py-3 mt-10 text-left rounded-md">
                 <p className="font-bold">Feedback</p>
                 <p className="text-sm">
@@ -70,24 +72,34 @@ export default function Result() {
               </div>
               <div className="pb-5 mt-8 ">
                 <Link
-                  to="/user/profile"
+                  to={
+                    profile._json[
+                      "https://smartspeak.example.com/roles"
+                    ].includes("admin")
+                      ? "/adminProfile"
+                      : "/user/profile"
+                  }
                   className="py-2 w-60 px-8 rounded-md bg-blue-200"
                 >
-                  Back
+                  Home
                 </Link>
 
                 <Link
                   to="/resources"
                   className="py-2 w-60 px-8 rounded-md mx-12 bg-blue-200"
                 >
-                  Recursos
+                  Resources
                 </Link>
               </div>
             </div>
             <div className="basis-1/2 mx-2">
               <div className="mx-2 mt-4 p-3 ">
                 <div className=" ml-20 w-10/12">
-                  <PolarAreaChart grammar={test.grammar} coherence={test.coherence} vocabulary={test.vocabulary} />
+                  <PolarAreaChart
+                    grammar={test.grammar}
+                    coherence={test.coherence}
+                    vocabulary={test.vocabulary}
+                  />
                 </div>
               </div>
             </div>
