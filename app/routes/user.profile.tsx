@@ -64,7 +64,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     return answer;
   }
 
-  if (tests.length <= 1) {
+  if (tests.length < 1) {
     reccomendationsSummary =
       "You haven't taken any exams yet. Please take a test to have recommendations.";
   } else {
