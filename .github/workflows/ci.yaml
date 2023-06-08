@@ -90,4 +90,4 @@ jobs:
         run: npm run build
 
       - name: 🌳 Cypress run
-        uses: npm run test:cypress:run
+        run: npm run test:cypress:run
