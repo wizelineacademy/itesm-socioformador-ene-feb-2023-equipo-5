@@ -44,3 +44,4 @@ describe('Log in classes load correctly', () => {
 })
 })
 
+export {}
