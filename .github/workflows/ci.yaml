@@ -54,9 +54,15 @@ jobs:
       DATABASE_URL: postgresql://lab_user:lab_pass@localhost/lab_test
       SESSION_SECRET: asdf_secret
       BASE_URL: http://localhost:3000
-      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID_LOCAL }}
       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET_LOCAL }}
+      AUTH0_CALLBACK_URL: http://localhost:3000/auth/callback
+      AUTH0_RETURN_TO_URL: http://localhost:3000/
+      AUTH0_LOGOUT_URL: https://smartspeak.us.auth0.com/v2/logout
+      S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+      S3_KEY: ${{ secrets.S3_KEY }}
+      S3_SECRET: ${{ secrets.S3_SECRET }}
     steps:
       - name: 🛑 Cancel Previous Runs
         if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
@@ -90,4 +96,4 @@ jobs:
         run: npm run build
 
       - name: 🌳 Cypress run
-        uses: npm run test:cypress:run
+        run: npm run test:cypress:run
