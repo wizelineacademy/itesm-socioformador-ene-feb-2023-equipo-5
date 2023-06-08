@@ -1,5 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { V2_MetaFunction, useNavigation } from "@remix-run/react";
+import type { V2_MetaFunction} from "@remix-run/react";
+import { useNavigation } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import Header from "~/components/Header";
 import Loading from "~/components/Loading";
