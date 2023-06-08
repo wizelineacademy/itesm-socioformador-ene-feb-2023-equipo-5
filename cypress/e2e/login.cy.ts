@@ -41,3 +41,4 @@ describe('Log in classes load correctly', () => {
         cy.contains("Log in").should('have.class', 'mt-10 px-20 py-4 border-2 border-stone-200 rounded-lg shadow bg-bluefigma5');
 })
 })
+
