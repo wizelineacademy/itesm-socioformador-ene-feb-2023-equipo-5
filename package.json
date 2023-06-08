@@ -7,7 +7,8 @@
     "start": "remix-serve build",
     "typecheck": "tsc",
     "cypress:open": "cypress open",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint ."
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "test:cypress:run": "cross-env start-server-and-test dev http://localhost:3000 \"npx cypress run\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.321.1",
@@ -18,6 +19,7 @@
     "@remix-run/serve": "^1.15.0",
     "@types/dom-speech-recognition": "^0.0.1",
     "chart.js": "^4.3.0",
+    "cross-env": "^7.0.3",
     "init": "^0.1.2",
     "isbot": "^3.6.5",
     "nodemon": "^2.0.22",
