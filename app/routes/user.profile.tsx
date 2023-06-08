@@ -64,7 +64,12 @@ export const loader = async ({ request }: LoaderArgs) => {
     return answer;
   }
 
-  reccomendationsSummary = await getResponse();
+  if (tests.length <= 1) {
+    reccomendationsSummary =
+      "You haven't taken any exams yet. Please take a test to have recommendations.";
+  } else {
+    reccomendationsSummary = await getResponse();
+  }
 
   let grammaraverage = 0;
   let vocabularyaverage = 0;
@@ -82,33 +87,44 @@ export const loader = async ({ request }: LoaderArgs) => {
     tests: tests,
     profile: profile,
     reccomendationsSummary: reccomendationsSummary,
-    headerData: headerData
+    headerData: headerData,
   };
 };
 
 export default function Result() {
-  const { tests, headerData, grammaraverage, vocabularyaverage, coherenceaverage, reccomendationsSummary } = useLoaderData();
+  const {
+    tests,
+    headerData,
+    grammaraverage,
+    vocabularyaverage,
+    coherenceaverage,
+    reccomendationsSummary,
+  } = useLoaderData();
   const average = Math.round(
     (grammaraverage + vocabularyaverage + coherenceaverage) / 3
   );
   const navigation = useNavigation();
   return (
     <>
-      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
+      <Header
+        name={headerData.name}
+        role={headerData.role}
+        photo={headerData.photo}
+      />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
         <>
           <div className="flex flex-row mt-6 mx-10">
             <div className="basis-1/2 ml-4 relative ">
-              <p className="text-lg font-bold mb-4  ">Evaluaciones</p>
+              <p className="text-lg font-bold mb-4  ">Tests</p>
               {tests.length > 0 ? (
                 <TableUser tests={tests} />
               ) : (
-                <p>There are no examns here</p>
+                <p>There are no tests yet.</p>
               )}
               <div className="bg-gray-200 px-3 py-3 mt-16 text-left rounded-md">
-                <p className="font-bold">Recomendaciones</p>
+                <p className="font-bold">Recommendations</p>
                 <p className="text-sm"> {reccomendationsSummary} </p>
               </div>
               <div className="pb-5 mt-8 ">

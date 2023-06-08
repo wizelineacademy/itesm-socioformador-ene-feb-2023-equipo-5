@@ -19,7 +19,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return {
     profile: profile,
-    headerData: headerData
+    headerData: headerData,
   };
 };
 
@@ -43,7 +43,11 @@ const Grid = () => {
   const navigation = useNavigation();
   return (
     <>
-      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
+      <Header
+        name={headerData.name}
+        role={headerData.role}
+        photo={headerData.photo}
+      />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
@@ -51,8 +55,8 @@ const Grid = () => {
           <div className="container mx-auto px-5  pl-20 pr-20 ml-20 mr-20  ">
             <div className=" font-monserrat items-center pt-10 text-start text-cyan-600">
               <h1 className="text-2xl font-bold	 ">
-                Te dejamos los siguientes videos para ir mejorando tu nivel de
-                ingles 😃
+                Explore a selection of videos that can help you improve your
+                English. 😃
               </h1>
             </div>
             <div className="grid grid-cols-3 gap-5 mt-10">
@@ -60,8 +64,9 @@ const Grid = () => {
                 <a href={link} target="_blank" rel="noreferrer" key={index}>
                   <div className="bg-gray-100 h-36 w-64 flex justify-center items-center relative">
                     <img
-                      src={`https://img.youtube.com/vi/${link.split("=")[1]
-                        }/mqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${
+                        link.split("=")[1]
+                      }/mqdefault.jpg`}
                       alt={`Thumbnail for video ${index + 1}`}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
