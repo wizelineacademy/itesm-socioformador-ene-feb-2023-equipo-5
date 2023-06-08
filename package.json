@@ -8,7 +8,7 @@
     "typecheck": "tsc",
     "cypress:open": "cypress open",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "test:cypress:run": "cross-env start-server-and-test dev http://localhost:3000 \"npx cypress run\""
+    "cypresstests": "cross-env start-server-and-test dev http://localhost:3000 \"npx cypress run\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.321.1",

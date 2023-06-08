@@ -1,5 +1,7 @@
-import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
-import { Form, V2_MetaFunction, useLoaderData, useNavigation } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs} from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import type { V2_MetaFunction} from "@remix-run/react";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 import brainWaveLogo from "../../public/img/LogoAzulSinFondo.png";
 import { db } from "~/services/db";

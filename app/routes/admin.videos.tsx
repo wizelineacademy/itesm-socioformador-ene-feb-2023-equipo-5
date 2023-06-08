@@ -14,7 +14,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const profile = await authenticator
+  await authenticator
     .isAuthenticated(request, {
       // await authenticator.isAuthenticated(request, {
       failureRedirect: "/login",
@@ -43,14 +43,13 @@ export const loader = async ({ request }: LoaderArgs) => {
   const s3_endpoint = process.env.S3_ENDPOINT;
   return {
     headerData: headerData,
-    profile: profile,
     tests: tests,
     s3_endpoint: s3_endpoint,
   };
 };
 
 export default function VideoAdmin() {
-  const { headerData, profile, tests, s3_endpoint } = useLoaderData()
+  const { headerData, tests, s3_endpoint } = useLoaderData()
   const navigation = useNavigation();
   return (
     <>

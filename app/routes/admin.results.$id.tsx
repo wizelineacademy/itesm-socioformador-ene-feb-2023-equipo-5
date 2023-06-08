@@ -1,8 +1,7 @@
-import Dashboard from "~/components/DashboardAdmin";
 import SquareR from "~/components/SquareResult";
 import React from "react";
 import { authenticator } from "~/services/auth.server";
-import { LoaderArgs, V2_MetaFunction, json } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { db } from "~/services/db";
 import { Link, useLoaderData, useNavigation } from "@remix-run/react";
@@ -15,8 +14,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  const profile = await authenticator.isAuthenticated(request, {
-    // await authenticator.isAuthenticated(request, {
+  // const profile = await authenticator.isAuthenticated(request, {
+  await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   }).then((resp: any) => {
     if (!resp._json['https://smartspeak.example.com/roles'].includes('admin')) {
@@ -36,7 +35,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const userId = test ? test.authorId : "";
   const situationId = test ? test.mainSituationId : "";
 
-  const user:any = await db.user.findUnique({
+  const user: any = await db.user.findUnique({
     where: {
       id: userId,
     },
@@ -66,7 +65,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 };
 
 export default function Result() {
-  const [showModal, setShowModal] = React.useState(false);
   const { headerData, test, s3_endpoint, user, situation } = useLoaderData()
   const navigation = useNavigation();
   var videoLink;
@@ -130,7 +128,7 @@ export default function Result() {
             </div>
           </div>
         </div>
-        </>
+      </>
       }
     </>
   );
