@@ -38,7 +38,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 }
 
 async function getEnglishLevelCountsPerTest() {
-  const englishLevelCounts = await db.test.groupBy({
+  const englishLevelCounts = await db.user.groupBy({
     by: ["englishlevel"],
     _count: {
       englishlevel: true,
@@ -71,6 +71,14 @@ export default function Index() {
         <Loading />
       ) : (
         <>
+          <div className="w-full bg-[#f5f5f5] p-5 text-center">
+            <Link
+              to={"/admin/profile"}
+              className="py-2 w-60 px-8 rounded-md bg-blue-200"
+            >
+              Go Back
+            </Link>
+          </div>
           <div
             style={{
               display: "flex",
@@ -99,23 +107,15 @@ export default function Index() {
               >
                 <div>
                   <PolarAreaChart data={countTests.countTests} />
-                  <ChartComponent data={countTests.countTests} />
+                  {/* <ChartComponent data={countTests.countTests} /> */}
                 </div>
 
                 <div>
-                  <PolarAreaChart data={countTests.countTests} />
+                  {/* <PolarAreaChart data={countTests.countTests} /> */}
                   <ChartComponent data={countTests.countTests} />
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-full bg-[#f5f5f5] p-5 text-center">
-            <Link
-              to={"/admin/profile"}
-              className="py-2 w-60 px-8 rounded-md bg-blue-200"
-            >
-              Go Back
-            </Link>
           </div>
         </>
       )}

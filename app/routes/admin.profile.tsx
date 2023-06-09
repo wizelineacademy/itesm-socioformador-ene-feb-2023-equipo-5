@@ -175,7 +175,17 @@ export default function Example() {
                 </div>
                 <div className=" place-self-center mx-[5%] clear-both">
                   {filteredUsers.length > 0 ? (
-                    <TableAdminUsers users={filteredUsers} />
+                    <>
+                      <TableAdminUsers users={filteredUsers} />
+                      <div className="w-full p-5 text-center">
+                        <Link
+                          to={'/admin/dash/users'}
+                          className="py-2 w-60 px-8 rounded-md bg-blue-200"
+                        >
+                          Dashboard
+                        </Link>
+                      </div>
+                    </>
                   ) : (
                     <p className="text-center">No users found</p>
                   )}
@@ -214,7 +224,17 @@ export default function Example() {
                   </div>
                   <div className="place-self-center mx-[5%] clear-both">
                     {filteredVideos.length > 0 ? (
-                      <TableAdmin tests={filteredVideos} s3_endpoint={s3_endpoint} />
+                      <>
+                        <TableAdmin tests={filteredVideos} s3_endpoint={s3_endpoint} />
+                        <div className="w-full p-5 text-center">
+                          <Link
+                            to={'/admin/dash/videos'}
+                            className="py-2 w-60 px-8 rounded-md bg-blue-200"
+                          >
+                            Dashboard
+                          </Link>
+                        </div>
+                      </>
                     ) : (
                       <p className="text-center">No videos found</p>
                     )}
@@ -223,14 +243,6 @@ export default function Example() {
               </TabPanel>
             </TabsBody>
           </Tabs>
-          <div className="w-full p-5 text-center">
-            <Link
-              to={'/admin/dash'}
-              className="py-2 w-60 px-8 rounded-md bg-blue-200"
-            >
-              Dashboard
-            </Link>
-          </div>
         </>
       )}
     </>
