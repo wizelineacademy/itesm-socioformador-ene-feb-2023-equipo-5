@@ -21,7 +21,7 @@ export default function ExamRow(props: any) {
         </td>
         <td className="font-gray-800 underline">
           {" "}
-          <Link to={"/admin/results/" + props.id}>Detalle</Link>
+          <Link to={"/admin/results/" + props.id}>Detaills</Link>
         </td>
       </tr>
     </>

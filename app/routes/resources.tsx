@@ -1,6 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
-import type { V2_MetaFunction} from "@remix-run/react";
-import { useNavigation } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link, useNavigation } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import Header from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -65,9 +65,8 @@ const Grid = () => {
                 <a href={link} target="_blank" rel="noreferrer" key={index}>
                   <div className="bg-gray-100 h-36 w-64 flex justify-center items-center relative">
                     <img
-                      src={`https://img.youtube.com/vi/${
-                        link.split("=")[1]
-                      }/mqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${link.split("=")[1]
+                        }/mqdefault.jpg`}
                       alt={`Thumbnail for video ${index + 1}`}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
@@ -85,6 +84,14 @@ const Grid = () => {
                 </a>
               ))}
             </div>
+          </div>
+          <div className="w-full p-5 text-center">
+            <Link
+              to={'/user/profile'}
+              className="py-2 w-60 px-8 rounded-md bg-blue-200"
+            >
+              Go back
+            </Link>
           </div>
         </>
       )}

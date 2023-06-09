@@ -9,7 +9,7 @@ import {
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
-import { useLoaderData, useNavigation } from "@remix-run/react";
+import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import Loading from "~/components/Loading";
 import TableAdmin from "~/components/TableAdmin";
 import TableAdminUsers from "~/components/TableAdminUsers";
@@ -23,7 +23,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const profile = await authenticator
+  await authenticator
     .isAuthenticated(request, {
       failureRedirect: "/login",
     })
@@ -53,7 +53,6 @@ export const loader = async ({ request }: LoaderArgs) => {
   const s3_endpoint = process.env.S3_ENDPOINT;
 
   return {
-    profile: profile,
     users: users,
     tests: tests,
     s3_endpoint: s3_endpoint,
@@ -64,22 +63,39 @@ export default function Example() {
   const { headerData, users, tests, s3_endpoint } = useLoaderData();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = React.useState("Usuario");
-  const [nivel, setNivel] = useState("");
-  const [query, setQuery] = useState("");
+  const [nivelUsers, setNivelUsers] = useState("");
+  const [queryUsers, setQueryUsers] = useState("");
+  const [nivelVideos, setNivelVideos] = useState("");
+  const [queryVideos, setQueryVideos] = useState("");
 
   let filteredUsers = users.filter(
     (user: any) =>
-      (nivel === "" || user.englishlevel == nivel) &&
+      (nivelUsers === "" || user.englishlevel == nivelUsers) &&
       // eslint-disable-next-line no-mixed-operators
-      (query === "" ||
+      (queryUsers === "" ||
         // eslint-disable-next-line no-mixed-operators
         (user.fullName &&
-          user.fullName.toLowerCase().includes(query.toLowerCase())))
+          user.fullName.toLowerCase().includes(queryUsers.toLowerCase())))
   );
 
-  const handleSelectChange = (event: any) => {
-    setNivel(event.target.value);
-    setQuery("");
+  let filteredVideos = tests.filter(
+    (test: any) =>
+      (nivelVideos === "" || test.englishlevel == nivelVideos) &&
+      // eslint-disable-next-line no-mixed-operators
+      (queryVideos === "" ||
+        // eslint-disable-next-line no-mixed-operators
+        (test.author.fullName &&
+          test.author.fullName.toLowerCase().includes(queryVideos.toLowerCase())))
+  );
+
+  const handleSelectChangeUsers = (event: any) => {
+    setNivelUsers(event.target.value);
+    setQueryUsers("");
+  };
+
+  const handleSelectChangeVideos = (event: any) => {
+    setNivelVideos(event.target.value);
+    setQueryVideos("");
   };
 
   return (
@@ -108,7 +124,7 @@ export default function Example() {
                   onClick={() => setActiveTab("Usuario")}
                   className={activeTab === "Usuario" ? "text-blue-500" : ""}
                 >
-                  Usuarios
+                  Users
                 </Tab>
                 <Tab
                   key="Video"
@@ -131,10 +147,10 @@ export default function Example() {
                 <div className="w-1/4 border-2 border-gray-200 rounded-md float-right text-center ">
                   <input
                     type="text"
-                    placeholder=" Buscador"
+                    placeholder="Search by user"
                     className="w-full "
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    value={queryUsers}
+                    onChange={(e) => setQueryUsers(e.target.value)}
                   />
                 </div>
                 <div className="w-1/4  float-right text-center">
@@ -142,13 +158,13 @@ export default function Example() {
                     className="border-2 border-gray-200 rounded-md w-[90%]"
                     id="dificultad"
                     name="dificultad"
-                    value={nivel}
-                    onChange={handleSelectChange}
+                    value={nivelUsers}
+                    onChange={handleSelectChangeUsers}
                   >
                     <option value="" defaultValue="true">
-                      Nivel
+                      English level
                     </option>
-                    <option value="">Todos</option>
+                    <option value="">All</option>
                     <option value="A1">A1</option>
                     <option value="A2">A2</option>
                     <option value="B1">B1</option>
@@ -157,29 +173,64 @@ export default function Example() {
                     <option value="C2">C2</option>
                   </select>
                 </div>
-
                 <div className=" place-self-center mx-[5%] clear-both">
-                  <TableAdminUsers users={filteredUsers} />
+                  {filteredUsers.length > 0 ? (
+                    <TableAdminUsers users={filteredUsers} />
+                  ) : (
+                    <p className="text-center">No users found</p>
+                  )}
                 </div>
               </TabPanel>
               <TabPanel key={"Video"} value={"Video"}>
-                {navigation.state !== "idle" ? (
-                  <Loading />
-                ) : (
-                  <div>
-                    <div className="flex flex-col px-20 py-8  place-content-center">
-                      <p className="text-lg font-bold py-5">Evaluaciones</p>
-                      {tests.length > 0 ? (
-                        <TableAdmin tests={tests} s3_endpoint={s3_endpoint} />
-                      ) : (
-                        <p>There are no videos</p>
-                      )}
-                    </div>
+                <div>
+                  <div className="w-1/4 border-2 border-gray-200 rounded-md float-right text-center ">
+                    <input
+                      type="text"
+                      placeholder="Search by user"
+                      className="w-full "
+                      value={queryVideos}
+                      onChange={(e) => setQueryVideos(e.target.value)}
+                    />
                   </div>
-                )}
+                  <div className="w-1/4  float-right text-center">
+                    <select
+                      className="border-2 border-gray-200 rounded-md w-[90%]"
+                      id="dificultad"
+                      name="dificultad"
+                      value={nivelVideos}
+                      onChange={handleSelectChangeVideos}
+                    >
+                      <option value="" defaultValue="true">
+                        English level
+                      </option>
+                      <option value="">All</option>
+                      <option value="A1">A1</option>
+                      <option value="A2">A2</option>
+                      <option value="B1">B1</option>
+                      <option value="B2">B2</option>
+                      <option value="C1">C1</option>
+                      <option value="C2">C2</option>
+                    </select>
+                  </div>
+                  <div className="place-self-center mx-[5%] clear-both">
+                    {filteredVideos.length > 0 ? (
+                      <TableAdmin tests={filteredVideos} s3_endpoint={s3_endpoint} />
+                    ) : (
+                      <p className="text-center">No videos found</p>
+                    )}
+                  </div>
+                </div>
               </TabPanel>
             </TabsBody>
           </Tabs>
+          <div className="w-full p-5 text-center">
+            <Link
+              to={'/admin/dash'}
+              className="py-2 w-60 px-8 rounded-md bg-blue-200"
+            >
+              Dashboard
+            </Link>
+          </div>
         </>
       )}
     </>

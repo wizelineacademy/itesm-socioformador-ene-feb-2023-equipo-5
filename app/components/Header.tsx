@@ -15,7 +15,7 @@ function Header(props: any) {
         </Link>
       </div>
       <Link to={
-        props.role == "admin" ? "/admin/videos" : "/user/profile"
+        props.role == "admin" ? "/admin/profile" : "/user/profile"
       } className="inline-block basis-3/12">
         <img
           src={profilePicture}

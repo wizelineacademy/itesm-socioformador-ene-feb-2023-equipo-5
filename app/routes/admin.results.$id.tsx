@@ -78,7 +78,7 @@ export default function Result() {
       <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
       {navigation.state !== "idle" ? <Loading /> : <>
         <div className="ml-12 my-4">
-          <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/videos"}>Go back</Link>
+          <Link className="px-6 py-2 w-max rounded-md bg-blue-200" to={"/admin/profile"}>Go back</Link>
         </div>
         <div className="flex flex-row mt-6 mx-10">
           <div className="basis-1/2 mx-2 relative">
