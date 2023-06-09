@@ -81,15 +81,18 @@ export default function Result() {
                   }
                   className="py-2 w-60 px-8 rounded-md bg-blue-200"
                 >
-                  Home
+                  Go Back
                 </Link>
-
-                <Link
-                  to="/resources"
-                  className="py-2 w-60 px-8 rounded-md mx-12 bg-blue-200"
-                >
-                  Resources
-                </Link>
+                {profile._json[
+                  "https://smartspeak.example.com/roles"
+                ].includes("admin") ? null : (
+                  <Link
+                    to="/resources"
+                    className="py-2 w-60 px-8 rounded-md mx-12 bg-blue-200"
+                  >
+                    Resources
+                  </Link>
+                )}
               </div>
             </div>
             <div className="basis-1/2 mx-2">

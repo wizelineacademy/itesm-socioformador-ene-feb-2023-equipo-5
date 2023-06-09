@@ -3,7 +3,6 @@ import type { ChartOptions } from "chart.js/auto";
 import Chart from "chart.js/auto";
 
 export function PolarAreaChart(props: any) {
-  console.log(props);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 

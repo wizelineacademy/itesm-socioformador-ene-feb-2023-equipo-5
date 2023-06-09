@@ -37,25 +37,20 @@ function Video(props: any) {
   })
 
   function detectVoice() {
-    //window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognizing = false;
-    //recognition.onend = reset;
     recognition.start();
-    // console.log("grabando");
   }
 
   function stopVoice() {
     recognition.stop();
     recognition.onresult = function (event) {
       if (event.results.length > 0) {
-        // console.log("nada");
         questions += 1;
         text = event.results[0][0].transcript;
-        // console.log(text);
         var userResponse = { role: "user", content: text };
         convo.push(userResponse);
 
@@ -139,9 +134,6 @@ function Video(props: any) {
 
   const handleStartRecording = async () => {
     setPastAnswer("PostInitial");
-    // console.log("Iniciando grabacion")
-    // handleStartStop();
-    // setCapturing(true);
     try {
       const constraints = { audio: true, video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -205,7 +197,7 @@ function Video(props: any) {
             {/* {pastAnswer == respuesta ? (<div>Pensando</div>) : <div>No pensando</div>} */}
             {pastAnswer == "Inicial" ? (
               <>
-                <p>Click on the icon to start the examn</p>
+                <p>Click on the icon to start the exam</p>
                 <img
                   onClick={handleStartRecording}
                   src={play}

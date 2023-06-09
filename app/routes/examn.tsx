@@ -87,7 +87,6 @@ export const action = async ({ request }: any) => {
   try {
     if (match) {
       answer = JSON.parse(match[0]);
-      // console.log(answer);
     } else {
       throw json({ message: "No se encontró un JSON válido" }, { status: 404 });
     }
@@ -131,7 +130,6 @@ export const action = async ({ request }: any) => {
     });
   }
 
-  // console.log(test)
   return redirect(`/results/${test.id}`);
 };
 
