@@ -13,6 +13,8 @@ import { getCredentials } from "~/services/s3Credentialsvideos.server";
 import { db } from "~/services/db";
 import Loading from "~/components/Loading";
 import { getHeaderData } from "~/services/header.server";
+import { useState, useEffect } from "react";
+import { defaultConfig } from "~/modules/speechSynthesis";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Test" }];
@@ -40,29 +42,102 @@ export const loader = async ({ request }: LoaderArgs) => {
     credentials: s3ClientVideo,
     question: randomquestion,
     urlVideo: urlVideo,
-    headerData: headerData
+    headerData: headerData,
   };
 };
 
+async function speak(text: string) {
+  // Create a speech synthesis instance
+  const synth = window.speechSynthesis;
+
+  // Set up the default configuration
+  let config = { ...defaultConfig };
+
+  // Stop any ongoing speech
+  synth.cancel();
+  // Remove any previous event listener
+  synth.onvoiceschanged = null;
+
+  // Create a Promise that resolves when the voiceschanged event fires
+  let voicesChanged: Promise<void>;
+
+  // Check if the voices are already loaded
+  if (synth.getVoices().length > 0) {
+    voicesChanged = Promise.resolve();
+  } else {
+    voicesChanged = new Promise<void>((resolve) => {
+      synth.onvoiceschanged = () => {
+        resolve();
+      };
+    });
+  }
+
+  // Wait for the voiceschanged event to be fired
+  await voicesChanged;
+
+  // Find the desired voice
+  const voiceName = "Google US English";
+  let voices = synth.getVoices();
+  const voice = voices.find((voice) => voice.name === voiceName);
+  if (voice) config.voice = voice;
+
+  // Create the utterance and set the configuration values
+  const utterance = new SpeechSynthesisUtterance();
+  utterance.text = text;
+  utterance.rate = config.rate;
+  utterance.pitch = config.pitch;
+  utterance.volume = config.volume;
+  utterance.lang = config.lang;
+  utterance.voice = config.voice;
+
+  // Speak the utterance
+  synth.speak(utterance);
+}
+
 export default function Examn() {
   const navigation = useNavigation();
+  const data = useLoaderData();
   const {
     profile: { profile },
     credentials,
     question,
     urlVideo,
-    headerData
-  } = useLoaderData();
+    headerData,
+  } = data;
+
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    if (start) {
+      const speakAsync = async () => {
+        await speak(data.question.situation);
+      };
+      speakAsync();
+    }
+  }, [start, data]);
+
   return (
     <>
-      <Header name={headerData.name} role={headerData.role} photo={headerData.photo} />
+      <Header
+        name={headerData.name}
+        role={headerData.role}
+        photo={headerData.photo}
+      />
       {navigation.state !== "idle" ? (
         <Loading />
       ) : (
         <div className="mx-auto">
-          <Question
-            texto={question.situation}
-          ></Question>
+          <Question texto={question.situation}></Question>
+          {!start && (
+            <div className="flex justify-center ">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => setStart(true)}
+              >
+                Start
+              </button>
+            </div>
+          )}
           <Video
             credentials={credentials}
             question={question}
