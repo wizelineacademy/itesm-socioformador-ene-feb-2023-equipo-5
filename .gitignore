@@ -1,6 +1,5 @@
 node_modules
 
-dump.sql
 /.cache
 /build
 /public/build
