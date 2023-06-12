@@ -115,7 +115,7 @@ export default function Result() {
               </div>
             </div>
             <div className="flex flex-col items-center">
-              <Link to="/examn">
+              <Link to="/exam">
                 <button className="mb-10 py-2 w-40 rounded-md bg-blue-200 shadow-md">
                   Begin Test
                 </button>
