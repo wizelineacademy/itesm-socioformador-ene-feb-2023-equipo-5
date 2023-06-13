@@ -15,41 +15,13 @@ model User {
   englishlevel    Englishlevel @default(A1)
   dateMaxLevel    DateTime?
   averageMaxLevel Int?
-  summary         String?
+  isAdmin         Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   //Relation with Test
   tests Test[]
-}
-
-model Teacher {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  //Relation many to many with Test
-  examns Comments[]
-}
-
-model Comments {
-  comment  String
-  modified Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  instructor   Teacher @relation(fields: [instructorId], references: [id])
-  instructorId String
-  situation    Test    @relation(fields: [situationId], references: [id])
-  situationId  String
-
-  @@id([instructorId, situationId])
 }
 
 model Test {
@@ -71,8 +43,6 @@ model Test {
   //Relation with Question
   mainSituation   Question   @relation(fields: [mainSituationId], references: [id])
   mainSituationId String
-  //Relation many to many with Teacher
-  master          Comments[]
 }
 
 model Question {

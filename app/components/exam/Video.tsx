@@ -104,6 +104,7 @@ function Video(props: any) {
     )
       .then((response) => response.json())
       .then((data) => {
+
         const response = data["response"];
         convo.push({ role: "assistant", content: response });
         setRespuesta(response);
@@ -346,7 +347,7 @@ function Video(props: any) {
                         className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
-                        Repetir prueba
+                        Repeat test
                       </button>
                     </Link>
 
