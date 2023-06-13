@@ -54,8 +54,14 @@ export default function Result() {
         <>
           <div className="flex flex-row mt-14 mx-10">
             <div className="basis-1/2 ml-4 relative ">
+              <p className="text-2xl mb-4">
+                English level:{" "}
+                <span className="text-green-600 font-bold">
+                  {test ? test.englishlevel : "---"}
+                </span>
+              </p>
               <p className="text-lg font-bold mb-4  ">
-                {question ? question.situation : "No recommendations available"}
+                Situation: <br/> <i>{question ? question.situation : "No recommendations available"}</i>
               </p>
               <div className="bg-gray-200 px-3 py-3 mt-10 text-left rounded-md">
                 <p className="font-bold">Feedback</p>

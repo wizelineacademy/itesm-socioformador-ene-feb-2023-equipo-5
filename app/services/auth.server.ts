@@ -19,7 +19,7 @@ let auth0Strategy = new Auth0Strategy(
     clientSecret: auth0.clientSecret,
     domain: auth0.domain,
   },
-  async ({ profile }) => {
+  async ({ profile }: any) => {
     //
     // Use the returned information to process or write to the DB.
     //
@@ -51,6 +51,15 @@ let auth0Strategy = new Auth0Strategy(
             }
           })
         }
+      } else if (profile._json["https://smartspeak.example.com/roles"].includes("admin")) {
+        await db.user.update({
+          where:{
+            id: profile.id
+          },
+          data: {
+            isAdmin: true
+          }
+        })
       }
     } catch (e: any) {
       console.log(e);
