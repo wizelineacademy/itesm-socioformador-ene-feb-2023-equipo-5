@@ -87,6 +87,15 @@ model Question {
   tests Test[]
 }
 
+model ResourceVideo {
+  id        String @id @default(uuid())
+  videoURL  String
+  level     Englishlevel
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Englishlevel {
   A1
   A2

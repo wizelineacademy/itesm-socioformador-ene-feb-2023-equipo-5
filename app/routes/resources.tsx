@@ -25,18 +25,31 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 const videoLinks = [
+  //A1
+  "https://www.youtube.com/watch?v=erjMgola4fQ",
+  "https://www.youtube.com/watch?v=Jzc4HDOKTKg",
+  "https://www.youtube.com/watch?v=CGP0BD-p3pc",
+  //A2
   "https://www.youtube.com/watch?v=gOMypAhVaXE",
   "https://www.youtube.com/watch?v=R43MuLhW1MU",
   "https://www.youtube.com/watch?v=qAbiefKhMtQ",
+  //B1
   "https://www.youtube.com/watch?v=BdLwnXR4hng",
   "https://www.youtube.com/watch?v=TLFv5Ku7niU",
   "https://www.youtube.com/watch?v=VaNFqmgrC6A",
+  //B2
   "https://www.youtube.com/watch?v=v8nZsllwkt0",
   "https://www.youtube.com/watch?v=PHPTlFi7-_0",
   "https://www.youtube.com/watch?v=OX-XEa50fFw",
+  //C1
   "https://www.youtube.com/watch?v=Bt8OTU34WKw",
   "https://www.youtube.com/watch?v=HIW4BTUKBGc",
   "https://www.youtube.com/watch?v=sEmv9kM_COA",
+  //C2
+
+  "https://www.youtube.com/watch?v=OujI_Wf0UbI",
+  "https://www.youtube.com/watch?v=OaZNT0NVt8g",
+  "https://www.youtube.com/watch?v=SdKNRtimTFk",
 ];
 
 const Grid = () => {
@@ -65,8 +78,9 @@ const Grid = () => {
                 <a href={link} target="_blank" rel="noreferrer" key={index}>
                   <div className="bg-gray-100 h-36 w-64 flex justify-center items-center relative">
                     <img
-                      src={`https://img.youtube.com/vi/${link.split("=")[1]
-                        }/mqdefault.jpg`}
+                      src={`https://img.youtube.com/vi/${
+                        link.split("=")[1]
+                      }/mqdefault.jpg`}
                       alt={`Thumbnail for video ${index + 1}`}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
@@ -87,7 +101,7 @@ const Grid = () => {
           </div>
           <div className="w-full p-5 text-center">
             <Link
-              to={'/user/profile'}
+              to={"/user/profile"}
               className="py-2 w-60 px-8 rounded-md bg-blue-200"
             >
               Go back

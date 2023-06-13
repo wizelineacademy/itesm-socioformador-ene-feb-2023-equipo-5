@@ -1,5 +1,5 @@
-import Question from "~/components/examn/Question";
-import Video from "~/components/examn/Video";
+import Question from "~/components/exam/Question";
+import Video from "~/components/exam/Video";
 import Header from "~/components/Header";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -94,7 +94,7 @@ async function speak(text: string) {
   synth.speak(utterance);
 }
 
-export default function Examn() {
+export default function Exam() {
   const navigation = useNavigation();
   const data = useLoaderData();
   const {
