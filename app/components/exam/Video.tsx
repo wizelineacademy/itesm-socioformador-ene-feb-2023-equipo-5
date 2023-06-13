@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
 import micOff from "../../../public/img/microfono.png";
@@ -342,14 +342,14 @@ function Video(props: any) {
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
-                    <Link to="/instructions">
+                    {/* <Link to="/instructions">
                       <button
                         className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
                         Repeat test
                       </button>
-                    </Link>
+                    </Link> */}
 
                     {/* <Link to="/tests"> */}
                     <Form method="POST">
