@@ -1,5 +1,5 @@
-import Question from "~/components/examn/Question";
-import Video from "~/components/examn/Video";
+import Question from "~/components/exam/Question";
+import Video from "~/components/exam/Video";
 import Header from "~/components/Header";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -44,7 +44,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   };
 };
 
-export default function Examn() {
+export default function exam() {
   const navigation = useNavigation();
   const {
     profile: { profile },

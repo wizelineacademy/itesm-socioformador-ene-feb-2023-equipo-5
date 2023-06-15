@@ -43,7 +43,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 
-export default function Examn() {
+export default function exam() {
   const profileId = useLoaderData()
   const navigation = useNavigation();
   return(
