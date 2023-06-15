@@ -51,7 +51,7 @@ jobs:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_MAIN_URL }}
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5434/postgres
       SESSION_SECRET: asdf_secret
       BASE_URL: http://localhost:3000
       AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID_LOCAL }}
