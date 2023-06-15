@@ -43,7 +43,7 @@ const HeaderPage = (props: any) => {
           </Link>
         ) : (
           <Link to="/login">
-            <button className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            <button id="login" className="flex flex-row mt-9 mx-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
               Log In
             </button>
           </Link>

@@ -45,6 +45,7 @@ function Video(props: any) {
     content: props.question.situation,
   });
 
+
   function detectVoice() {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -104,12 +105,10 @@ function Video(props: any) {
     )
       .then((response) => response.json())
       .then((data) => {
-
         const response = data["response"];
         convo.push({ role: "assistant", content: response });
         setRespuesta(response);
         // setResponseReceived(true);
-
         if (questions == 5) {
           stopRecording();
         }
@@ -118,7 +117,6 @@ function Video(props: any) {
         console.error(error);
       });
   }
-
   async function speak(text: string) {
     // Create a speech synthesis instance
     const synth = window.speechSynthesis;
@@ -166,7 +164,6 @@ function Video(props: any) {
     // Speak the utterance
     synth.speak(utterance);
   }
-
   const [showModal, setShowModal] = useState(false);
   // const [capturing, setCapturing] = useState(false);
 

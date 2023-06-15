@@ -32,7 +32,7 @@ export default function LoginPage() {
             method="post"
             className="grid place-content-center"
           >
-            <button className="mt-10 px-20 py-4 border-2 border-stone-200 rounded-lg shadow bg-bluefigma5">
+            <button id="login" className="mt-10 px-20 py-4 border-2 border-stone-200 rounded-lg shadow bg-bluefigma5">
               <span className="text-cyan-50">Log in</span>
             </button>
           </Form>

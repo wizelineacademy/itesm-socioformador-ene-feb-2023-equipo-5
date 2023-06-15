@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.321.1",
+    "@faker-js/faker": "^8.0.2",
     "@material-tailwind/react": "^2.0.1",
     "@prisma/client": "^4.13.0",
     "@remix-run/node": "^1.15.0",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@remix-run/dev": "^1.15.0",
     "@remix-run/eslint-config": "^1.15.0",
+    "@testing-library/cypress": "^9.0.0",
     "@types/jest": "^29.5.2",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
