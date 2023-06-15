@@ -13,6 +13,7 @@ describe('Login from main page', () => {
     it('passes', () => {
       cy.visit('http://localhost:3000/');
       cy.contains("Log In").click();
+      cy.wait(1000)
       cy.contains("Log in")
       cy.url().should('eq', 'http://localhost:3000/login')
     })
