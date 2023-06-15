@@ -27,7 +27,4 @@ describe('Register', () => {
     })
 })
 
-
-
-
-
+export {}

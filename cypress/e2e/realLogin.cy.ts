@@ -13,3 +13,5 @@ describe("Login", () => {
     cy.visit('localhost:3000')
   });
 });
+
+export {}
