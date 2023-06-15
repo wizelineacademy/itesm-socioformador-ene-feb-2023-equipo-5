@@ -42,13 +42,19 @@ export const loader = async ({ request }: LoaderArgs) => {
     include: {
       author: {
         select: {
-          fullName: true,
+          fullName: true
         },
       },
-    },
+    }, where: {
+      author: {
+        isAdmin: false
+      }
+    }
   });
 
-  const users = await db.user.findMany({});
+  const users = await db.user.findMany({
+    where: { isAdmin: false }
+  });
 
   const s3_endpoint = process.env.S3_ENDPOINT;
 

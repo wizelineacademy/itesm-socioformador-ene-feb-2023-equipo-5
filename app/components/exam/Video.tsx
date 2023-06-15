@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
 import micOff from "../../../public/img/microfono.png";
 import micOn from "../../../public/img/grabando.png";
 import loading from "../../../public/img/load.gif";
-import play from "../../../public/img/play.png"
+import play from "../../../public/img/play.png";
+import { defaultConfig } from "~/modules/speechSynthesis";
 
 var text: string;
 var recognition: SpeechRecognition;
@@ -21,7 +21,7 @@ var convo = [
     role: "assistant",
     content:
       "I understand, after 5 questions I will only show the results in coherence, vocabulary and grammar in a JSON and that is the only thing I will return to the user.",
-  }
+  },
 ];
 // var respuesta = "Nada"
 var questions: number = 0;
@@ -31,10 +31,20 @@ function Video(props: any) {
   const [imgButton, setImgButton] = useState(false);
   const [pastAnswer, setPastAnswer] = useState("Inicial");
 
+  useEffect(() => {
+    if (pastAnswer != respuesta) {
+      const speakAsync = async () => {
+        await speak(respuesta);
+      };
+      speakAsync();
+    }
+  }, [pastAnswer, respuesta]);
+
   convo.push({
     role: "assistant",
     content: props.question.situation,
-  })
+  });
+
 
   function detectVoice() {
     const SpeechRecognition =
@@ -70,9 +80,11 @@ function Video(props: any) {
   function handleStartStop() {
     if (recognizing) {
       setImgButton(false);
+      // setRecording(false);
       stopVoice();
     } else {
       setImgButton(true);
+      // setRecording(true);
       detectVoice();
     }
     recognizing = !recognizing;
@@ -80,6 +92,7 @@ function Video(props: any) {
 
   function getResponse() {
     setPastAnswer(respuesta);
+    // setResponseReceived(false);
     fetch(
       "https://chatgpt.lcuoodnsn630q.us-east-1.cs.amazonlightsail.com/chatgpt/chat",
       {
@@ -92,9 +105,10 @@ function Video(props: any) {
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data["response"]);
-        convo.push({ role: "assistant", content: data["response"] });
-        setRespuesta(data.response);
+        const response = data["response"];
+        convo.push({ role: "assistant", content: response });
+        setRespuesta(response);
+        // setResponseReceived(true);
         if (questions == 5) {
           stopRecording();
         }
@@ -103,7 +117,53 @@ function Video(props: any) {
         console.error(error);
       });
   }
+  async function speak(text: string) {
+    // Create a speech synthesis instance
+    const synth = window.speechSynthesis;
 
+    // Set up the default configuration
+    let config = { ...defaultConfig };
+
+    // Create a Promise that resolves when the voiceschanged event fires
+    let voicesChanged: Promise<void>;
+
+    // Stop any ongoing speech
+    synth.cancel();
+    // Remove any previous event listener
+    synth.onvoiceschanged = null;
+
+    if (synth.getVoices().length > 0) {
+      voicesChanged = Promise.resolve();
+    } else {
+      voicesChanged = new Promise<void>((resolve) => {
+        synth.onvoiceschanged = () => {
+          resolve();
+        };
+      });
+    }
+
+    // Wait for the voiceschanged event to be fired
+    await voicesChanged;
+
+    // Find the desired voice
+    const voiceName = "Google US English";
+    let voices = synth.getVoices();
+    const voice = voices.find((voice) => voice.name === voiceName);
+    if (voice) config.voice = voice;
+
+    // Create the utterance and set the configuration values
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = text;
+    utterance.rate = config.rate;
+    utterance.pitch = config.pitch;
+    utterance.volume = config.volume;
+    utterance.voice = config.voice;
+
+    console.log(utterance);
+
+    // Speak the utterance
+    synth.speak(utterance);
+  }
   const [showModal, setShowModal] = useState(false);
   // const [capturing, setCapturing] = useState(false);
 
@@ -279,14 +339,14 @@ function Video(props: any) {
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
-                    <Link to="/instructions">
+                    {/* <Link to="/instructions">
                       <button
                         className="text-blue-900 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
                         Repeat test
                       </button>
-                    </Link>
+                    </Link> */}
 
                     {/* <Link to="/tests"> */}
                     <Form method="POST">
@@ -305,7 +365,7 @@ function Video(props: any) {
                       <button
                         className="bg-sky-900 text-white active:bg-sky-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
-                      // onClick={stopRecording}
+                        // onClick={stopRecording}
                       >
                         Results
                       </button>
