@@ -51,7 +51,7 @@ jobs:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets_DATABASE_URL_MAIN }}
+      DATABASE_URL: ${{ secrets_DATABASE_MAIN_URL }}
       SESSION_SECRET: asdf_secret
       BASE_URL: http://localhost:3000
       AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID_LOCAL }}
@@ -71,20 +71,20 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      # - name: 🏄 Copy test env vars
-      #   run: cp .env.example .env
+      - name: 🏄 Copy test env vars
+        run: cp .env.example .env
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      # - uses: harmon758/postgresql-action@v1
-      #   with:
-      #     postgresql version: "12"
-      #     postgresql db: postgres
-      #     postgresql user: posrgres
-      #     postgresql password: posrgres
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: "12"
+          postgresql db: postgres
+          postgresql user: posrgres
+          postgresql password: posrgres
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
