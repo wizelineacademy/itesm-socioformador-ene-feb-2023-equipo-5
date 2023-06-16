@@ -6,3 +6,5 @@ node_modules
 .env
 /app/routes/speechTesting.tsx
 /cypress/videos
+/cypress/screenshots
+/cypress/screenshots/maciastests.cy.ts

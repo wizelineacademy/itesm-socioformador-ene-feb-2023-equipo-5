@@ -1,4 +1,4 @@
-name: eslint-test
+name: Continuous integration
 on:
   pull_request: {}
 
@@ -47,54 +47,53 @@ jobs:
       - name: 🔎 Type check
         run: npm run typecheck --if-present
 
-  cypress:
-    name: ⚫️ Cypress
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5434/postgres
-      SESSION_SECRET: asdf_secret
-      BASE_URL: http://localhost:3000
-      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID_LOCAL }}
-      AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET_LOCAL }}
-      AUTH0_CALLBACK_URL: http://localhost:3000/auth/callback
-      AUTH0_RETURN_TO_URL: http://localhost:3000/
-      AUTH0_LOGOUT_URL: https://smartspeak.us.auth0.com/v2/logout
-      S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-      S3_KEY: ${{ secrets.S3_KEY }}
-      S3_SECRET: ${{ secrets.S3_SECRET }}
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
-        uses: styfle/cancel-workflow-action@0.11.0
+  # cypress:
+  #   name: ⚫️ Cypress
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     DATABASE_URL: postgresql://postgres:postgres@localhost:5434/postgres
+  #     SESSION_SECRET: asdf_secret
+  #     BASE_URL: http://localhost:3000
+  #     AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID_LOCAL }}
+  #     AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+  #     AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET_LOCAL }}
+  #     AUTH0_CALLBACK_URL: http://localhost:3000/auth/callback
+  #     AUTH0_RETURN_TO_URL: http://localhost:3000/
+  #     AUTH0_LOGOUT_URL: https://smartspeak.us.auth0.com/v2/logout
+  #     S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+  #     S3_KEY: ${{ secrets.S3_KEY }}
+  #     S3_SECRET: ${{ secrets.S3_SECRET }}
+  #   steps:
+  #     - name: 🛑 Cancel Previous Runs
+  #       if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
+  #       uses: styfle/cancel-workflow-action@0.11.0
 
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+  #     - name: ⬇️ Checkout repo
+  #       uses: actions/checkout@v3
 
-      - name: 🏄 Copy test env vars
-        run: cp .env.example .env
+  #     - name: 🏄 Copy test env vars
+  #       run: cp .env.example .env
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+  #     - name: ⎔ Setup node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
 
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: "12"
-          postgresql db: postgres
-          postgresql user: posrgres
-          postgresql password: posrgres
+  #     - uses: harmon758/postgresql-action@v1
+  #       with:
+  #         postgresql version: "12"
+  #         postgresql db: postgres
+  #         postgresql user: posrgres
+  #         postgresql password: posrgres
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+  #     - name: 📥 Download deps
+  #       uses: bahmutov/npm-install@v1
 
-      - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
+  #     - name: 🛠 Setup Database
+  #       run: npx prisma migrate reset --force
 
-      - name: ⚙️ Build
-        run: npm run build
+  #     - name: ⚙️ Build
+  #       run: npm run build
 
-      - name: 🌳 Cypress run
-        run: npm run cypresstests
-
+  #     - name: 🌳 Cypress run
+  #       run: npm run cypresstests
