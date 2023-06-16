@@ -1,4 +1,5 @@
 //These tests are from Macias
+// TODAS ESTAS PRUEBAS SOLO FUNCIONAN CON LA DATABASE_URL de Main, con la de dev NO 
 
 Cypress.on('uncaught:exception', (err, runnable) => {
     // returning false here prevents Cypress from
@@ -13,7 +14,7 @@ describe('Filtrado de Usuarios', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('select#dificultadusers').select('A2')
     })
 })
@@ -25,7 +26,7 @@ describe('Dashboard de Usuarios', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('a#dashusers').click()
     })
 })
@@ -37,7 +38,7 @@ describe('Informacion de un usuario', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('td', 'prueba 11 prueba').click()
     })
 })
@@ -49,7 +50,7 @@ describe('Busqueda de Usuarios', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('li', 'Videos').click()
         cy.get('input#searchvideo').type('prueba 10 prueba')
     })
@@ -62,9 +63,9 @@ describe('Detalles del examen de un usuario', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('td', 'prueba 4 prueba').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('Details').click()
     })
 })
@@ -76,7 +77,7 @@ describe('Detalles del video grabado de un usuario', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('li', 'Videos').click()
         cy.get(':nth-child(1) > .underline > a').click()
     })
@@ -89,10 +90,10 @@ describe('Corroborar que el nivel sea el mismo de un video y del datatable de Vi
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('li', 'Videos').click()
         cy.get(':nth-child(3) > .underline > a').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('.text-green-600').should('have.text', 'B2')
     })
 })
@@ -104,9 +105,9 @@ describe('Fecha de un examen tomado', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('td', 'prueba 4 prueba').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('tbody > .text-center > :nth-child(2)').should('not.have.text', 'Date')
     })
 })
@@ -118,7 +119,7 @@ describe('Log out exitoso', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('.bg-bluefigma4').click()
         cy.url().should('eq', 'http://localhost:3000/')      
     })
@@ -131,7 +132,7 @@ describe('Ir a menu y corroborar que aun estamos loggeados', () => {
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('a > .h-20').click()
         cy.contains('button', 'Home').should('not.have.text', 'Log In')
     })
@@ -165,19 +166,19 @@ describe('Recorrido por la pagina desde ver el video de un usuario hasta dejar d
         cy.loginAdmin()
         cy.visit('http://localhost:3000');
         cy.contains('button', 'Home').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.get('input#searchusers').type('Carolina Díaz Perales')
         cy.get('.text-center > :nth-child(2) > a').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('Details').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('a', 'Go Back').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('li', 'Videos').click()
         cy.get('select#dificultadvideos').select('B2')
         cy.get('input#searchvideo').type('Carolina Díaz Perales')
         cy.get('.underline > a').click()
-        cy.wait(5000)
+        cy.wait(10000)
         cy.contains('a', 'Go back').click()
         cy.get('.bg-bluefigma4').click()
         cy.url().should('eq', 'http://localhost:3000/')
