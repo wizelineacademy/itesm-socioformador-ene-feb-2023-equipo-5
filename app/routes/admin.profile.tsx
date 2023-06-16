@@ -152,6 +152,7 @@ export default function Example() {
               <TabPanel key="Usuario" value="Usuario">
                 <div className="w-1/4 border-2 border-gray-200 rounded-md float-right text-center ">
                   <input
+                    id="searchusers"
                     type="text"
                     placeholder="Search by user"
                     className="w-full "
@@ -162,8 +163,8 @@ export default function Example() {
                 <div className="w-1/4  float-right text-center">
                   <select
                     className="border-2 border-gray-200 rounded-md w-[90%]"
-                    id="dificultad"
-                    name="dificultad"
+                    id="dificultadusers"
+                    name="dificultadusers"
                     value={nivelUsers}
                     onChange={handleSelectChangeUsers}
                   >
@@ -185,6 +186,7 @@ export default function Example() {
                       <TableAdminUsers users={filteredUsers} />
                       <div className="w-full p-5 text-center">
                         <Link
+                          id="dashusers"
                           to={'/admin/dash/users'}
                           className="py-2 w-60 px-8 rounded-md bg-blue-200"
                         >
@@ -201,6 +203,7 @@ export default function Example() {
                 <div>
                   <div className="w-1/4 border-2 border-gray-200 rounded-md float-right text-center ">
                     <input
+                      id="searchvideo"
                       type="text"
                       placeholder="Search by user"
                       className="w-full "
@@ -211,8 +214,8 @@ export default function Example() {
                   <div className="w-1/4  float-right text-center">
                     <select
                       className="border-2 border-gray-200 rounded-md w-[90%]"
-                      id="dificultad"
-                      name="dificultad"
+                      id="dificultadvideos"
+                      name="dificultadvideos"
                       value={nivelVideos}
                       onChange={handleSelectChangeVideos}
                     >
@@ -234,6 +237,7 @@ export default function Example() {
                         <TableAdmin tests={filteredVideos} s3_endpoint={s3_endpoint} />
                         <div className="w-full p-5 text-center">
                           <Link
+                            id="dashvideos"
                             to={'/admin/dash/videos'}
                             className="py-2 w-60 px-8 rounded-md bg-blue-200"
                           >
