@@ -134,6 +134,6 @@ describe('E2E: Admin log in and watch a user video', () => {
     cy.wait(5000)
     cy.url().should('contain', '/admin/results/')
   })
-})
+}) 
 
 export {}
