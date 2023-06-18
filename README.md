@@ -4,9 +4,9 @@
 https://www.figma.com/file/wYKfbir7roSzvYTGnQEOzN/MockUp-Wizeline?type=design&node-id=314-112&t=0wp4uBYoJLay8Ccx-0
 
 ## Diseño de pruebas
-https://docs.google.com/spreadsheets/d/1lKvFfq4BLqR7b_Fbv0yDuuKQcO6MkgmoCL0e_23PGXE/edit?usp=sharing
 
 ## Bitácora de ejecución de pruebas
+https://docs.google.com/spreadsheets/d/1lKvFfq4BLqR7b_Fbv0yDuuKQcO6MkgmoCL0e_23PGXE/edit?usp=sharing
 
 ## Solución implantada
 Este proyecto cuenta con 2 ambientes: _desarrollo_ y _producción_; cada uno es hosteado de forma automática y separada gracias al archivo **deploy.yaml** dependiendo la rama a la que se le esté haciendo merge. Se crea una imagen en **Docker Hub** y **Lighstail AWS** la procesa y ejecuta en el _endpoint_ generado. 
