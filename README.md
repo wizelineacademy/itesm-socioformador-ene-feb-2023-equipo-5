@@ -26,6 +26,7 @@ https://docs.google.com/spreadsheets/d/13xbv4ugGYcY3Yh_JNzXPd_vBfug8pyURjB6Jh9Lo
 ### Encuestas a Stakeholders:
 https://forms.gle/515M8fifjBAMzNCT9
 ### Carta de agradecimiento y entrega final a Stakeholders:
+https://docs.google.com/document/d/1A4lWP4h_SyxWRw3RLyeNE4c1dxoDc5NpXl8tBec49Ww/edit?usp=sharing
 ### Presentaciones de avance por Sprint:
 https://www.canva.com/design/DAFf__oThV0/GcvMk5L7ohCPtxv7N4JiBg/edit?utm_content=DAFf__oThV0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ### Valor ganado:
