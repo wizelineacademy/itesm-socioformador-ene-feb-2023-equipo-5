@@ -1,22 +1,20 @@
-# itesm-socioformador-ene-feb-2023-equipo-5
+# Smartspeak
 
-### Abrir Cypress
-
-    npm run cypress:open
-
+### Documento de diseño
 ---
 
-#### Links de Tailwind que pueden ayudar:
-
-- [Componentes para el estilado](https://tailwindcomponents.com/cheatsheet/)
-- [Colores degradados](https://www.tailwindshades.com/#color=209%2C58%2C39.411764705882355&step-up=12&step-down=7&hue-shift=-59&name=great-blue&base-stop=5&v=1&overrides=e30%3D)
-
+### Diseño de pruebas
 ---
 
-#### Link de prisma para conectarse a una base
+### Bitácora de ejecución de pruebas
+---
 
-- [Conectarse a una DB](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgres)
+### Solución implantada
+---
+Este proyecto cuenta con 2 ambientes: _desarrollo_ y _producción_; cada uno es hosteado de forma automática y separada gracias al archivo **deploy.yaml** dependiendo la rama a la que se le esté haciendo merge. Se crea una imagen en **Docker Hub** y **Lighstail AWS** la procesa y ejecuta en el _endpoint_ generado.
 
-### Link de servidor en lightsail
+### Plan de proyecto
+---
 
-- [Guía para conectarse al servidor](https://github.com/wizeline/remix-project-lab/wiki/Deploy-to-AWS-Lightsail)
+### Funcionalidad y presentación
+---
