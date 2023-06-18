@@ -7,7 +7,7 @@
 ## Bitácora de ejecución de pruebas
 
 ## Solución implantada
-Este proyecto cuenta con 2 ambientes: _desarrollo_ y _producción_; cada uno es hosteado de forma automática y separada gracias al archivo **deploy.yaml** dependiendo la rama a la que se le esté haciendo merge. Se crea una imagen en **Docker Hub** y **Lighstail AWS** la procesa y ejecuta en el _endpoint_ generado.
+Este proyecto cuenta con 2 ambientes: _desarrollo_ y _producción_; cada uno es hosteado de forma automática y separada gracias al archivo **deploy.yaml** dependiendo la rama a la que se le esté haciendo merge. Se crea una imagen en **Docker Hub** y **Lighstail AWS** la procesa y ejecuta en el _endpoint_ generado. Cualquier deploy **SOLO** funcionará una vez pase todas las pruebas de _Typrescript_ y _ESLINT_ dentro del archivo **ci.yaml**
 
 A continuación, adjunto los links de ambos ambientes:
 - Desarrollo: https://smartspeak-dev.lcuoodnsn630q.us-east-1.cs.amazonlightsail.com/
