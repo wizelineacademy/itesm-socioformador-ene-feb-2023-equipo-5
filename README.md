@@ -3,9 +3,7 @@
 ## Documento de diseño
 https://www.figma.com/file/wYKfbir7roSzvYTGnQEOzN/MockUp-Wizeline?type=design&node-id=314-112&t=0wp4uBYoJLay8Ccx-0
 
-## Diseño de pruebas
-
-## Bitácora de ejecución de pruebas
+## Diseño de pruebas/Bitácora de ejecución de pruebas
 https://docs.google.com/spreadsheets/d/1lKvFfq4BLqR7b_Fbv0yDuuKQcO6MkgmoCL0e_23PGXE/edit?usp=sharing
 
 ## Solución implantada
