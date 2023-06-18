@@ -24,10 +24,15 @@ https://docs.google.com/document/d/1J8SHteuyGH6KzhUPS3FmIowA-TKATM3_ufGUSWjWCfs/
 ### Lecciones aprendidas:
 https://docs.google.com/spreadsheets/d/13xbv4ugGYcY3Yh_JNzXPd_vBfug8pyURjB6Jh9Lok04/edit?usp=sharing
 ### Encuestas a Stakeholders:
+https://forms.gle/515M8fifjBAMzNCT9
 ### Carta de agradecimiento y entrega final a Stakeholders:
 ### Presentaciones de avance por Sprint:
+https://www.canva.com/design/DAFf__oThV0/GcvMk5L7ohCPtxv7N4JiBg/edit?utm_content=DAFf__oThV0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ### Valor ganado:
 
 ## Funcionalidad y presentación
+
 ### Video de la funcionalidad de la aplicación
+https://drive.google.com/file/d/1FweqFvWnag446kP1zemjFbu66wLIezUA/view?usp=sharing
 ### Presentación final
+https://www.canva.com/design/DAFloRdPzdA/BXtGtKEQATPPahzctzSi3w/edit?utm_content=DAFloRdPzdA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
