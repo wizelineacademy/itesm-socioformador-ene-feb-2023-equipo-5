@@ -164,3 +164,6 @@ Cypress.on('uncaught:exception', (err, runnable) => {
           cy.wait(2000)
         })
       })   
+
+
+ export {}
