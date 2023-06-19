@@ -30,6 +30,7 @@ https://docs.google.com/document/d/1A4lWP4h_SyxWRw3RLyeNE4c1dxoDc5NpXl8tBec49Ww/
 ### Presentaciones de avance por Sprint:
 https://www.canva.com/design/DAFf__oThV0/GcvMk5L7ohCPtxv7N4JiBg/edit?utm_content=DAFf__oThV0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ### Valor ganado:
+https://docs.google.com/spreadsheets/d/1Q0YjnjjwmRsn0ISP-wO954sikOFwn2ZY/edit#gid=101259626
 
 ## Funcionalidad y presentación
 
